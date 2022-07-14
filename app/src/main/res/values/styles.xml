@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Divider style -->
+  <style name="Divider" parent="">
+    <item name="android:background">?attr/dividerHorizontal</item>
+    <item name="android:layout_height">1dp</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="color">@color/black</item>
+  </style>
+</resources>
