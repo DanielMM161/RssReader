@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dmm.rssreader.model.UserSettings
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserSettingsDao {
@@ -13,5 +14,5 @@ interface UserSettingsDao {
   suspend fun insertUserSettings(userSettings: UserSettings)
 
   @Query("SELECT * FROM USER_SETTINGS")
-  suspend fun getUserSettings(): UserSettings
+  fun getUserSettings(): Flow<UserSettings>
 }

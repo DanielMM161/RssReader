@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class UserSettings(
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
-	val id: Int,
+	val id: Int = 1,
 	@ColumnInfo(name = "theme")
 	val theme: String,
 	@ColumnInfo(name = "feeds")

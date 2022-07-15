@@ -8,4 +8,7 @@
   <string name="day_theme">Day</string>
   <string name="night_theme">Night</string>
   <string name="auto_theme">Auto</string>
+  <string name="android_developer_blogs">Android Developers Blogs</string>
+  <string name="android_developer_news">Android Developers News</string>
+  <string name="apple_developers_news">Appel Developers News</string>
 </resources>

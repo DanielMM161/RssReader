@@ -4,7 +4,9 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-
+    <variable
+      name="feedsConstants"
+      type="com.dmm.rssreader.utils.Constants" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,14 +32,51 @@
       app:layout_constraintStart_toStartOf="@+id/text_feeds"
       app:layout_constraintTop_toBottomOf="@id/text_feeds" />
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/rv_feeds"
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/layout_feeds"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="5dp"
-      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/divider_feeds" />
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/divider_feeds"
+      app:layout_constraintBottom_toTopOf="@+id/text_theme"
+      android:layout_marginTop="5dp">
+
+
+
+      <Switch
+        android:id="@+id/switch_blogs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/android_developer_blogs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:value="@{feedsConstants.DEVELOPER_ANDROID_BLOG}"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <Switch
+        android:id="@+id/switch_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/android_developer_news"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:value="@{feedsConstants.DEVELOPER_ANDROID_NEWS}"
+        app:layout_constraintTop_toBottomOf="@+id/switch_blogs" />
+
+      <Switch
+        android:id="@+id/switch_apple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/apple_developers_news"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:value="@{feedsConstants.DEVELOPER_APPEL}"
+        app:layout_constraintTop_toBottomOf="@+id/switch_news" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
       android:id="@+id/text_theme"
@@ -47,7 +86,7 @@
       android:text="@string/theme"
       android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/rv_feeds" />
+      app:layout_constraintTop_toBottomOf="@id/layout_feeds" />
 
     <View
       android:id="@+id/divider"

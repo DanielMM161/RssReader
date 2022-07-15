@@ -10,6 +10,7 @@ import com.dmm.rssreader.repository.MainRepository
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +26,9 @@ class MainViewModel @Inject constructor(
 
 	}
 
+	private var _userSettings: Flow<UserSettings> = mainRepository.getUserSettings()
+	val userSettings = _userSettings
+
 	private var _metalInjectionFeed = MutableStateFlow<Resource<FeedAndroidBlogs?>>(Resource.Loading())
 	val metalInjectionFeed = _metalInjectionFeed.asStateFlow()
 
@@ -39,8 +43,12 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun setTheme(theme: String) = viewModelScope.launch {
-		val userSetting = UserSettings(id = 1, theme = theme, feeds = listOf(""))
+		val userSetting = UserSettings(theme = theme, feeds = listOf(""))
 		mainRepository.setUserSettings(userSetting)
 	}
+
+//	fun getUserSettings() = viewModelScope.launch {
+//		_userSettings = mainRepository.getUserSettings()
+//	}
 
 }
