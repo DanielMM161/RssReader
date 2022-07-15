@@ -1,6 +1,7 @@
 package com.dmm.rssreader.di
 
 import com.dmm.rssreader.network.RssClient
+import com.dmm.rssreader.persistence.UserSettingsDao
 import com.dmm.rssreader.repository.MainRepository
 import dagger.Module
 import dagger.Provides
@@ -14,8 +15,8 @@ object RepositoryModule {
 
 	@Provides
 	@ViewModelScoped
-	fun provideMainRepository(rssClient: RssClient) : MainRepository {
-		return MainRepository(rssClient)
+	fun provideMainRepository(rssClient: RssClient, userSettingsDao: UserSettingsDao) : MainRepository {
+		return MainRepository(rssClient, userSettingsDao)
 	}
 
 }

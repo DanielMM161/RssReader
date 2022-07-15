@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.rssreader.model.Feed
+import com.dmm.rssreader.model.UserSettings
 import com.dmm.rssreader.model.feedandroidblogs.FeedAndroidBlogs
 import com.dmm.rssreader.repository.MainRepository
 import com.dmm.rssreader.utils.HostSelectionInterceptor
@@ -35,6 +36,11 @@ class MainViewModel @Inject constructor(
 
 	fun setBaseUrl(baseUrl: String) {
 		hostSelectionInterceptor.setHostBaseUrl(baseUrl)
+	}
+
+	fun setTheme(theme: String) = viewModelScope.launch {
+		val userSetting = UserSettings(id = 1, theme = theme, feeds = listOf(""))
+		mainRepository.setUserSettings(userSetting)
 	}
 
 }

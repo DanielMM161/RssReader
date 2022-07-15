@@ -7,9 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_settings")
 data class UserSettings(
 	@PrimaryKey(autoGenerate = true)
+	@ColumnInfo(name = "id")
 	val id: Int,
 	@ColumnInfo(name = "theme")
 	val theme: String,
 	@ColumnInfo(name = "feeds")
-	val feeds: String
+	val feeds: List<String> = listOf()
 )

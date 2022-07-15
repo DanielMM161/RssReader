@@ -17,18 +17,18 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/feeds"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+      app:layout_constraintTop_toTopOf="parent" />
 
     <View
       android:id="@+id/divider_feeds"
       style="@style/Divider"
       android:layout_width="match_parent"
       android:layout_height="1dp"
-      app:layout_constraintTop_toBottomOf="@id/text_feeds"
+      android:layout_marginTop="5dp"
       app:layout_constraintStart_toStartOf="@+id/text_feeds"
-      android:layout_marginTop="5dp"/>
+      app:layout_constraintTop_toBottomOf="@id/text_feeds" />
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv_feeds"
@@ -43,40 +43,39 @@
       android:id="@+id/text_theme"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
       android:text="@string/theme"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/rv_feeds"
       android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-      android:layout_marginTop="5dp"/>
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/rv_feeds" />
 
     <View
       android:id="@+id/divider"
       style="@style/Divider"
       android:layout_width="match_parent"
       android:layout_height="1dp"
+      android:layout_marginTop="5dp"
       app:layout_constraintStart_toStartOf="@+id/text_theme"
-      app:layout_constraintTop_toBottomOf="@id/text_theme"
-      android:layout_marginTop="5dp" />
+      app:layout_constraintTop_toBottomOf="@id/text_theme" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/layout_day"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginTop="5dp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/divider"
-      android:layout_marginTop="5dp">
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/divider">
 
       <ImageView
         android:id="@+id/day"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:scaleType="centerInside"
         android:src="@drawable/light_mode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerInside"
-        app:tint="@color/theme_selector"
-       />
+        app:tint="@color/theme_selector" />
 
       <TextView
         android:id="@+id/day_text"
@@ -86,73 +85,78 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/day_theme"
-        app:layout_constraintStart_toEndOf="@+id/day"
         android:textColor="@color/theme_selector"
+        app:layout_constraintStart_toEndOf="@+id/day"
         app:layout_constraintTop_toTopOf="@+id/day" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/layout_night"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/layout_day"
-    android:layout_marginTop="10dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/layout_night"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/layout_day">
 
-        <ImageView
-          android:id="@+id/night"
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:src="@drawable/dark_mode"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          android:scaleType="centerInside"
-          app:tint="@color/theme_selector" />
+      <ImageView
+        android:id="@+id/night"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/dark_mode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/theme_selector" />
 
-        <TextView
-          android:id="@+id/night_text"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginTop="5dp"
-          android:gravity="center"
-          android:text="@string/night_theme"
-          app:layout_constraintStart_toEndOf="@+id/night"
-          android:textColor="@color/theme_selector"
-          app:layout_constraintTop_toTopOf="@+id/night" />
+      <TextView
+        android:id="@+id/night_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/night_theme"
+        android:textColor="@color/theme_selector"
+        app:layout_constraintStart_toEndOf="@+id/night"
+        app:layout_constraintTop_toTopOf="@+id/night" />
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/layout_auto"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/layout_night">
 
+      <ImageView
+        android:id="@+id/auto"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/routine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/theme_selector" />
 
+      <TextView
+        android:id="@+id/auto_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/auto_theme"
+        android:textColor="@color/theme_selector"
+        app:layout_constraintStart_toEndOf="@+id/auto"
+        app:layout_constraintTop_toTopOf="@+id/auto" />
 
-
-
-<!--    <ImageView-->
-<!--      android:id="@+id/auto"-->
-<!--      android:layout_width="30dp"-->
-<!--      android:layout_height="30dp"-->
-<!--      android:src="@drawable/routine"-->
-<!--      app:layout_constraintStart_toStartOf="parent"-->
-<!--      app:layout_constraintTop_toBottomOf="@+id/night"-->
-<!--      android:scaleType="centerInside"-->
-<!--      app:tint="@color/theme_selector"-->
-<!--      android:layout_marginTop="10dp"/>-->
-
-<!--    <TextView-->
-<!--      android:id="@+id/auto_text"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:layout_marginStart="8dp"-->
-<!--      android:layout_marginTop="5dp"-->
-<!--      android:gravity="center"-->
-<!--      android:text="@string/auto_theme"-->
-<!--      app:layout_constraintStart_toEndOf="@+id/auto"-->
-<!--      android:textColor="@color/theme_selector"-->
-<!--      app:layout_constraintTop_toTopOf="@+id/auto" />-->
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
