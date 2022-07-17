@@ -23,7 +23,7 @@ class MainRepository @Inject constructor(
 	suspend fun fetchDeveloperAndroidBlogs() = handleResponse(rssClient.fetchDeveloperAndroidBlogs())
 	//DB
 	suspend fun setUserSettings(userSettings: UserSettings) = userSettingsDao.insertUserSettings(userSettings)
-	fun getUserSettings(): Flow<UserSettings> = userSettingsDao.getUserSettings()
+	suspend fun getUserSettings(): UserSettings = userSettingsDao.getUserSettings()
 
 	private fun handleResponse(response: Response<FeedAndroidBlogs>) : Resource<FeedAndroidBlogs?> {
 		if(response.isSuccessful) {

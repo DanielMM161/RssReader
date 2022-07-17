@@ -13,16 +13,16 @@ class ConverterList  @Inject constructor(
 ){
 
   @TypeConverter
-  fun fromString(value: String): List<String>? {
-    val listType = Types.newParameterizedType(List::class.java, String::class.java)
-    val adapter: JsonAdapter<List<String>> = moshi.adapter(listType)
+  fun fromString(value: String): MutableList<String>? {
+    val listType = Types.newParameterizedType(MutableList::class.java, String::class.java)
+    val adapter: JsonAdapter<MutableList<String>> = moshi.adapter(listType)
     return adapter.fromJson(value)
   }
 
   @TypeConverter
-  fun fromListString(list: List<String>?): String {
-    val listType = Types.newParameterizedType(List::class.java, String::class.java)
-    val adapter: JsonAdapter<List<String>> = moshi.adapter(listType)
+  fun fromListString(list: MutableList<String>?): String {
+    val listType = Types.newParameterizedType(MutableList::class.java, String::class.java)
+    val adapter: JsonAdapter<MutableList<String>> = moshi.adapter(listType)
     return adapter.toJson(list)
   }
 }

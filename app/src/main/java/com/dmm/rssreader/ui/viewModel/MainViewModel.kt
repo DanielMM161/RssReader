@@ -10,9 +10,7 @@ import com.dmm.rssreader.repository.MainRepository
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,11 +21,11 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
 	init {
-
+		getUserSettings()
 	}
 
-	private var _userSettings: Flow<UserSettings> = mainRepository.getUserSettings()
-	val userSettings = _userSettings
+	private var _userSettings = MutableStateFlow(UserSettings())
+	val userSettings = _userSettings.asStateFlow()
 
 	private var _metalInjectionFeed = MutableStateFlow<Resource<FeedAndroidBlogs?>>(Resource.Loading())
 	val metalInjectionFeed = _metalInjectionFeed.asStateFlow()
@@ -42,13 +40,25 @@ class MainViewModel @Inject constructor(
 		hostSelectionInterceptor.setHostBaseUrl(baseUrl)
 	}
 
+	fun getUserSettings() = viewModelScope.launch {
+		var userSettings = mainRepository.getUserSettings()
+		if(userSettings == null) userSettings = UserSettings()
+		_userSettings.value = userSettings
+	}
+
 	fun setTheme(theme: String) = viewModelScope.launch {
-		val userSetting = UserSettings(theme = theme, feeds = listOf(""))
+		val userSetting = UserSettings(theme = theme)
 		mainRepository.setUserSettings(userSetting)
 	}
 
-//	fun getUserSettings() = viewModelScope.launch {
-//		_userSettings = mainRepository.getUserSettings()
-//	}
+	fun setFeed(feedName: String) = viewModelScope.launch {
+		val userSetting = userSettings.first()
+		if(userSetting.feeds.contains(feedName)) {
+			userSetting.feeds.remove(feedName)
+		} else {
+			userSetting.feeds.add(feedName)
+		}
+		mainRepository.setUserSettings(userSetting)
+	}
 
 }

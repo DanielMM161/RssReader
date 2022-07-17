@@ -4,9 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-    <variable
-      name="feedsConstants"
-      type="com.dmm.rssreader.utils.Constants" />
+
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +49,6 @@
         android:text="@string/android_developer_blogs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:value="@{feedsConstants.DEVELOPER_ANDROID_BLOG}"
         app:layout_constraintTop_toTopOf="parent" />
 
       <Switch
@@ -62,7 +59,6 @@
         android:text="@string/android_developer_news"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:value="@{feedsConstants.DEVELOPER_ANDROID_NEWS}"
         app:layout_constraintTop_toBottomOf="@+id/switch_blogs" />
 
       <Switch
@@ -73,7 +69,6 @@
         android:text="@string/apple_developers_news"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:value="@{feedsConstants.DEVELOPER_APPEL}"
         app:layout_constraintTop_toBottomOf="@+id/switch_news" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

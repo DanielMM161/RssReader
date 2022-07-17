@@ -10,7 +10,7 @@ data class UserSettings(
 	@ColumnInfo(name = "id")
 	val id: Int = 1,
 	@ColumnInfo(name = "theme")
-	val theme: String,
+	val theme: String = "",
 	@ColumnInfo(name = "feeds")
-	val feeds: List<String> = listOf()
+	val feeds: MutableList<String> = mutableListOf()
 )
