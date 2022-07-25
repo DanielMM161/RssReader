@@ -6,6 +6,9 @@ import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.Item
 import com.dmm.rssreader.model.feedandroidblogs.Entry
 import com.dmm.rssreader.model.feedandroidblogs.FeedAndroidBlogs
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_1
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_2
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
 import com.dmm.rssreader.utils.Constants.FORMAT_BMP
 import com.dmm.rssreader.utils.Constants.FORMAT_GIF
 import com.dmm.rssreader.utils.Constants.FORMAT_JPEG
@@ -18,6 +21,10 @@ import com.dmm.rssreader.utils.Constants.MATCH_SOURCE_MEDIUM
 import com.dmm.rssreader.utils.Constants.SOURCE_APPLE
 import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
 import com.dmm.rssreader.utils.Constants.SOURCE_MEDIUM
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.collections.get as get1
 
 class Utils {
@@ -44,7 +51,7 @@ class Utils {
 			return FeedUI(
 				feedSource = determineFeedSource(feedSource),
 				title = item.title,
-				published = item.pubDate,
+				published = formattedDate(item.pubDate, DATE_PATTERN_2),
 				link = item.link,
 				description = item.description,
 				image = getImageFromContent(item.description)
@@ -55,7 +62,7 @@ class Utils {
 			return FeedUI(
 				feedSource = determineFeedSource(feedSource),
 				title = entry.title,
-				published = entry.published,
+				published = formattedDate(entry.published, DATE_PATTERN_1),
 				link = "",
 				image = getImageFromContent(entry.content)
 			)
@@ -95,6 +102,18 @@ class Utils {
 				}
 			}
 			return image
+		}
+
+		fun formattedDate(dateString: String?, dateFormat: String): String {
+			val sdf = SimpleDateFormat(dateFormat)
+			val output = SimpleDateFormat(DATE_PATTERN_OUTPUT)
+			try {
+				val date = sdf.parse(dateString)
+				return output.format(date)
+			}catch (e: Exception) {
+				return ""
+			}
+			return ""
 		}
 	}
 

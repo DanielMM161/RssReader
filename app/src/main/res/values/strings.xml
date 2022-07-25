@@ -17,4 +17,5 @@
   <!--  Home Fragment-->
   <string name="all_articles">All articles</string>
   <string name="total">%s Total</string>
+  <string name="date">/ %s</string>
 </resources>

@@ -6,8 +6,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmm.rssreader.databinding.HomeFragmentBinding
 import com.dmm.rssreader.ui.adapters.FeedAdapter
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
 import com.dmm.rssreader.utils.Resource
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	HomeFragmentBinding::inflate
@@ -43,10 +46,12 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					val a = it
 				}
 				is Resource.Success -> {
-					val a = it
 					it.data?.let { feeds ->
 						binding.totalArticles = feeds.size
-						feedAdapter.differ.submitList(feeds)
+						val feedsSorted = feeds.sortedByDescending { it ->
+							LocalDate.parse(it.published, DateTimeFormatter.ofPattern(DATE_PATTERN_OUTPUT))
+						}
+						feedAdapter.differ.submitList(feedsSorted)
 					}
 				}
 				is Resource.Error -> {

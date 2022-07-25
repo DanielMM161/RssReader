@@ -83,9 +83,9 @@
           android:layout_toEndOf="@+id/feed_source"
           android:ellipsize="end"
           android:maxLines="2"
+          android:text="@{String.format(@string/date,feed.published.toString())}"
           android:textSize="14dp"
           android:textStyle="bold"
-          android:text="@{feed.published}"
           tools:text="/ 20-07-2022" />
 
       </RelativeLayout>
