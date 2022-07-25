@@ -48,6 +48,7 @@ dependencies {
     //implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.viewModel"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycleVersion"
     implementation "androidx.room:room-runtime:$versions.roomVersion"
     implementation "androidx.room:room-ktx:$versions.roomVersion"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'

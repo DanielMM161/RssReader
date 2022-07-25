@@ -4,21 +4,45 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
+    <variable
+      name="totalArticles"
+      type="Integer" />
 
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <TextView
+      android:id="@+id/all_articles"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Home Fragment"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
+      android:text="@string/all_articles"
       app:layout_constraintStart_toStartOf="parent"
+      style="?attr/textAppearanceHeadline4"
+      android:textStyle="bold"
+      android:textColor="@color/black"
       app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/total"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:visibility="@{totalArticles !=null ? true : false}"
+      android:text="@{String.format(@string/total, totalArticles)}"
+      app:layout_constraintStart_toStartOf="parent"
+      style="?attr/textAppearanceHeadline6"
+      app:layout_constraintTop_toBottomOf="@id/all_articles"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_feeds"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/total"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 

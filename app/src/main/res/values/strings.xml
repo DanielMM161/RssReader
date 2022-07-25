@@ -1,14 +1,20 @@
 <resources>
   <string name="app_name">RssReader</string>
+
   <string name="home">Home</string>
   <string name="bookmarks">Saved</string>
   <string name="settings">Settings</string>
   <string name="feeds">Feeds</string>
   <string name="theme">Themes</string>
+  <!--  Themes-->
   <string name="day_theme">Day</string>
   <string name="night_theme">Night</string>
   <string name="auto_theme">Auto</string>
+  <!--  Feeds-->
   <string name="android_developer_blogs">Android Developers Blogs</string>
-  <string name="android_developer_news">Android Developers News</string>
+  <string name="android_developer_medium">Android Developers Medium</string>
   <string name="apple_developers_news">Appel Developers News</string>
+  <!--  Home Fragment-->
+  <string name="all_articles">All articles</string>
+  <string name="total">%s Total</string>
 </resources>

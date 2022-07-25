@@ -1,4 +1,5 @@
 package com.dmm.rssreader.ui.fragments
+
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
@@ -10,7 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.SettingsFragmentBinding
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_NEWS
+import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
 import com.dmm.rssreader.utils.Constants.THEME_AUTO
 import com.dmm.rssreader.utils.Constants.THEME_DAY
@@ -23,8 +24,6 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 
 	override fun setupUI() {
 		super.setupUI()
-		selectedTheme()
-		selectedFeeds()
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
@@ -33,8 +32,12 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 				launch {
 					autoSelectedFeed()
 				}
+				launch {
+					selectedFeeds()
+				}
 			}
 		}
+		selectedTheme()
 	}
 
 	fun selectedFeeds() {
@@ -43,7 +46,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 			switch.setOnCheckedChangeListener { compoundButton, isChecked ->
 				when(compoundButton.text) {
 					getString(R.string.android_developer_blogs) -> { viewModel.setFeed(FEED_ANDROID_BLOGS) }
-					getString(R.string.android_developer_news) -> { viewModel.setFeed(FEED_ANDROID_NEWS) }
+					getString(R.string.android_developer_medium) -> { viewModel.setFeed(FEED_ANDROID_MEDIUM) }
 					getString(R.string.apple_developers_news) -> { viewModel.setFeed(FEED_APPLE_NEWS) }
 				}
 
@@ -56,7 +59,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 			it.feeds.forEach { feed ->
 				when(feed) {
 					FEED_ANDROID_BLOGS -> { binding.switchBlogs.isChecked = true }
-					FEED_ANDROID_NEWS -> { binding.switchNews.isChecked = true }
+					FEED_ANDROID_MEDIUM -> { binding.switchNews.isChecked = true }
 					FEED_APPLE_NEWS -> { binding.switchApple.isChecked = true }
 				}
 			}

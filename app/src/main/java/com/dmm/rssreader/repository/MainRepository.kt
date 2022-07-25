@@ -1,13 +1,11 @@
 package com.dmm.rssreader.repository
 
-import android.util.Log
-import com.dmm.rssreader.model.Feed
+import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.UserSettings
-import com.dmm.rssreader.model.feedandroidblogs.FeedAndroidBlogs
 import com.dmm.rssreader.network.RssClient
 import com.dmm.rssreader.persistence.UserSettingsDao
+import com.dmm.rssreader.utils.Utils
 import com.dmm.rssreader.utils.Resource
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -16,19 +14,26 @@ class MainRepository @Inject constructor(
 	private val userSettingsDao: UserSettingsDao
 ) {
 
+	private var developerFeedsResponse: MutableList<FeedUI>? = null
 
 	//Network
-//	suspend fun fetchDeveloperApple() = handleResponse(rssClient.fetchDeveloperApple())
-//	suspend fun fetchDeveloperAndroidNews() = handleResponse(rssClient.fetchDeveloperAndroidNews())
+	suspend fun fetchDeveloperApple() = handleResponse(rssClient.fetchDeveloperApple())
+	suspend fun fetchDeveloperAndroidNews() = handleResponse(rssClient.fetchDeveloperAndroidNews())
 	suspend fun fetchDeveloperAndroidBlogs() = handleResponse(rssClient.fetchDeveloperAndroidBlogs())
 	//DB
 	suspend fun setUserSettings(userSettings: UserSettings) = userSettingsDao.insertUserSettings(userSettings)
 	suspend fun getUserSettings(): UserSettings = userSettingsDao.getUserSettings()
 
-	private fun handleResponse(response: Response<FeedAndroidBlogs>) : Resource<FeedAndroidBlogs?> {
+	private fun <T> handleResponse(response: Response<T>) : Resource<List<FeedUI>?> {
 		if(response.isSuccessful) {
 			response.body().let { result ->
-				return Resource.Success(result)
+				val data: List<FeedUI> = Utils.MapResponse((result))
+				if(developerFeedsResponse == null) {
+					developerFeedsResponse = data.toMutableList()
+				} else {
+					developerFeedsResponse?.addAll(data)
+				}
+				return Resource.Success(developerFeedsResponse)
 			}
 		}
 		return Resource.Error(response.message())
