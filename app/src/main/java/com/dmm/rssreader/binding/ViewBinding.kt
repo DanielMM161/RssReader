@@ -16,6 +16,18 @@ object ViewBinding {
 		view.visibility = if(value) View.VISIBLE else View.GONE
 	}
 
+
+	@BindingAdapter("isSelected")
+	@JvmStatic
+	fun bindIsSelected(imageView: ImageView, value: Boolean) {
+		imageView.isSelected = value
+		if(value) {
+			imageView.setImageResource(R.drawable.readlater_filled)
+		} else {
+			imageView.setImageResource(R.drawable.readlater)
+		}
+	}
+
 	@JvmStatic
 	@BindingAdapter("loadImage")
 	fun bindLoadImage(view: ImageView, feed: FeedUI) {

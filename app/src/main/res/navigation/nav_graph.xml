@@ -7,7 +7,11 @@
   <fragment
     android:id="@+id/homeFragment"
     android:name="com.dmm.rssreader.ui.fragments.HomeFragment"
-    android:label="HomeFragment" />
+    android:label="HomeFragment" >
+    <action
+      android:id="@+id/action_homeFragment_to_feedDescriptionFragment"
+      app:destination="@id/feedDescriptionFragment" />
+  </fragment>
   <fragment
     android:id="@+id/bookmarksFragment"
     android:name="com.dmm.rssreader.ui.fragments.BookmarksFragment"
@@ -16,4 +20,16 @@
     android:id="@+id/settingsFragment"
     android:name="com.dmm.rssreader.ui.fragments.SettingsFragment"
     android:label="SettingsFragment" />
+  <fragment
+    android:id="@+id/feedDescriptionFragment"
+    android:name="com.dmm.rssreader.ui.fragments.FeedDescriptionFragment"
+    android:label="FeedDescriptionFragment" >
+    <action
+      android:id="@+id/action_feedDescriptionFragment_to_homeFragment"
+      app:destination="@id/homeFragment" />
+  </fragment>
+  <fragment
+    android:id="@+id/readLaterFragment"
+    android:name="com.dmm.rssreader.ui.fragments.ReadLaterFragment"
+    android:label="ReadLaterFragment" />
 </navigation>

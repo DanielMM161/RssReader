@@ -50,7 +50,7 @@ class Utils {
 		fun fromItemFeedToFeedUI(item: Item, feedSource: String): FeedUI {
 			return FeedUI(
 				feedSource = determineFeedSource(feedSource),
-				title = item.title,
+				title = item.title!!,
 				published = formattedDate(item.pubDate, DATE_PATTERN_2),
 				link = item.link,
 				description = item.description,
@@ -61,9 +61,10 @@ class Utils {
 		fun fromEntryToFeedUI(entry: Entry, feedSource: String): FeedUI {
 			return FeedUI(
 				feedSource = determineFeedSource(feedSource),
-				title = entry.title,
+				title = entry.title!!,
 				published = formattedDate(entry.published, DATE_PATTERN_1),
 				link = "",
+				description = entry.content,
 				image = getImageFromContent(entry.content)
 			)
 		}

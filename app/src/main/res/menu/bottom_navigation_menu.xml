@@ -7,7 +7,7 @@
     android:icon="@drawable/home_48px"/>
 
   <item
-    android:id="@+id/bookmarksFragment"
+    android:id="@+id/readLaterFragment"
     android:title="@string/bookmarks"
     android:icon="@drawable/bookmarks_48px"/>
 

@@ -18,4 +18,7 @@
   <string name="all_articles">All articles</string>
   <string name="total">%s Total</string>
   <string name="date">/ %s</string>
+  <!--  ReadLater Fragment-->
+  <string name="delete_feed">%s was delete</string>
+  <string name="undo">Undo</string>
 </resources>

@@ -2,6 +2,7 @@ package com.dmm.rssreader.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dmm.rssreader.model.Feed
 import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.UserSettings
 import com.dmm.rssreader.repository.MainRepository
@@ -9,6 +10,8 @@ import com.dmm.rssreader.utils.Constants.DEVELOPER_ANDROID_BLOG
 import com.dmm.rssreader.utils.Constants.DEVELOPER_APPEL
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
+import com.dmm.rssreader.utils.Constants.SOURCE_APPLE
+import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +40,8 @@ class MainViewModel @Inject constructor(
 	private var _developerFeeds = MutableStateFlow<Resource<List<FeedUI>?>>(Resource.Loading())
 	val developerFeeds = _developerFeeds.asStateFlow()
 
+	lateinit var feedSelected: FeedUI
+
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
 		val userSettings = userSettings.first()
 		userSettings.feeds.forEach { it ->
@@ -44,19 +49,17 @@ class MainViewModel @Inject constructor(
 				when(it) {
 					FEED_ANDROID_BLOGS -> {
 						setBaseUrl(DEVELOPER_ANDROID_BLOG)
-						val data = mainRepository.fetchDeveloperAndroidBlogs()
-						setDeveloperFeeds(data)
+						setDeveloperFeeds( mainRepository.fetchDeveloperAndroidBlogs())
 					}
 					FEED_APPLE_NEWS -> {
 						setBaseUrl(DEVELOPER_APPEL)
-						val data = mainRepository.fetchDeveloperApple()
-						setDeveloperFeeds(data)
+						setDeveloperFeeds( mainRepository.fetchDeveloperApple())
 					}
 				}
 		}
 	}
 
-	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>)	= viewModelScope.launch {
+	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
 		_developerFeeds.value = data
 	}
 
@@ -73,7 +76,7 @@ class MainViewModel @Inject constructor(
 	fun setTheme(theme: String) = viewModelScope.launch {
 		val userSetting = userSettings.first()
 		userSetting.theme = theme
-		mainRepository.setUserSettings(userSetting)
+		mainRepository.insertUserSettings(userSetting)
 	}
 
 	fun setFeed(feedName: String) = viewModelScope.launch {
@@ -83,7 +86,16 @@ class MainViewModel @Inject constructor(
 		} else {
 			userSetting.feeds.add(feedName)
 		}
-		mainRepository.setUserSettings(userSetting)
+		mainRepository.insertUserSettings(userSetting)
 	}
 
+	fun insertFeed(feedUI: FeedUI) = viewModelScope.launch {
+		mainRepository.insertFeed(feedUI)
+	}
+
+	fun deleteFeedUI(feedUI: FeedUI) = viewModelScope.launch {
+		mainRepository.deleteFeed(feedUI)
+	}
+
+	fun getFeedList() = mainRepository.getFeedList()
 }

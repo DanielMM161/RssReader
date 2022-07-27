@@ -3,7 +3,9 @@ package com.dmm.rssreader.ui.fragments
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.HomeFragmentBinding
 import com.dmm.rssreader.ui.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
@@ -36,6 +38,8 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 			feedAdapter = FeedAdapter()
 			adapter = feedAdapter
 			layoutManager = LinearLayoutManager(requireContext())
+			itemClickListener()
+			readLaterItemClickListener()
 		}
 	}
 
@@ -43,7 +47,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewModel.developerFeeds.collect {
 			when(it) {
 				is Resource.Loading -> {
-					val a = it
+
 				}
 				is Resource.Success -> {
 					it.data?.let { feeds ->
@@ -55,10 +59,19 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					}
 				}
 				is Resource.Error -> {
-					val a = it
+
 				}
 			}
 		}
+	}
+
+	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
+		viewModel.feedSelected = it
+		findNavController().navigate(R.id.action_homeFragment_to_feedDescriptionFragment)
+	}
+
+	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener { feedUI ->
+		viewModel.insertFeed(feedUI)
 	}
 
 }

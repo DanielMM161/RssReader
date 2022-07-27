@@ -3,6 +3,7 @@ package com.dmm.rssreader.di
 import android.app.Application
 import androidx.room.Room
 import com.dmm.rssreader.persistence.AppDatabase
+import com.dmm.rssreader.persistence.FeedsDao
 import com.dmm.rssreader.persistence.UserSettingsDao
 import com.dmm.rssreader.persistence.converters.ConverterList
 import com.squareup.moshi.Moshi
@@ -39,6 +40,12 @@ object PersistenceModule {
 	@Singleton
 	fun provideUserSettingsDao(appDatabase: AppDatabase): UserSettingsDao {
 		return appDatabase.userSettingsDao()
+	}
+
+	@Provides
+	@Singleton
+	fun provideFeedsDao(appDatabase: AppDatabase): FeedsDao {
+		return appDatabase.feedsDao()
 	}
 
 	@Provides
