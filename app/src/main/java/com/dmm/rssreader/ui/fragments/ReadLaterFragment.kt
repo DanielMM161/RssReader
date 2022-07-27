@@ -26,7 +26,7 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				viewModel.getFeedList().collect {
-					feedAdapter.differ.submitList(it)
+					feedAdapter.differ.submitList(it.filter { it -> it.saved })
 				}
 			}
 		}
@@ -48,10 +48,10 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 				val position = viewHolder.adapterPosition
 				val feed = feedAdapter.differ.currentList[position]
-				viewModel.deleteFeedUI(feed)
+				viewModel.insertFeed(feed.copy(saved = false))
 				Snackbar.make(binding.root, getString(R.string.delete_feed, feed.title), Snackbar.LENGTH_LONG).apply {
 					setAction(getString(R.string.undo)) {
-						viewModel.insertFeed(feed)
+						viewModel.insertFeed(feed.copy(saved = true))
 					}
 					show()
 				}

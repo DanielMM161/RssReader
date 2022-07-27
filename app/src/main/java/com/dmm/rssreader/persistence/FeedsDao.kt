@@ -9,7 +9,7 @@ interface FeedsDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFeed(feedUI: FeedUI)
 
-	@Query("SELECT * FROM feeds WHERE saved = 1")
+	@Query("SELECT * FROM feeds")
 	fun getFeedList(): Flow<List<FeedUI>>
 
 	@Delete

@@ -6,6 +6,7 @@ import com.dmm.rssreader.model.Feed
 import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.UserSettings
 import com.dmm.rssreader.repository.MainRepository
+import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.DEVELOPER_ANDROID_BLOG
 import com.dmm.rssreader.utils.Constants.DEVELOPER_APPEL
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
@@ -18,6 +19,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,26 +46,29 @@ class MainViewModel @Inject constructor(
 	lateinit var feedSelected: FeedUI
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
-		val userSettings = userSettings.first()
-		var data: Resource<List<FeedUI>?> = Resource.Loading()
-		userSettings.feeds.forEach { it ->
-			_developerFeeds.value = Resource.Loading()
-			when (it) {
-				FEED_ANDROID_BLOGS -> {
-					setBaseUrl(DEVELOPER_ANDROID_BLOG)
-					data = mainRepository.fetchDeveloperAndroidBlogs()
-				}
-				FEED_APPLE_NEWS -> {
-					setBaseUrl(DEVELOPER_APPEL)
-					data = mainRepository.fetchDeveloperApple()
+		if(mainRepository.feedsResponse == null) {
+			val userSettings = userSettings.first()
+			var data: Resource<List<FeedUI>?> = Resource.Loading()
+
+			userSettings.feeds.forEach { it ->
+				_developerFeeds.value = Resource.Loading()
+				when (it) {
+					FEED_ANDROID_BLOGS -> {
+						setBaseUrl(DEVELOPER_ANDROID_BLOG)
+						data = mainRepository.fetchDeveloperAndroidBlogs()
+					}
+					FEED_APPLE_NEWS -> {
+						setBaseUrl(DEVELOPER_APPEL)
+						data = mainRepository.fetchDeveloperApple()
+					}
 				}
 			}
+			setDeveloperFeeds(data)
 		}
-		setDeveloperFeeds(data)
 	}
 
 	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
-		_developerFeeds.value = data
+		if(data.data != null) _developerFeeds.value = sortedFeed(data.data)
 	}
 
 	fun setBaseUrl(baseUrl: String) {
@@ -103,5 +109,11 @@ class MainViewModel @Inject constructor(
 
 	fun resetResponse() {
 		mainRepository.resetResponse()
+	}
+
+	fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
+		return Resource.Success(feeds!!.sortedByDescending { it ->
+			LocalDate.parse(it.published, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_OUTPUT))
+		})
 	}
 }

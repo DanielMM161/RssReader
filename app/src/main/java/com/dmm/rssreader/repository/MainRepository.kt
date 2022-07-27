@@ -7,6 +7,7 @@ import com.dmm.rssreader.persistence.FeedsDao
 import com.dmm.rssreader.persistence.UserSettingsDao
 import com.dmm.rssreader.utils.Utils
 import com.dmm.rssreader.utils.Resource
+import kotlinx.coroutines.flow.asFlow
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class MainRepository @Inject constructor(
 	private val feedsDao: FeedsDao
 ) {
 
-	private var developerFeedsResponse: MutableList<FeedUI>? = null
+	var feedsResponse: MutableList<FeedUI>? = null
 
 	//Network
 	suspend fun fetchDeveloperApple() = handleResponse(rssClient.fetchDeveloperApple())
@@ -34,19 +35,19 @@ class MainRepository @Inject constructor(
 		if(response.isSuccessful) {
 			response.body().let { result ->
 				val data: List<FeedUI> = Utils.MapResponse((result))
-				if(developerFeedsResponse == null) {
-					developerFeedsResponse = data.toMutableList()
+				if(feedsResponse == null) {
+					feedsResponse = data.toMutableList()
 				} else {
-					developerFeedsResponse?.addAll(data)
+					feedsResponse?.addAll(data)
 				}
-				return Resource.Success(developerFeedsResponse)
+				return Resource.Success(feedsResponse)
 			}
 		}
 		return Resource.Error(response.message())
 	}
 
 	fun resetResponse() {
-		developerFeedsResponse = null
+		feedsResponse = null
 	}
 
 }

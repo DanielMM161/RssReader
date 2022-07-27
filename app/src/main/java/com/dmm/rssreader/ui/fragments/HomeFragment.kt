@@ -61,13 +61,17 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					binding.swipeRefresh.isRefreshing = true
 				}
 				is Resource.Success -> {
-					binding.swipeRefresh.isRefreshing = false
 					it.data?.let { feeds ->
 						binding.totalArticles = feeds.size
-						val feedsSorted = feeds.sortedByDescending { it ->
-							LocalDate.parse(it.published, DateTimeFormatter.ofPattern(DATE_PATTERN_OUTPUT))
+						binding.swipeRefresh.isRefreshing = false
+						viewModel.getFeedList().collect {
+							it.forEach { feed ->
+								feeds
+									.filter { it -> it.title == feed.title }
+									.forEach { it -> it.saved = feed.saved }
+							}
+							feedAdapter.differ.submitList(feeds)
 						}
-						feedAdapter.differ.submitList(feedsSorted)
 					}
 				}
 				is Resource.Error -> {
