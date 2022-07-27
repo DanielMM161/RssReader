@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/saved_fill"
+    android:icon="@drawable/bookmark_add_fill"
+    android:title="Saved"
+    app:iconTint="@color/black"
+    app:showAsAction="ifRoom|collapseActionView"/>
+
+  <item
+    android:id="@+id/share"
+    android:icon="@drawable/share"
+    android:title="Share"
+    app:iconTint="@color/black"
+    app:showAsAction="ifRoom|collapseActionView"/>
+</menu>

@@ -101,10 +101,6 @@ class MainViewModel @Inject constructor(
 		mainRepository.insertFeed(feedUI)
 	}
 
-	fun deleteFeedUI(feedUI: FeedUI) = viewModelScope.launch {
-		mainRepository.deleteFeed(feedUI)
-	}
-
 	fun getFeedList() = mainRepository.getFeedList()
 
 	fun resetResponse() {

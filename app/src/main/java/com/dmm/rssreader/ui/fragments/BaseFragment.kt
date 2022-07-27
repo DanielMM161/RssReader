@@ -19,6 +19,7 @@ abstract class BaseFragment<VB: ViewBinding> (
 	protected lateinit var viewModel: MainViewModel
 
 	protected open fun setupUI() = Unit
+	protected open fun setHasOptionsMenu() = Unit
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -28,6 +29,8 @@ abstract class BaseFragment<VB: ViewBinding> (
 		_binding = bindingInflater.invoke(inflater)
 
 		if(_binding == null) { throw IllegalArgumentException("Binding null") }
+
+		setHasOptionsMenu()
 
 		return binding.root
 	}
