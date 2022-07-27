@@ -44,19 +44,21 @@ class MainViewModel @Inject constructor(
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
 		val userSettings = userSettings.first()
+		var data: Resource<List<FeedUI>?> = Resource.Loading()
 		userSettings.feeds.forEach { it ->
 			_developerFeeds.value = Resource.Loading()
-				when(it) {
-					FEED_ANDROID_BLOGS -> {
-						setBaseUrl(DEVELOPER_ANDROID_BLOG)
-						setDeveloperFeeds( mainRepository.fetchDeveloperAndroidBlogs())
-					}
-					FEED_APPLE_NEWS -> {
-						setBaseUrl(DEVELOPER_APPEL)
-						setDeveloperFeeds( mainRepository.fetchDeveloperApple())
-					}
+			when (it) {
+				FEED_ANDROID_BLOGS -> {
+					setBaseUrl(DEVELOPER_ANDROID_BLOG)
+					data = mainRepository.fetchDeveloperAndroidBlogs()
 				}
+				FEED_APPLE_NEWS -> {
+					setBaseUrl(DEVELOPER_APPEL)
+					data = mainRepository.fetchDeveloperApple()
+				}
+			}
 		}
+		setDeveloperFeeds(data)
 	}
 
 	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
@@ -69,7 +71,7 @@ class MainViewModel @Inject constructor(
 
 	fun getUserSettings() = viewModelScope.async {
 		var userSettings = mainRepository.getUserSettings()
-		if(userSettings == null) userSettings = UserSettings()
+		if (userSettings == null) userSettings = UserSettings()
 		_userSettings.value = userSettings
 	}
 
@@ -81,7 +83,7 @@ class MainViewModel @Inject constructor(
 
 	fun setFeed(feedName: String) = viewModelScope.launch {
 		val userSetting = userSettings.first()
-		if(userSetting.feeds.contains(feedName)) {
+		if (userSetting.feeds.contains(feedName)) {
 			userSetting.feeds.remove(feedName)
 		} else {
 			userSetting.feeds.add(feedName)
@@ -98,4 +100,8 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun getFeedList() = mainRepository.getFeedList()
+
+	fun resetResponse() {
+		mainRepository.resetResponse()
+	}
 }

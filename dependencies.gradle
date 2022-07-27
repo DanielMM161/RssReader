@@ -39,4 +39,7 @@ ext.versions = [
 
         // glide
         glideVersion     : '4.13.2',
+
+        // Swipe Refresh Layout
+        swipeRefresh     : '1.1.0'
 ]

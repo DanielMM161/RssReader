@@ -45,4 +45,8 @@ class MainRepository @Inject constructor(
 		return Resource.Error(response.message())
 	}
 
+	fun resetResponse() {
+		developerFeedsResponse = null
+	}
+
 }

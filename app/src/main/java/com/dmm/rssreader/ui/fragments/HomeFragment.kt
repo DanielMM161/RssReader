@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	HomeFragmentBinding::inflate
 ) {
@@ -33,23 +34,34 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 				}
 			}
 		}
+		setUpRecyclerView()
+		onRefreshListener()
+	}
 
-		binding.rvFeeds.apply {
-			feedAdapter = FeedAdapter()
-			adapter = feedAdapter
-			layoutManager = LinearLayoutManager(requireContext())
-			itemClickListener()
-			readLaterItemClickListener()
+
+	private fun setUpRecyclerView() = binding.rvFeeds.apply {
+		feedAdapter = FeedAdapter()
+		adapter = feedAdapter
+		layoutManager = LinearLayoutManager(requireContext())
+		itemClickListener()
+		readLaterItemClickListener()
+	}
+
+	private fun onRefreshListener() {
+		binding.swipeRefresh.setOnRefreshListener {
+			viewModel.resetResponse()
+			viewModel.fetchFeedsDeveloper()
 		}
 	}
 
 	private suspend fun subscribeObservableDeveloperFeeds() {
 		viewModel.developerFeeds.collect {
-			when(it) {
+			when (it) {
 				is Resource.Loading -> {
-
+					binding.swipeRefresh.isRefreshing = true
 				}
 				is Resource.Success -> {
+					binding.swipeRefresh.isRefreshing = false
 					it.data?.let { feeds ->
 						binding.totalArticles = feeds.size
 						val feedsSorted = feeds.sortedByDescending { it ->
