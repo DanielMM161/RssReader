@@ -3,7 +3,6 @@ package com.dmm.rssreader.ui.fragments
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.lifecycle.Lifecycle
@@ -46,10 +45,16 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 			val switch = (view as Switch)
 			switch.setOnCheckedChangeListener { compoundButton, isChecked ->
 				viewModel.resetResponse()
-				when(compoundButton.text) {
-					getString(R.string.android_developer_blogs) -> { viewModel.setFeed(FEED_ANDROID_BLOGS) }
-					getString(R.string.android_developer_medium) -> { viewModel.setFeed(FEED_ANDROID_MEDIUM) }
-					getString(R.string.apple_developers_news) -> { viewModel.setFeed(FEED_APPLE_NEWS) }
+				when (compoundButton.text) {
+					getString(R.string.android_developer_blogs) -> {
+						viewModel.setFeed(FEED_ANDROID_BLOGS)
+					}
+					getString(R.string.android_developer_medium) -> {
+						viewModel.setFeed(FEED_ANDROID_MEDIUM)
+					}
+					getString(R.string.apple_developers_news) -> {
+						viewModel.setFeed(FEED_APPLE_NEWS)
+					}
 				}
 
 			}
@@ -59,10 +64,16 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 	suspend fun autoSelectedFeed() {
 		viewModel.userSettings.collect() {
 			it.feeds.forEach { feed ->
-				when(feed) {
-					FEED_ANDROID_BLOGS -> { binding.switchBlogs.isChecked = true }
-					FEED_ANDROID_MEDIUM -> { binding.switchNews.isChecked = true }
-					FEED_APPLE_NEWS -> { binding.switchApple.isChecked = true }
+				when (feed) {
+					FEED_ANDROID_BLOGS -> {
+						binding.switchBlogs.isChecked = true
+					}
+					FEED_ANDROID_MEDIUM -> {
+						binding.switchNews.isChecked = true
+					}
+					FEED_APPLE_NEWS -> {
+						binding.switchApple.isChecked = true
+					}
 				}
 			}
 		}
@@ -70,11 +81,17 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 
 	suspend fun autoSelectedTheme() {
 		viewModel.userSettings.collect() {
-			if(it != null) {
-				when(it.theme) {
-					THEME_DAY -> { selectedView(binding.layoutDay, true) }
-					THEME_NIGHT -> { selectedView(binding.layoutNight, true) }
-					THEME_AUTO -> {	selectedView(binding.layoutAuto, true) }
+			if (it != null) {
+				when (it.theme) {
+					THEME_DAY -> {
+						selectedView(binding.layoutDay, true)
+					}
+					THEME_NIGHT -> {
+						selectedView(binding.layoutNight, true)
+					}
+					THEME_AUTO -> {
+						selectedView(binding.layoutAuto, true)
+					}
 				}
 			}
 		}
@@ -105,7 +122,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 
 	fun selectedView(view: View, selected: Boolean) {
 		(view as ViewGroup).forEach { view ->
-				view.isSelected = selected
+			view.isSelected = selected
 		}
 	}
 

@@ -1,19 +1,14 @@
 package com.dmm.rssreader.ui.fragments
 
-import android.content.Context
-import android.content.Intent
 import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.FeedDescriptionFragmentBinding
-import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.utils.ImageGetter
 import kotlinx.coroutines.launch
 
@@ -26,7 +21,7 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewModel.getFeedList().collect {
 				it.forEach { feed ->
-					if(feed.title == viewModel.feedSelected.title) {
+					if (feed.title == viewModel.feedSelected.title) {
 						viewModel.feedSelected.saved = feed.saved
 					}
 				}
@@ -37,8 +32,6 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 				displayHtml(it)
 			}
 		}
-
-
 	}
 
 	override fun setHasOptionsMenu() {
@@ -56,18 +49,21 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		when(item.itemId) {
-			R.id.saved -> {
-				item.setIcon( R.drawable.bookmark_add_fill)
+		when (item.title) {
+			getString(R.string.title_saved) -> {
+				item.title = getString(R.string.title_saved_fill)
+				item.setIcon(R.drawable.bookmark_add_fill)
+				item.isChecked = true
 				viewModel.insertFeed(viewModel.feedSelected.copy(saved = true))
 			}
-			R.id.saved_fill -> {
-				item.setIcon( R.drawable.bookmark_add)
+			getString(R.string.title_saved_fill) -> {
+				item.title = getString(R.string.title_saved)
+				item.setIcon(R.drawable.bookmark_add)
+				item.isChecked = false
 				viewModel.insertFeed(viewModel.feedSelected.copy(saved = false))
 			}
-			R.id.share -> {
-
-			}
+		}
+		when (item.itemId) {
 			android.R.id.home -> {
 				findNavController().navigate(R.id.action_feedDescriptionFragment_to_homeFragment)
 			}

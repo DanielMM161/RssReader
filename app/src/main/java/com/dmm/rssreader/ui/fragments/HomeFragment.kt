@@ -8,12 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.HomeFragmentBinding
 import com.dmm.rssreader.ui.adapters.FeedAdapter
-import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
 import com.dmm.rssreader.utils.Resource
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-
 
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	HomeFragmentBinding::inflate

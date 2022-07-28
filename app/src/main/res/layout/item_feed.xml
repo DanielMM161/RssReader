@@ -4,9 +4,10 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-      <variable
-        name="feed"
-        type="com.dmm.rssreader.model.FeedUI" />
+
+    <variable
+      name="feed"
+      type="com.dmm.rssreader.model.FeedUI" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,33 +24,33 @@
       app:layout_constraintTop_toTopOf="parent">
 
       <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
           android:id="@+id/image"
+          loadImage="@{feed}"
           android:layout_width="100dp"
           android:layout_height="100dp"
           android:layout_alignParentStart="true"
           android:layout_alignParentTop="true"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          loadImage="@{feed}"/>
+          app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
           android:id="@+id/title"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
           android:layout_marginStart="8dp"
           android:layout_toEndOf="@+id/image"
-          android:layout_alignParentEnd="true"
           android:ellipsize="end"
           android:maxLines="2"
+          android:text="@{feed.title}"
           android:textColor="@color/black"
           android:textSize="20dp"
           android:textStyle="bold"
-          android:text="@{feed.title}"
           tools:text="Jetpack Compose Stability Explained" />
 
         <TextView
@@ -61,9 +62,9 @@
           android:layout_toEndOf="@+id/image"
           android:ellipsize="end"
           android:maxLines="2"
+          android:text="@{feed.feedSource}"
           android:textSize="14dp"
           android:textStyle="bold"
-          android:text="@{feed.feedSource}"
           tools:text="Android Dev Blogs" />
 
         <TextView

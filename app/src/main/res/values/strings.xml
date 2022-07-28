@@ -25,4 +25,7 @@
   <string name="undo">Undo</string>
   <!--  ReadLater Fragment-->
   <string name="title_settings_fragment">Settings</string>
+  <!-- Item Icon Title -->
+  <string name="title_saved">Saved</string>
+  <string name="title_saved_fill">Saved Fill</string>
 </resources>

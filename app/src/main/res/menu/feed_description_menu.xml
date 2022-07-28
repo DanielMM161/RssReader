@@ -4,14 +4,14 @@
   <item
     android:id="@+id/saved"
     android:icon="@drawable/bookmark_add"
-    android:title="Saved"
-    app:iconTint="@color/black"
-    app:showAsAction="ifRoom|collapseActionView"/>
+    android:title="@string/title_saved"
+    app:iconTint="@color/selected_true"
+    app:showAsAction="always"/>
 
   <item
     android:id="@+id/share"
     android:icon="@drawable/share"
     android:title="Share"
     app:iconTint="@color/black"
-    app:showAsAction="ifRoom|collapseActionView"/>
+    app:showAsAction="always"/>
 </menu>

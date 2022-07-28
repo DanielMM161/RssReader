@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ReadLaterFragmentBinding
 import com.dmm.rssreader.ui.adapters.FeedAdapter
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(

@@ -4,9 +4,8 @@
   <item
     android:id="@+id/saved_fill"
     android:icon="@drawable/bookmark_add_fill"
-    android:title="Saved"
-    app:iconTint="@color/black"
-    app:showAsAction="ifRoom|collapseActionView"/>
+    android:title="@string/title_saved_fill"
+    app:iconTint="@color/selected_true" app:showAsAction="ifRoom|collapseActionView"/>
 
   <item
     android:id="@+id/share"
