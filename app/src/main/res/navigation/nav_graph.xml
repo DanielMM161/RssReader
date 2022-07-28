@@ -13,10 +13,6 @@
       app:destination="@id/feedDescriptionFragment" />
   </fragment>
   <fragment
-    android:id="@+id/bookmarksFragment"
-    android:name="com.dmm.rssreader.ui.fragments.BookmarksFragment"
-    android:label="BookmarksFragment" />
-  <fragment
     android:id="@+id/settingsFragment"
     android:name="com.dmm.rssreader.ui.fragments.SettingsFragment"
     android:label="SettingsFragment" />

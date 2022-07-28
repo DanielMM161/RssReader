@@ -1,11 +1,11 @@
 package com.dmm.rssreader.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,11 +21,17 @@ class MainActivity : AppCompatActivity() {
 		setContentView(binding.root)
 
 		val navHostFragment = supportFragmentManager
-			.findFragmentById(R.id.fragment_container) as NavHostFragment
+			.findFragmentById(com.dmm.rssreader.R.id.fragment_container) as NavHostFragment
 		navController = navHostFragment.navController
 
+		val appConfiguration = AppBarConfiguration(setOf(com.dmm.rssreader.R.id.homeFragment, com.dmm.rssreader.R.id.readLaterFragment, com.dmm.rssreader.R.id.settingsFragment))
+		binding.toolbar.setupWithNavController(navController, appConfiguration)
 		binding.bottomNavigation.setupWithNavController(navController)
 
 		setSupportActionBar(binding.toolbar)
+	}
+
+	override fun onSupportNavigateUp(): Boolean {
+		return navController.navigateUp() || super.onSupportNavigateUp()
 	}
 }

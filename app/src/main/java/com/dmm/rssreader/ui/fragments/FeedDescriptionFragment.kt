@@ -1,14 +1,21 @@
 package com.dmm.rssreader.ui.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.FeedDescriptionFragmentBinding
 import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.utils.ImageGetter
+import kotlinx.coroutines.launch
 
 class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 	FeedDescriptionFragmentBinding::inflate
@@ -16,11 +23,22 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 
 	override fun setupUI() {
 		super.setupUI()
+		viewLifecycleOwner.lifecycleScope.launch {
+			viewModel.getFeedList().collect {
+				it.forEach { feed ->
+					if(feed.title == viewModel.feedSelected.title) {
+						viewModel.feedSelected.saved = feed.saved
+					}
+				}
+			}
+		}
 		viewModel.feedSelected?.description.let {
 			if (it != null) {
 				displayHtml(it)
 			}
 		}
+
+
 	}
 
 	override fun setHasOptionsMenu() {
@@ -46,6 +64,12 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 			R.id.saved_fill -> {
 				item.setIcon( R.drawable.bookmark_add)
 				viewModel.insertFeed(viewModel.feedSelected.copy(saved = false))
+			}
+			R.id.share -> {
+
+			}
+			android.R.id.home -> {
+				findNavController().navigate(R.id.action_feedDescriptionFragment_to_homeFragment)
 			}
 		}
 		return super.onOptionsItemSelected(item)

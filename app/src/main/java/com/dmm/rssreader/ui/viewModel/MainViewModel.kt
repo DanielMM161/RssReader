@@ -10,9 +10,12 @@ import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.DEVELOPER_ANDROID_BLOG
 import com.dmm.rssreader.utils.Constants.DEVELOPER_APPEL
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
+import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
+import com.dmm.rssreader.utils.Constants.MEDIUM_ANDROID
 import com.dmm.rssreader.utils.Constants.SOURCE_APPLE
 import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
+import com.dmm.rssreader.utils.Constants.THEME_AUTO
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,12 +49,12 @@ class MainViewModel @Inject constructor(
 	lateinit var feedSelected: FeedUI
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
-		if(mainRepository.feedsResponse == null) {
+		if (mainRepository.feedsResponse == null) {
+			_developerFeeds.value = Resource.Loading()
 			val userSettings = userSettings.first()
 			var data: Resource<List<FeedUI>?> = Resource.Loading()
 
 			userSettings.feeds.forEach { it ->
-				_developerFeeds.value = Resource.Loading()
 				when (it) {
 					FEED_ANDROID_BLOGS -> {
 						setBaseUrl(DEVELOPER_ANDROID_BLOG)
@@ -68,7 +71,11 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
-		if(data.data != null) _developerFeeds.value = sortedFeed(data.data)
+		if (data.data != null) {
+			_developerFeeds.value = sortedFeed(data.data)
+		} else {
+			_developerFeeds.value = Resource.Success(listOf<FeedUI>())
+		}
 	}
 
 	fun setBaseUrl(baseUrl: String) {
@@ -77,7 +84,12 @@ class MainViewModel @Inject constructor(
 
 	fun getUserSettings() = viewModelScope.async {
 		var userSettings = mainRepository.getUserSettings()
-		if (userSettings == null) userSettings = UserSettings()
+		if (userSettings == null) {
+			userSettings = UserSettings(
+				theme = THEME_AUTO,
+				feeds = mutableListOf(FEED_ANDROID_MEDIUM, FEED_ANDROID_BLOGS, FEED_APPLE_NEWS)
+			)
+		}
 		_userSettings.value = userSettings
 	}
 

@@ -3,6 +3,7 @@ package com.dmm.rssreader.ui.fragments
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.lifecycle.Lifecycle
@@ -44,6 +45,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 		binding.layoutFeeds.children.forEach { view ->
 			val switch = (view as Switch)
 			switch.setOnCheckedChangeListener { compoundButton, isChecked ->
+				viewModel.resetResponse()
 				when(compoundButton.text) {
 					getString(R.string.android_developer_blogs) -> { viewModel.setFeed(FEED_ANDROID_BLOGS) }
 					getString(R.string.android_developer_medium) -> { viewModel.setFeed(FEED_ANDROID_MEDIUM) }

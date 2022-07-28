@@ -27,10 +27,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-					viewModel.fetchFeedsDeveloper()
+					subscribeObservableDeveloperFeeds()
 				}
 				launch {
-					subscribeObservableDeveloperFeeds()
+					viewModel.fetchFeedsDeveloper()
 				}
 			}
 		}
@@ -64,14 +64,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					it.data?.let { feeds ->
 						binding.totalArticles = feeds.size
 						binding.swipeRefresh.isRefreshing = false
-						viewModel.getFeedList().collect {
-							it.forEach { feed ->
-								feeds
-									.filter { it -> it.title == feed.title }
-									.forEach { it -> it.saved = feed.saved }
-							}
-							feedAdapter.differ.submitList(feeds)
-						}
+						feedAdapter.differ.submitList(feeds)
 					}
 				}
 				is Resource.Error -> {
