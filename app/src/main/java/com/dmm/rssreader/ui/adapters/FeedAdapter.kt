@@ -14,19 +14,6 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 	inner class FeedAdapterViewHolder(private val binding: ItemFeedBinding) : RecyclerView.ViewHolder(binding.root) {
 		fun bind(feedUI: FeedUI) {
 			binding.feed = feedUI
-			binding.layoutFeedInformation.setOnClickListener {
-				onItemClickListener?.let { it(feedUI) }
-			}
-			binding.readLater.setOnClickListener { view ->
-				view.isSelected = !view.isSelected
-				if(view.isSelected) {
-					binding.readLater.setImageResource(R.drawable.readlater_filled)
-				} else {
-					binding.readLater.setImageResource(R.drawable.readlater)
-				}
-				feedUI.saved = view.isSelected
-				readLaterOnItemClickListener?.let { it(feedUI) }
-			}
 		}
 	}
 
@@ -49,6 +36,11 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 
 	override fun onBindViewHolder(holder: FeedAdapterViewHolder, position: Int) {
 		val item = differ.currentList[position]
+		holder.itemView.apply {
+			setOnClickListener {
+				onItemClickListener?.let { it(item) }
+			}
+		}
 		holder.bind(item)
 	}
 

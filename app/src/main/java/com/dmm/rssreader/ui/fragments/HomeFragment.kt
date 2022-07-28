@@ -44,7 +44,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		adapter = feedAdapter
 		layoutManager = LinearLayoutManager(requireContext())
 		itemClickListener()
-		readLaterItemClickListener()
 	}
 
 	private fun onRefreshListener() {
@@ -78,9 +77,4 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewModel.feedSelected = it
 		findNavController().navigate(R.id.action_homeFragment_to_feedDescriptionFragment)
 	}
-
-	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener { feedUI ->
-		viewModel.insertFeed(feedUI)
-	}
-
 }

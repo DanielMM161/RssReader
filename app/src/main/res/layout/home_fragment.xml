@@ -15,25 +15,14 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    android:padding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-
-      <TextView
-        android:id="@+id/all_articles"
-        style="?attr/textAppearanceHeadline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/all_articles"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
       <TextView
         android:id="@+id/total"
@@ -42,8 +31,9 @@
         android:layout_height="wrap_content"
         android:text="@{String.format(@string/total, totalArticles)}"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/all_articles"
-        app:visibility="@{totalArticles !=null ? true : false}" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:visibility="@{totalArticles !=null ? true : false}"
+        android:layout_marginStart="8dp"/>
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_feeds"
