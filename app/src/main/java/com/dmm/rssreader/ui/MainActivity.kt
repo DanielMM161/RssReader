@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +30,30 @@ class MainActivity : AppCompatActivity() {
 		binding.bottomNavigation.setupWithNavController(navController)
 
 		setSupportActionBar(binding.toolbar)
+		destinationChangedListener()
+	}
+
+	private fun destinationChangedListener() {
+		navController.addOnDestinationChangedListener { _, destination, _ ->
+			when(destination.id) {
+				R.id.homeFragment -> {
+					setTitleMateriaToolbar(R.string.title_home_fragment)
+				}
+				R.id.readLaterFragment -> {
+					setTitleMateriaToolbar(R.string.title_readlater_fragment)
+				}
+				R.id.settingsFragment -> {
+					setTitleMateriaToolbar(R.string.title_settings_fragment)
+				}
+				R.id.feedDescriptionFragment -> {
+					//setTitleMateriaToolbar(R.string.title_readlater_fragment)
+				}
+			}
+		}
+	}
+
+	private fun setTitleMateriaToolbar(resId: Int) {
+		binding.toolbar.title = getString(resId)
 	}
 
 	override fun onSupportNavigateUp(): Boolean {

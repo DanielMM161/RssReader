@@ -15,10 +15,14 @@
   <string name="android_developer_medium">Android Developers Medium</string>
   <string name="apple_developers_news">Appel Developers News</string>
   <!--  Home Fragment-->
+  <string name="title_home_fragment">All Articles</string>
   <string name="all_articles">All articles</string>
   <string name="total">%s Total</string>
   <string name="date">/ %s</string>
   <!--  ReadLater Fragment-->
+  <string name="title_readlater_fragment">Read Later</string>
   <string name="delete_feed">%s was delete</string>
   <string name="undo">Undo</string>
+  <!--  ReadLater Fragment-->
+  <string name="title_settings_fragment">Settings</string>
 </resources>
