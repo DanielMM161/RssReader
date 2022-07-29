@@ -1,4 +1,4 @@
-# Cheap Pc Games
+# Rss Reader
 Rss App is a Application that show News about Mobile Development
 using the RSS Feeds from each distributor in that case the distributor
 are:
