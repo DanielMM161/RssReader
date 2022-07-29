@@ -14,7 +14,6 @@ import com.dmm.rssreader.databinding.SettingsFragmentBinding
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
-import com.dmm.rssreader.utils.Constants.THEME_AUTO
 import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import kotlinx.coroutines.launch
@@ -83,11 +82,9 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 				when (it.theme) {
 					THEME_DAY -> {
 						selectedView(binding.layoutDay, true)
-						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 					}
 					THEME_NIGHT -> {
 						selectedView(binding.layoutNight, true)
-						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 					}
 				}
 			}

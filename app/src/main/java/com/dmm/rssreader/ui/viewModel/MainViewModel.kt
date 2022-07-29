@@ -13,6 +13,7 @@ import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
 import com.dmm.rssreader.utils.Constants.THEME_DAY
+import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -88,6 +89,7 @@ class MainViewModel @Inject constructor(
 			)
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 		}
+		autoSelectedTheme(userSettings)
 		_userSettings.value = userSettings
 	}
 
@@ -121,5 +123,17 @@ class MainViewModel @Inject constructor(
 		return Resource.Success(feeds!!.sortedByDescending { it ->
 			LocalDate.parse(it.published, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_OUTPUT))
 		})
+	}
+
+	fun autoSelectedTheme(userSettings: UserSettings) {
+		when (userSettings.theme) {
+			THEME_DAY -> {
+				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+			}
+			THEME_NIGHT -> {
+				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+			}
+		}
+
 	}
 }
