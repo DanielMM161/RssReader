@@ -1,8 +1,10 @@
 package com.dmm.rssreader.utils
 
+import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.Log
+import android.widget.Toast
 import com.dmm.rssreader.R
 import com.dmm.rssreader.model.Feed
 import com.dmm.rssreader.model.FeedUI
@@ -132,6 +134,10 @@ class Utils {
 					return false
 				}
 			}
+		}
+
+		fun showToast(context: Context, message: String) {
+			Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 		}
 	}
 

@@ -1,8 +1,16 @@
 package com.dmm.rssreader.ui.viewModel
 
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dmm.rssreader.MainApplication
+import com.dmm.rssreader.R
 import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.UserSettings
 import com.dmm.rssreader.repository.MainRepository
@@ -26,9 +34,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+	app: Application,
 	private val mainRepository: MainRepository,
 	private val hostSelectionInterceptor: HostSelectionInterceptor
-) : ViewModel() {
+) : AndroidViewModel(app) {
 
 	init {
 		viewModelScope.async {
@@ -47,32 +56,36 @@ class MainViewModel @Inject constructor(
 	lateinit var feedSelected: FeedUI
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
-		if (mainRepository.feedsResponse == null) {
-			_developerFeeds.value = Resource.Loading()
-			val userSettings = userSettings.first()
-			var data: Resource<List<FeedUI>?> = Resource.Loading()
+		if(hasInternetConnection()) {
+			if (mainRepository.feedsResponse == null) {
+				_developerFeeds.value = Resource.Loading()
+				val userSettings = userSettings.first()
+				var data: Resource<List<FeedUI>?> = Resource.Loading()
 
-			userSettings.feeds.forEach { it ->
-				when (it) {
-					FEED_ANDROID_BLOGS -> {
-						setBaseUrl(DEVELOPER_ANDROID_BLOG)
-						data = mainRepository.fetchDeveloperAndroidBlogs()
-					}
-					FEED_APPLE_NEWS -> {
-						setBaseUrl(DEVELOPER_APPEL)
-						data = mainRepository.fetchDeveloperApple()
+				userSettings.feeds.forEach { it ->
+					when (it) {
+						FEED_ANDROID_BLOGS -> {
+							setBaseUrl(DEVELOPER_ANDROID_BLOG)
+							data = mainRepository.fetchDeveloperAndroidBlogs()
+						}
+						FEED_APPLE_NEWS -> {
+							setBaseUrl(DEVELOPER_APPEL)
+							data = mainRepository.fetchDeveloperApple()
+						}
 					}
 				}
+				setDeveloperFeeds(data)
 			}
-			setDeveloperFeeds(data)
+		} else {
+			 _developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
 		}
 	}
 
 	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
 		if (data.data != null) {
-			_developerFeeds.value = sortedFeed(data.data.filter { it -> !it.description!!.isEmpty() })
+			_developerFeeds.value = sortedFeed(data.data.filter { it -> !it.description!!.isEmpty() }.distinct())
 		} else {
-			_developerFeeds.value = Resource.Success(listOf<FeedUI>())
+			_developerFeeds.value = Resource.Success(listOf())
 		}
 	}
 
@@ -134,6 +147,31 @@ class MainViewModel @Inject constructor(
 				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 			}
 		}
+	}
 
+	fun hasInternetConnection(): Boolean {
+		val connectivityManager = getApplication<MainApplication>().getSystemService(
+			Context.CONNECTIVITY_SERVICE
+		) as ConnectivityManager
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			val activeNetwork = connectivityManager.activeNetwork ?: return false
+			val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+			return when {
+				capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
+				capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
+				capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
+				else -> return false
+			}
+		} else {
+			connectivityManager.activeNetworkInfo?.run {
+				return when(type) {
+					ConnectivityManager.TYPE_WIFI -> return true
+					ConnectivityManager.TYPE_MOBILE -> return true
+					ConnectivityManager.TYPE_ETHERNET -> return true
+					else -> return false
+				}
+			}
+		}
+		return false
 	}
 }
