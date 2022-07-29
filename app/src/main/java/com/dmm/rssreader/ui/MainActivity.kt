@@ -1,5 +1,6 @@
 package com.dmm.rssreader.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -8,7 +9,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityMainBinding
+import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import dagger.hilt.android.AndroidEntryPoint
+import java.security.AccessController.getContext
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,6 +34,8 @@ class MainActivity : AppCompatActivity() {
 
 		setSupportActionBar(binding.toolbar)
 		destinationChangedListener()
+		setShadowColor()
+
 	}
 
 	private fun destinationChangedListener() {
@@ -54,6 +59,15 @@ class MainActivity : AppCompatActivity() {
 
 	private fun setTitleMateriaToolbar(resId: Int) {
 		binding.toolbar.title = getString(resId)
+	}
+
+	private fun setShadowColor() {
+		when(isNightMode(resources)) {
+			true -> {
+				binding.bottomShadow.background = getDrawable(R.drawable.shadow_bottom_navigation_dark)
+				binding.barlayoutShadow.background = getDrawable(R.drawable.shadow_bottom_navigation_dark)
+			}
+		}
 	}
 
 	override fun onSupportNavigateUp(): Boolean {

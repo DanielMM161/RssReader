@@ -9,6 +9,8 @@ import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.HomeFragmentBinding
 import com.dmm.rssreader.ui.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Resource
+import com.dmm.rssreader.utils.Utils
+import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
@@ -32,6 +34,19 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		}
 		setUpRecyclerView()
 		onRefreshListener()
+		setColorSwipeRefresh()
+	}
+
+	private fun setColorSwipeRefresh() {
+		when(isNightMode(resources)) {
+			true -> {
+				binding.swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.primary)
+				binding.swipeRefresh.setColorSchemeResources(R.color.black)
+			}
+			false -> {
+				binding.swipeRefresh.setColorSchemeResources(R.color.primary)
+			}
+		}
 	}
 
 

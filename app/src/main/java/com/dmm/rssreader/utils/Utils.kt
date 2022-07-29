@@ -1,6 +1,9 @@
 package com.dmm.rssreader.utils
 
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.util.Log
+import com.dmm.rssreader.R
 import com.dmm.rssreader.model.Feed
 import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.Item
@@ -32,7 +35,7 @@ class Utils {
 	companion object {
 		fun <T> MapResponse(response: T): List<FeedUI> {
 			var feedUIList: MutableList<FeedUI> = mutableListOf()
-			when(response) {
+			when (response) {
 				is Feed -> {
 					response.itemList?.forEach { item ->
 						feedUIList.add(fromItemFeedToFeedUI(item, response.title))
@@ -72,9 +75,9 @@ class Utils {
 		fun determineFeedSource(source: String): String {
 			var feedSource = ""
 			val sourceMatch = source.lowercase()
-			if(sourceMatch.contains(MATCH_SOURCE_BLOGS.lowercase())) {
+			if (sourceMatch.contains(MATCH_SOURCE_BLOGS.lowercase())) {
 				feedSource = SOURCE_BLOGS
-			} else if(sourceMatch.contains(MATCH_SOURCE_MEDIUM.lowercase())) {
+			} else if (sourceMatch.contains(MATCH_SOURCE_MEDIUM.lowercase())) {
 				feedSource = SOURCE_MEDIUM
 			} else if (sourceMatch.contains(MATCH_SOURCE_APPLE.lowercase())) {
 				feedSource = SOURCE_APPLE
@@ -86,19 +89,19 @@ class Utils {
 			var image = ""
 			val formats = listOf(FORMAT_JPEG, FORMAT_JPG, FORMAT_PNG, FORMAT_GIF, FORMAT_TIF, FORMAT_BMP)
 			val formatsPosition = mutableMapOf<String, Int>()
-			if(content != null) {
+			if (content != null) {
 				formats.forEach { it ->
 					val position = content.indexOf(it)
-					if( position > -1) {
+					if (position > -1) {
 						formatsPosition[it] = position
 					}
 				}
-				if(!formatsPosition.isEmpty()) {
+				if (!formatsPosition.isEmpty()) {
 					val endPosition = formatsPosition.minOf { it -> it.value }
 					val keyEndPosition = formatsPosition.filterValues { it -> it == endPosition }
 					val startPosition = content.indexOf("https")
 					keyEndPosition.forEach { (key, value) ->
-						image = content.substring(startPosition, value + key.length )
+						image = content.substring(startPosition, value + key.length)
 					}
 				}
 			}
@@ -111,10 +114,24 @@ class Utils {
 			try {
 				val date = sdf.parse(dateString)
 				return output.format(date)
-			}catch (e: Exception) {
+			} catch (e: Exception) {
 				return ""
 			}
 			return ""
+		}
+
+		fun isNightMode(resources: Resources): Boolean {
+			when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+				Configuration.UI_MODE_NIGHT_YES -> {
+					return true
+				}
+				Configuration.UI_MODE_NIGHT_NO -> {
+					return false
+				}
+				else -> {
+					return false
+				}
+			}
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.dmm.rssreader.ui.fragments
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.lifecycle.Lifecycle
@@ -103,6 +104,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 			selectedView(binding.layoutNight, false)
 			selectedView(binding.layoutAuto, false)
 			viewModel.setTheme(THEME_DAY)
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 		}
 
 		binding.layoutNight.setOnClickListener {
@@ -110,6 +112,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 			selectedView(binding.layoutDay, false)
 			selectedView(binding.layoutAuto, false)
 			viewModel.setTheme(THEME_NIGHT)
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 		}
 
 		binding.layoutAuto.setOnClickListener {
