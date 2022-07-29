@@ -1,6 +1,7 @@
 package com.dmm.rssreader.ui
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -73,5 +74,15 @@ class MainActivity : AppCompatActivity() {
 
 	override fun onSupportNavigateUp(): Boolean {
 		return navController.navigateUp() || super.onSupportNavigateUp()
+	}
+
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		when (item.itemId) {
+			android.R.id.home -> {
+				onBackPressed()
+				return true
+			}
+		}
+		return super.onOptionsItemSelected(item)
 	}
 }

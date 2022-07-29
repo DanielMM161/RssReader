@@ -4,6 +4,7 @@ import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -63,26 +64,16 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 				viewModel.insertFeed(viewModel.feedSelected.copy(saved = false))
 			}
 		}
-		when (item.itemId) {
-			android.R.id.home -> {
-				findNavController().navigate(R.id.action_feedDescriptionFragment_to_homeFragment)
-			}
-		}
 		return super.onOptionsItemSelected(item)
 	}
 
 	private fun displayHtml(html: String) {
-		// Creating object of ImageGetter class you just created
 		val imageGetter = ImageGetter(resources, binding.htmlViewer, requireContext())
 
-		// Using Html framework to parse html
-		val styledText =
-			HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY, imageGetter, null)
+		val styledText = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY, imageGetter, null)
 
-		// to enable image/link clicking
 		binding.htmlViewer.movementMethod = LinkMovementMethod.getInstance()
 
-		// setting the text after formatting html and downloading and setting images
 		binding.htmlViewer.text = styledText
 	}
 }

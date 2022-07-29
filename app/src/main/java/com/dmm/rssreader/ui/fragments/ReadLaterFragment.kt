@@ -3,6 +3,7 @@ package com.dmm.rssreader.ui.fragments
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,5 +67,11 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		adapter = feedAdapter
 		layoutManager = LinearLayoutManager(requireContext())
 		deleteItemSwipe()
+		itemClickListener()
+	}
+
+	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
+		viewModel.feedSelected = it
+		findNavController().navigate(R.id.action_readLaterFragment_to_feedDescriptionFragment)
 	}
 }
