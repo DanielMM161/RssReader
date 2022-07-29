@@ -21,7 +21,7 @@
   <string name="date">/ %s</string>
   <!--  ReadLater Fragment-->
   <string name="title_readlater_fragment">Read Later</string>
-  <string name="delete_feed">%s was delete</string>
+  <string name="delete_feed">%s Was delete</string>
   <string name="undo">Undo</string>
   <!--  ReadLater Fragment-->
   <string name="title_settings_fragment">Settings</string>
