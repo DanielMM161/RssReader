@@ -2,6 +2,7 @@ package com.dmm.rssreader.di
 
 import com.dmm.rssreader.network.RssClient
 import com.dmm.rssreader.network.RssService
+import com.dmm.rssreader.utils.Constants.DEVELOPER_ANDROID_BLOG
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,7 @@ object NetworkModule {
 	@Singleton
 	fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
 		return Retrofit.Builder()
-			.baseUrl("https://feeds.feedburner.com/")
+			.baseUrl(DEVELOPER_ANDROID_BLOG)
 			.client(okHttpClient)
 			.addConverterFactory(SimpleXmlConverterFactory.create())
 			.build()

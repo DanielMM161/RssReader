@@ -69,9 +69,6 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 					FEED_ANDROID_BLOGS -> {
 						binding.switchBlogs.isChecked = true
 					}
-					FEED_ANDROID_MEDIUM -> {
-						binding.switchNews.isChecked = true
-					}
 					FEED_APPLE_NEWS -> {
 						binding.switchApple.isChecked = true
 					}
@@ -86,12 +83,11 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 				when (it.theme) {
 					THEME_DAY -> {
 						selectedView(binding.layoutDay, true)
+						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 					}
 					THEME_NIGHT -> {
 						selectedView(binding.layoutNight, true)
-					}
-					THEME_AUTO -> {
-						selectedView(binding.layoutAuto, true)
+						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 					}
 				}
 			}
@@ -102,7 +98,6 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 		binding.layoutDay.setOnClickListener {
 			selectedView(binding.layoutDay, true)
 			selectedView(binding.layoutNight, false)
-			selectedView(binding.layoutAuto, false)
 			viewModel.setTheme(THEME_DAY)
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 		}
@@ -110,16 +105,8 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 		binding.layoutNight.setOnClickListener {
 			selectedView(binding.layoutNight, true)
 			selectedView(binding.layoutDay, false)
-			selectedView(binding.layoutAuto, false)
 			viewModel.setTheme(THEME_NIGHT)
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-		}
-
-		binding.layoutAuto.setOnClickListener {
-			selectedView(binding.layoutAuto, true)
-			selectedView(binding.layoutDay, false)
-			selectedView(binding.layoutNight, false)
-			viewModel.setTheme(THEME_AUTO)
 		}
 	}
 

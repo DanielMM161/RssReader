@@ -3,7 +3,6 @@ package com.dmm.rssreader.utils
 object Constants {
 	// Urls
 	const val DEVELOPER_APPEL = "https://developer.apple.com/"
-	const val MEDIUM_ANDROID = "https://medium.com/feed/tag/android"
 	const val DEVELOPER_ANDROID_BLOG = "https://feeds.feedburner.com/"
 	// Themes
 	const val THEME_DAY = "DAY"

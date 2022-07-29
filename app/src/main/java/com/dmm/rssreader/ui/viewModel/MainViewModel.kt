@@ -1,8 +1,8 @@
 package com.dmm.rssreader.ui.viewModel
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmm.rssreader.model.Feed
 import com.dmm.rssreader.model.FeedUI
 import com.dmm.rssreader.model.UserSettings
 import com.dmm.rssreader.repository.MainRepository
@@ -12,10 +12,7 @@ import com.dmm.rssreader.utils.Constants.DEVELOPER_APPEL
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
-import com.dmm.rssreader.utils.Constants.MEDIUM_ANDROID
-import com.dmm.rssreader.utils.Constants.SOURCE_APPLE
-import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
-import com.dmm.rssreader.utils.Constants.THEME_AUTO
+import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,7 +69,7 @@ class MainViewModel @Inject constructor(
 
 	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
 		if (data.data != null) {
-			_developerFeeds.value = sortedFeed(data.data)
+			_developerFeeds.value = sortedFeed(data.data.filter { it -> !it.description!!.isEmpty() })
 		} else {
 			_developerFeeds.value = Resource.Success(listOf<FeedUI>())
 		}
@@ -86,9 +83,10 @@ class MainViewModel @Inject constructor(
 		var userSettings = mainRepository.getUserSettings()
 		if (userSettings == null) {
 			userSettings = UserSettings(
-				theme = THEME_AUTO,
+				theme = THEME_DAY,
 				feeds = mutableListOf(FEED_ANDROID_MEDIUM, FEED_ANDROID_BLOGS, FEED_APPLE_NEWS)
 			)
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 		}
 		_userSettings.value = userSettings
 	}
