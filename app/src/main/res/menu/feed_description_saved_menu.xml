@@ -6,11 +6,4 @@
     android:icon="@drawable/bookmark_add_fill"
     android:title="@string/title_saved_fill"
     app:iconTint="@color/primary" app:showAsAction="ifRoom|collapseActionView"/>
-
-  <item
-    android:id="@+id/share"
-    android:icon="@drawable/share"
-    android:title="Share"
-    app:iconTint="@color/black"
-    app:showAsAction="ifRoom|collapseActionView"/>
 </menu>
