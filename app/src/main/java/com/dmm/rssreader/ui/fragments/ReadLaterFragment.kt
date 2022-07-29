@@ -1,5 +1,6 @@
 package com.dmm.rssreader.ui.fragments
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -25,7 +26,10 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				viewModel.getFeedList().collect {
-					feedAdapter.differ.submitList(it.filter { it -> it.saved })
+					val feeds = it.filter { it -> it.saved }
+					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
+					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
+					feedAdapter.differ.submitList(feeds)
 				}
 			}
 		}

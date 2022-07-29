@@ -28,4 +28,6 @@
   <!-- Item Icon Title -->
   <string name="title_saved">Saved</string>
   <string name="title_saved_fill">Saved Fill</string>
+  <string name="no_read_later">No Read Later stories yet</string>
+  <string name="article_will_be_here">The articles you want to read later will be\nhere</string>
 </resources>

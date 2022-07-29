@@ -4,6 +4,7 @@ import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
