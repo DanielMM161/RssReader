@@ -1,5 +1,6 @@
 package com.dmm.rssreader.ui.fragments
 
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,6 +12,7 @@ import com.dmm.rssreader.ui.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
+import com.dmm.rssreader.utils.Utils.Companion.showToast
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
@@ -18,6 +20,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 ) {
 
 	private lateinit var feedAdapter: FeedAdapter
+	var firstTime = true
 
 	override fun setupUI() {
 		super.setupUI()
@@ -78,7 +81,15 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					}
 				}
 				is Resource.Error -> {
-
+					binding.swipeRefresh.isRefreshing = false
+					it.message.let { message ->
+						showToast(requireContext(), message)
+					}
+				}
+				is Resource.ErrorCaught -> {
+					binding.swipeRefresh.isRefreshing = false
+					val message = it.asString(requireContext())
+					showToast(requireContext(), message)
 				}
 			}
 		}

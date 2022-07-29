@@ -21,7 +21,7 @@
   <string name="date">/ %s</string>
   <!--  ReadLater Fragment-->
   <string name="title_readlater_fragment">Read Later</string>
-  <string name="delete_feed">%s was delete</string>
+  <string name="delete_feed">%s Was delete</string>
   <string name="undo">Undo</string>
   <!--  ReadLater Fragment-->
   <string name="title_settings_fragment">Settings</string>
@@ -30,4 +30,5 @@
   <string name="title_saved_fill">Saved Fill</string>
   <string name="no_read_later">No Read Later stories yet</string>
   <string name="article_will_be_here">The articles you want to read later will be\nhere</string>
+  <string name="offline">No internet connection</string>
 </resources>

@@ -56,6 +56,7 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 					setAction(getString(R.string.undo)) {
 						viewModel.insertFeed(feed.copy(saved = true))
 					}
+					setTextColor(resources.getColor(R.color.primary))
 					show()
 				}
 			}
