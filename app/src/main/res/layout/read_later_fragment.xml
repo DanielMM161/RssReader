@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_read_later"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/no_read_later"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:text="@string/no_read_later"
+      android:gravity="center"
+      android:textAppearance="?attr/textAppearanceHeadline5"
+      android:textStyle="bold"/>
+
+    <TextView
+      android:id="@+id/will_be_here"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/no_read_later"
+      android:text="@string/article_will_be_here"
+      android:gravity="center"
+      android:layout_marginTop="16dp" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

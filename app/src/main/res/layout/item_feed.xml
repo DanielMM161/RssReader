@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+      name="feed"
+      type="com.dmm.rssreader.model.FeedUI" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="105dp"
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+          android:id="@+id/image"
+          loadImage="@{feed}"
+          android:layout_width="100dp"
+          android:layout_height="100dp"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentTop="true"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+          android:id="@+id/title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_marginStart="8dp"
+          android:layout_toEndOf="@+id/image"
+          android:ellipsize="end"
+          android:maxLines="2"
+          android:text="@{feed.title}"
+          android:textSize="20dp"
+          android:textStyle="bold"
+          tools:text="Jetpack Compose Stability Explained" />
+
+        <TextView
+          android:id="@+id/feed_source"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_marginStart="8dp"
+          android:layout_toEndOf="@+id/image"
+          android:ellipsize="end"
+          android:maxLines="2"
+          android:text="@{feed.feedSource}"
+          android:textSize="14dp"
+          android:textStyle="bold"
+          tools:text="Android Dev Blogs" />
+
+        <TextView
+          android:id="@+id/feed_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_marginStart="4dp"
+          android:layout_toEndOf="@+id/feed_source"
+          android:ellipsize="end"
+          android:maxLines="2"
+          android:text="@{String.format(@string/date,feed.published.toString())}"
+          android:textSize="14dp"
+          android:textStyle="bold"
+          tools:text="/ 20-07-2022" />
+
+      </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

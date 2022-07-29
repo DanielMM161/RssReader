@@ -9,7 +9,7 @@ import org.simpleframework.xml.Root
 data class FeedAndroidBlogs(
 	@field:Element(name = "title")
 	@param:Element(name = "title")
-	var title: String? = null,
+	var title: String = "",
 	@field:ElementList(name = "entry", inline = true, required = false)
 	@param:ElementList(name = "entry", inline = true, required = false)
 	val entry: List<Entry>? = null,

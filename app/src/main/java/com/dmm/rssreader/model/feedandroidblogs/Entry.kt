@@ -13,5 +13,5 @@ data class Entry(
 	var published: String? = null,
 	@field:Element(name = "content")
 	@param:Element(name = "content")
-	var content: String? = null
+	var content: String? = null,
 )
