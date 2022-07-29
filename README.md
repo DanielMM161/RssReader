@@ -19,7 +19,7 @@ In this project I developed modern Android Development with:
 - Material Design
 
 ## 🏛️ Architecture
-Cheap Pc Games is based on the MVVM architecture and the Repository pattern.
+Rss Reader is based on the MVVM architecture and the Repository pattern.
 ![architecture](https://user-images.githubusercontent.com/24237865/77502018-f7d36000-6e9c-11ea-92b0-1097240c8689.png)
 
 ## 🛠 Tech stack & Open-source libraries
