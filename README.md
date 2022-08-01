@@ -50,4 +50,4 @@ Rss Reader is based on the MVVM architecture and the Repository pattern.
   - Repository Pattern
 - [Retrofit2 & OkHttp3](https://github.com/square/retrofit) - Construct the REST APIs.
 - [Glide](https://github.com/bumptech/glide) - Loading images from network
-- [Hilt](https://github.com/googlecodelabs/android-hilt) -Independency Injection
+- [Hilt](https://github.com/googlecodelabs/android-hilt) - Dependency Injection
