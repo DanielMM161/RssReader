@@ -18,6 +18,21 @@ In this project I developed modern Android Development with:
 - Hilt
 - Material Design
 
+## 📷 Previews
+<p align="center">
+ <img src="previews/home.png" alt="drawing" width="270" />
+ <img src="previews/description.png" alt="drawing" width="270" />
+ <img src="previews/read_later.png" alt="drawing" width="270" />
+ <img src="previews/settings.png" alt="drawing" width="270" />
+</p>
+## 📷 Previews Dark Mode
+<p align="center">
+ <img src="previews/home_dark.png" alt="drawing" width="270" />
+ <img src="previews/description_dark.png" alt="drawing" width="270" />
+ <img src="previews/read_later_dark.png" alt="drawing" width="270" />
+ <img src="previews/settings_dark.png" alt="drawing" width="270" />
+</p>
+
 ## 🏛️ Architecture
 Rss Reader is based on the MVVM architecture and the Repository pattern.
 ![architecture](https://user-images.githubusercontent.com/24237865/77502018-f7d36000-6e9c-11ea-92b0-1097240c8689.png)
