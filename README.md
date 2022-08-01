@@ -1,8 +1,5 @@
 # Rss Reader
-Rss App is a Application that show News about Mobile Development
-using the RSS Feeds from each distributor in that case the distributor
-are:
-
+App made for the monthly challenge of [Mouredev](https://kotlinlang.org/)
 [Android Dev Blog](https://android-developers.googleblog.com)
 
 [Apple News](https://developer.apple.com/news/)
