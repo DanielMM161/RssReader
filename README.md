@@ -25,6 +25,7 @@ In this project I developed modern Android Development with:
  <img src="previews/read_later.png" alt="drawing" width="270" />
  <img src="previews/settings.png" alt="drawing" width="270" />
 </p>
+
 ## 📷 Previews Dark Mode
 <p align="center">
  <img src="previews/home_dark.png" alt="drawing" width="270" />
