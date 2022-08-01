@@ -16,7 +16,8 @@ In this project I developed a Android App with:
 - Material Design
 
 ## Download The App
-Download the app [Here](https://github.com/DanielMM161/RssReader/blob/master/app/release/rssreader_dmm.apk)
+Download the app [Here](https://github.com/DanielMM161/RssReader/raw/master/app/release/rssreader_dmm.apk)
+
 ## 📷 Previews
 <p align="center">
  <img src="previews/home.png" alt="drawing" width="270" />
