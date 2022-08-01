@@ -7,7 +7,7 @@ are:
 
 [Apple News](https://developer.apple.com/news/)
 
-In this project I developed modern Android Development with:
+In this project I developed a Android App with:
 - MVVM architecture
 - Kotlin Coroutines
 - Fragments
