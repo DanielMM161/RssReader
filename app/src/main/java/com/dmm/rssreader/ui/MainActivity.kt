@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 				binding.bottomShadow.background = getDrawable(R.drawable.shadow_bottom_navigation_dark)
 				binding.barlayoutShadow.background = getDrawable(R.drawable.shadow_bottom_navigation_dark)
 			}
+			else -> {}
 		}
 	}
 

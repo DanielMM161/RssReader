@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "980885808295",
+    "project_id": "newsmobiledevs",
+    "storage_bucket": "newsmobiledevs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980885808295:android:613b15be4ae6629984a782",
+        "android_client_info": {
+          "package_name": "com.dmm.rssreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980885808295-rvhhk23mn9f9f46truvlp7ekksvjr0qs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAo3Vh4eRb1YYCJDl1v72NbFGKJykMXWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980885808295-rvhhk23mn9f9f46truvlp7ekksvjr0qs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
