@@ -20,6 +20,8 @@
 
     <!-- Status bar color. -->
     <item name="colorPrimaryDark" tools:targetApi="23">@color/light_gray</item>
+
+    <item name="android:windowContentTransitions">true</item>
   </style>
 
   <style name="Base.Theme.RssReader" parent="Theme.MaterialComponents.Light.NoActionBar">

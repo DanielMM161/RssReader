@@ -1,17 +1,21 @@
 package com.dmm.rssreader.ui
 
+import android.R.attr.logo
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Pair
+import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivitySplashScreenBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.dmm.rssreader.ui.login.LoginActivity
 
-@AndroidEntryPoint
+
 class SplashScreenActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivitySplashScreenBinding
@@ -38,9 +42,19 @@ class SplashScreenActivity : AppCompatActivity() {
 		binding.slogan.animation = bottomAnim
 
 		Handler().postDelayed({
-			val intent = Intent(this, MainActivity::class.java)
-			startActivity(intent)
-			finish()
+			val intent = Intent(this, LoginActivity::class.java)
+
+			val pairs: Array<Pair<View, String>?> = arrayOfNulls(2)
+			pairs[0] = Pair<View, String>(binding.imageView, "logo_image")
+			pairs[1] = Pair<View, String>(binding.logoText, "logo_title")
+
+			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
+				startActivity(intent, options.toBundle())
+			} else {
+				startActivity(intent)
+			}
+
 		}, SPLASH_SCREEN)
 	}
 
