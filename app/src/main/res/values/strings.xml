@@ -20,6 +20,7 @@
   <string name="forget_password">Forget Password?</string>
   <string name="go">Go</string>
   <string name="new_user">New User? SIGN UP</string>
+  <string name="not_empty">The field cant be empty</string>
 
   <!-- Register Activity -->
   <string name="welcome_register">Welcome</string>

@@ -1,5 +1,6 @@
 package com.dmm.rssreader.utils
 
+import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -26,6 +27,7 @@ import com.dmm.rssreader.utils.Constants.MATCH_SOURCE_MEDIUM
 import com.dmm.rssreader.utils.Constants.SOURCE_APPLE
 import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
 import com.dmm.rssreader.utils.Constants.SOURCE_MEDIUM
+import dagger.hilt.android.internal.Contexts.getApplication
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -139,7 +141,9 @@ class Utils {
 		fun showToast(context: Context, message: String) {
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 		}
+
+		fun getSomeString(app: Application, id: Int): String {
+			return app.resources.getString(id)
+		}
 	}
-
-
 }

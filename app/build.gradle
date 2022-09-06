@@ -96,4 +96,8 @@ dependencies {
 
     //Firebase
     implementation "com.google.firebase:firebase-analytics:$versions.firebaseAnalytics"
+    implementation platform("com.google.firebase:firebase-bom:$versions.firebaseBom")
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-firestore-ktx"
 }
