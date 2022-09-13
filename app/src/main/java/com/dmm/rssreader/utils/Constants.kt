@@ -31,4 +31,8 @@ object Constants {
 	const val DATE_PATTERN_1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 	const val DATE_PATTERN_2 = "EEE, d MMM yyyy HH:mm:ss Z"
 	const val DATE_PATTERN_OUTPUT = "dd-MM-yyyy"
+	// Firebase Collections
+	const val USERS_COLLECTION = "Users"
+	// Firebase User Collection Fields
+	const val USER_EMAIL = "email"
 }
