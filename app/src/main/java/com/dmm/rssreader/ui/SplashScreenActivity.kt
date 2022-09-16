@@ -51,10 +51,11 @@ class SplashScreenActivity : AppCompatActivity() {
 			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
 				startActivity(intent, options.toBundle())
+
 			} else {
 				startActivity(intent)
 			}
-
+			finish()
 		}, SPLASH_SCREEN)
 	}
 

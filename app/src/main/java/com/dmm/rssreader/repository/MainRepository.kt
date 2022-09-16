@@ -1,19 +1,18 @@
 package com.dmm.rssreader.repository
 
 import com.dmm.rssreader.model.FeedUI
-import com.dmm.rssreader.model.UserSettings
+import com.dmm.rssreader.model.UserProfile
 import com.dmm.rssreader.network.RssClient
 import com.dmm.rssreader.persistence.FeedsDao
-import com.dmm.rssreader.persistence.UserSettingsDao
+import com.dmm.rssreader.persistence.UserDao
 import com.dmm.rssreader.utils.Utils
 import com.dmm.rssreader.utils.Resource
-import kotlinx.coroutines.flow.asFlow
 import retrofit2.Response
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
 	private val rssClient: RssClient,
-	private val userSettingsDao: UserSettingsDao,
+	private val userDao: UserDao,
 	private val feedsDao: FeedsDao
 ) {
 
@@ -24,8 +23,8 @@ class MainRepository @Inject constructor(
 	suspend fun fetchDeveloperAndroidNews() = handleResponse(rssClient.fetchDeveloperAndroidNews())
 	suspend fun fetchDeveloperAndroidBlogs() = handleResponse(rssClient.fetchDeveloperAndroidBlogs())
 	//DB
-	suspend fun insertUserSettings(userSettings: UserSettings) = userSettingsDao.insertUserSettings(userSettings)
-	suspend fun getUserSettings(): UserSettings = userSettingsDao.getUserSettings()
+	fun saveUser(userProfile: UserProfile) = userDao.saveUser(userProfile)
+	suspend fun getUser(): UserProfile = userDao.getUser()
 	suspend fun insertFeed(feedUI: FeedUI) = feedsDao.insertFeed(feedUI)
 	fun getFeedList() = feedsDao.getFeedList()
 	suspend fun deleteFeed(feedUI: FeedUI) = feedsDao.deleteFeed(feedUI)

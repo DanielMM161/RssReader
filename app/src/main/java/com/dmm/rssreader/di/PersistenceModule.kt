@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.dmm.rssreader.persistence.AppDatabase
 import com.dmm.rssreader.persistence.FeedsDao
-import com.dmm.rssreader.persistence.UserSettingsDao
+import com.dmm.rssreader.persistence.UserDao
 import com.dmm.rssreader.persistence.converters.ConverterList
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -38,8 +38,8 @@ object PersistenceModule {
 
 	@Provides
 	@Singleton
-	fun provideUserSettingsDao(appDatabase: AppDatabase): UserSettingsDao {
-		return appDatabase.userSettingsDao()
+	fun provideUserSettingsDao(appDatabase: AppDatabase): UserDao {
+		return appDatabase.userDao()
 	}
 
 	@Provides

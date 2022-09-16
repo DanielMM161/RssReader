@@ -7,12 +7,11 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.rssreader.MainApplication
 import com.dmm.rssreader.R
 import com.dmm.rssreader.model.FeedUI
-import com.dmm.rssreader.model.UserSettings
+import com.dmm.rssreader.model.UserProfile
 import com.dmm.rssreader.repository.MainRepository
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.DEVELOPER_ANDROID_BLOG
@@ -47,8 +46,8 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	private var _userSettings = MutableStateFlow(UserSettings())
-	val userSettings = _userSettings.asStateFlow()
+	private var _userProfile = MutableStateFlow(UserProfile())
+	val userSettings = _userProfile.asStateFlow()
 
 	private var _developerFeeds = MutableStateFlow<Resource<List<FeedUI>?>>(Resource.Loading())
 	val developerFeeds = _developerFeeds.asStateFlow()
@@ -94,22 +93,22 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun getUserSettings() = viewModelScope.async {
-		var userSettings = mainRepository.getUserSettings()
+		var userSettings = mainRepository.getUser()
 		if (userSettings == null) {
-			userSettings = UserSettings(
+			userSettings = UserProfile(
 				theme = THEME_DAY,
 				feeds = mutableListOf(FEED_ANDROID_MEDIUM, FEED_ANDROID_BLOGS, FEED_APPLE_NEWS)
 			)
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 		}
 		autoSelectedTheme(userSettings)
-		_userSettings.value = userSettings
+		_userProfile.value = userSettings
 	}
 
 	fun setTheme(theme: String) = viewModelScope.launch {
 		val userSetting = userSettings.first()
 		userSetting.theme = theme
-		mainRepository.insertUserSettings(userSetting)
+		mainRepository.saveUser(userSetting)
 	}
 
 	fun setFeed(feedName: String) = viewModelScope.launch {
@@ -119,7 +118,7 @@ class MainViewModel @Inject constructor(
 		} else {
 			userSetting.feeds.add(feedName)
 		}
-		mainRepository.insertUserSettings(userSetting)
+		mainRepository.saveUser(userSetting)
 	}
 
 	fun insertFeed(feedUI: FeedUI) = viewModelScope.launch {
@@ -138,8 +137,8 @@ class MainViewModel @Inject constructor(
 		})
 	}
 
-	fun autoSelectedTheme(userSettings: UserSettings) {
-		when (userSettings.theme) {
+	fun autoSelectedTheme(userProfile: UserProfile) {
+		when (userProfile.theme) {
 			THEME_DAY -> {
 				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 			}

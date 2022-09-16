@@ -35,4 +35,6 @@ object Constants {
 	const val USERS_COLLECTION = "Users"
 	// Firebase User Collection Fields
 	const val USER_EMAIL = "email"
+	// Intent key
+	const val USER_KEY = "userProfile"
 }
