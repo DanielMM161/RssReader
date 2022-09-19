@@ -57,10 +57,11 @@ class LoginActivity : AppCompatActivity() {
 				when (it) {
 					is Resource.Success -> {
 						binding.progressBar.gone()
-						if (it != null) {
+						if (it.data != null) {
 							val intent = Intent(this, MainActivity::class.java)
-							//		intent.putExtra(USER_KEY, it.data)
+							intent.putExtra(USER_KEY, it.data)
 							startActivity(intent)
+
 							finish()
 						} else {
 							showToast(this, getString(R.string.error_login))

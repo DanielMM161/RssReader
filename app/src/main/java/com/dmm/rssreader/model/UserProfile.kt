@@ -1,9 +1,12 @@
 package com.dmm.rssreader.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "user_profile")
 data class UserProfile(
 	@PrimaryKey(autoGenerate = true)
@@ -21,4 +24,4 @@ data class UserProfile(
 	var theme: String = "",
 	@ColumnInfo(name = "feeds")
 	var feeds: MutableList<String> = mutableListOf()
-)
+): Parcelable

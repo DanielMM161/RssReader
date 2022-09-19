@@ -1,6 +1,7 @@
 package com.dmm.rssreader.repository
 
 import android.content.Intent
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.model.UserProfile
@@ -55,7 +56,10 @@ class LoginRepository @Inject constructor(
               saveUserFirebase(newUser)
               result.value = Resource.Success(newUser)
             }
-            result.value = Resource.Success(getUserFirebase(account.email).value)
+            getUserFirebase(account.email) { userProfile ->
+              result.value = Resource.Success(userProfile)
+            }
+
           }
           return@addOnCompleteListener
         }
@@ -79,22 +83,20 @@ class LoginRepository @Inject constructor(
     )
   }
 
-  fun getUserFirebase(userId: String?): MutableLiveData<UserProfile?> {
-    var result = MutableLiveData<UserProfile?>()
+  fun getUserFirebase(userId: String?, callback: (UserProfile?) -> Unit) {
     val docRef = getDBCollection(userId!!)
     docRef.get()
       .addOnCompleteListener { document ->
       if (document != null) {
         val userProfile = document.result.toObject(UserProfile::class.java)!!
-        result.value = userProfile
+        callback(userProfile)
        return@addOnCompleteListener
       }
     }
       .addOnFailureListener {
-        result.value = null
+        callback(null)
         return@addOnFailureListener
       }
-    return result
   }
 
   fun getDBCollection(documentPath: String?): DocumentReference {

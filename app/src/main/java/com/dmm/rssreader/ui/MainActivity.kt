@@ -10,9 +10,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityMainBinding
+import com.dmm.rssreader.model.UserProfile
 import com.dmm.rssreader.ui.viewModel.MainViewModel
+import com.dmm.rssreader.utils.Constants
+import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ResourceBundle.getBundle
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,13 +35,25 @@ class MainActivity : AppCompatActivity() {
 			.findFragmentById(R.id.fragment_container) as NavHostFragment
 		navController = navHostFragment.navController
 
+		// BottomNavigation Configuration
 		val appConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.readLaterFragment, R.id.settingsFragment))
 		binding.toolbar.setupWithNavController(navController, appConfiguration)
 		binding.bottomNavigation.setupWithNavController(navController)
 
+		val user = getParcelable()
+
 		setSupportActionBar(binding.toolbar)
 		destinationChangedListener()
 		setShadowColor()
+	}
+
+	private fun getParcelable(): UserProfile? {
+		var userProfile: UserProfile? = null
+		val extras = intent.extras
+		if(extras != null) {
+			userProfile = extras.getParcelable<UserProfile>(USER_KEY)
+		}
+		return userProfile
 	}
 
 	private fun destinationChangedListener() {
