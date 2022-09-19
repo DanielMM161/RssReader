@@ -1,9 +1,12 @@
 package com.dmm.rssreader.repository
 
 import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.model.UserProfile
 import com.dmm.rssreader.persistence.UserDao
 import com.dmm.rssreader.utils.Constants
+import com.dmm.rssreader.utils.Constants.USERS_COLLECTION
 import com.dmm.rssreader.utils.Resource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -27,7 +30,8 @@ class LoginRepository @Inject constructor(
   private val userDao: UserDao
 ) {
 
-  fun firebaseSignInWithGoogle(data: Intent, callback: (Resource<UserProfile?>) -> Unit) {
+  fun firebaseSignInWithGoogle(data: Intent): MutableLiveData<Resource<UserProfile?>> {
+    var result = MutableLiveData<Resource<UserProfile?>>(Resource.Loading())
     try {
       val task = GoogleSignIn.getSignedInAccountFromIntent(data)
       val account = task.getResult(ApiException::class.java)
@@ -49,18 +53,18 @@ class LoginRepository @Inject constructor(
                 )
               )
               saveUserFirebase(newUser)
+              result.value = Resource.Success(newUser)
             }
-            getUserFirebase(account.email) { userProfile ->
-              callback(Resource.Success(userProfile))
-            }
+            result.value = Resource.Success(getUserFirebase(account.email).value)
           }
+          return@addOnCompleteListener
         }
       }
     } catch (e: ApiException) {
-      callback(Resource.Error(e.message.toString()))
+      result.value = Resource.Error(e.message.toString())
     }
+    return result
   }
-
 
   private fun saveUserFirebase(userProfile: UserProfile) {
     getDBCollection(userProfile.email).set(
@@ -75,23 +79,26 @@ class LoginRepository @Inject constructor(
     )
   }
 
-  fun getUserFirebase(userId: String?, callback: (UserProfile?) -> Unit) {
+  fun getUserFirebase(userId: String?): MutableLiveData<UserProfile?> {
+    var result = MutableLiveData<UserProfile?>()
     val docRef = getDBCollection(userId!!)
     docRef.get()
       .addOnCompleteListener { document ->
       if (document != null) {
         val userProfile = document.result.toObject(UserProfile::class.java)!!
-        callback(userProfile)
+        result.value = userProfile
+       return@addOnCompleteListener
       }
-        callback(null)
     }
       .addOnFailureListener {
-        callback(null)
+        result.value = null
+        return@addOnFailureListener
       }
+    return result
   }
 
   fun getDBCollection(documentPath: String?): DocumentReference {
-    return db.collection(Constants.USERS_COLLECTION).document(documentPath!!)
+    return db.collection(USERS_COLLECTION).document(documentPath!!)
   }
 
   fun getGoogleSignInIntent(): Intent = googleClient.signInIntent

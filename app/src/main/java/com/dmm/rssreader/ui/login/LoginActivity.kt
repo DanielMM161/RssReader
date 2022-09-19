@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dmm.rssreader.R
@@ -17,6 +18,8 @@ import com.dmm.rssreader.ui.viewModel.LoginViewModel
 import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils.Companion.showToast
+import com.dmm.rssreader.utils.gone
+import com.dmm.rssreader.utils.show
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
@@ -36,10 +39,7 @@ class LoginActivity : AppCompatActivity() {
 		viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 		setContentView(binding.root)
 
-//		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//			var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
-//			startActivity(intent, options.toBundle())
-//		}
+
 		viewModel.googleClientSignOut()
 		logginWithGoogle()
 	}
@@ -52,15 +52,14 @@ class LoginActivity : AppCompatActivity() {
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
-		binding.progressBar.visibility = View.VISIBLE
 		if(requestCode == GOOGLE_SIGN_IN) {
-			viewModel.signInGoogle(data!!) {
+			viewModel.signInGoogle(data!!).observe(this) {
 				when (it) {
 					is Resource.Success -> {
-						binding.progressBar.visibility = View.GONE
-						if(it != null) {
+						binding.progressBar.gone()
+						if (it != null) {
 							val intent = Intent(this, MainActivity::class.java)
-					//		intent.putExtra(USER_KEY, it.data)
+							//		intent.putExtra(USER_KEY, it.data)
 							startActivity(intent)
 							finish()
 						} else {
@@ -68,8 +67,11 @@ class LoginActivity : AppCompatActivity() {
 						}
 					}
 					is Resource.Error -> {
-						binding.progressBar.visibility = View.GONE
+						binding.progressBar.gone()
 						showToast(this, it.message)
+					}
+					is Resource.Loading -> {
+						binding.progressBar.show()
 					}
 				}
 			}

@@ -3,6 +3,7 @@ package com.dmm.rssreader.ui.viewModel
 import android.app.Application
 import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.model.UserProfile
 import com.dmm.rssreader.repository.LoginRepository
 import com.dmm.rssreader.utils.Resource
@@ -20,9 +21,8 @@ class LoginViewModel @Inject constructor(
   private val loginRepository: LoginRepository,
 ) : AndroidViewModel(app) {
 
-
-  fun signInGoogle(data: Intent, callback: (Resource<UserProfile?>) -> Unit) {
-    loginRepository.firebaseSignInWithGoogle(data, callback)
+  fun signInGoogle(data: Intent): MutableLiveData<Resource<UserProfile?>> {
+    return loginRepository.firebaseSignInWithGoogle(data)
   }
 
   fun validateFields(fields: List<String>): Boolean {
