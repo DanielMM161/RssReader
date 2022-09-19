@@ -1,6 +1,5 @@
-package com.dmm.rssreader.ui.fragments
+package com.dmm.rssreader.presentation.fragments
 
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -8,9 +7,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.HomeFragmentBinding
-import com.dmm.rssreader.ui.adapters.FeedAdapter
+import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Resource
-import com.dmm.rssreader.utils.Utils
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import com.dmm.rssreader.utils.Utils.Companion.showToast
 import kotlinx.coroutines.launch

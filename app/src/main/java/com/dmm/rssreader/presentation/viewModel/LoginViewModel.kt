@@ -1,4 +1,4 @@
-package com.dmm.rssreader.ui.viewModel
+package com.dmm.rssreader.presentation.viewModel
 
 import android.app.Application
 import android.content.Intent
@@ -8,11 +8,6 @@ import com.dmm.rssreader.model.UserProfile
 import com.dmm.rssreader.repository.LoginRepository
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel

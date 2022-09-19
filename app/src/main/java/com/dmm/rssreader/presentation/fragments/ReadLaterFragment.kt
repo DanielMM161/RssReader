@@ -1,4 +1,4 @@
-package com.dmm.rssreader.ui.fragments
+package com.dmm.rssreader.presentation.fragments
 
 import android.view.View
 import androidx.lifecycle.Lifecycle
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ReadLaterFragmentBinding
-import com.dmm.rssreader.ui.adapters.FeedAdapter
+import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 

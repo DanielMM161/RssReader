@@ -1,4 +1,4 @@
-package com.dmm.rssreader.ui.viewModel
+package com.dmm.rssreader.presentation.viewModel
 
 import android.app.Application
 import android.content.Context

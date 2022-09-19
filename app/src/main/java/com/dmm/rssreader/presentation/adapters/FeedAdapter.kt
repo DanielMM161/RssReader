@@ -1,11 +1,10 @@
-package com.dmm.rssreader.ui.adapters
+package com.dmm.rssreader.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ItemFeedBinding
 import com.dmm.rssreader.model.FeedUI
 

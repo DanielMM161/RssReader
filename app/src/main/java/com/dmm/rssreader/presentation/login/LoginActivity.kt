@@ -1,30 +1,19 @@
-package com.dmm.rssreader.ui.login
+package com.dmm.rssreader.presentation.login
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityLoginBinding
-import com.dmm.rssreader.ui.MainActivity
-import com.dmm.rssreader.ui.viewModel.LoginViewModel
+import com.dmm.rssreader.presentation.MainActivity
+import com.dmm.rssreader.presentation.viewModel.LoginViewModel
 import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils.Companion.showToast
 import com.dmm.rssreader.utils.gone
 import com.dmm.rssreader.utils.show
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {

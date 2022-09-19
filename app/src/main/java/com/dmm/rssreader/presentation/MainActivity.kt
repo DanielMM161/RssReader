@@ -1,4 +1,4 @@
-package com.dmm.rssreader.ui
+package com.dmm.rssreader.presentation
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,12 +11,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityMainBinding
 import com.dmm.rssreader.model.UserProfile
-import com.dmm.rssreader.ui.viewModel.MainViewModel
-import com.dmm.rssreader.utils.Constants
+import com.dmm.rssreader.presentation.viewModel.MainViewModel
 import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ResourceBundle.getBundle
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

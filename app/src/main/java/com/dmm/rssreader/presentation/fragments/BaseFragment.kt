@@ -1,4 +1,4 @@
-package com.dmm.rssreader.ui.fragments
+package com.dmm.rssreader.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.dmm.rssreader.ui.viewModel.MainViewModel
+import com.dmm.rssreader.presentation.viewModel.MainViewModel
 import java.lang.IllegalArgumentException
 
 abstract class BaseFragment<VB : ViewBinding>(

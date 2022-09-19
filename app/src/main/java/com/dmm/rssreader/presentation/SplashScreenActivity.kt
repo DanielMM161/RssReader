@@ -1,6 +1,5 @@
-package com.dmm.rssreader.ui
+package com.dmm.rssreader.presentation
 
-import android.R.attr.logo
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivitySplashScreenBinding
-import com.dmm.rssreader.ui.login.LoginActivity
+import com.dmm.rssreader.presentation.login.LoginActivity
 
 
 class SplashScreenActivity : AppCompatActivity() {

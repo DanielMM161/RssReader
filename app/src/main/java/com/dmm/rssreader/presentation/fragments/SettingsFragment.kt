@@ -1,4 +1,4 @@
-package com.dmm.rssreader.ui.fragments
+package com.dmm.rssreader.presentation.fragments
 
 import android.view.View
 import android.view.ViewGroup
