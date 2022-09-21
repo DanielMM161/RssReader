@@ -18,13 +18,13 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 	override fun setupUI() {
 		super.setupUI()
 		viewLifecycleOwner.lifecycleScope.launch {
-			viewModel.getFeedList().collect {
-				it.forEach { feed ->
-					if (feed.title == viewModel.feedSelected.title) {
-						viewModel.feedSelected.saved = feed.saved
-					}
-				}
-			}
+//			viewModel.getFeedList().collect {
+//				it.forEach { feed ->
+//					if (feed.title == viewModel.feedSelected.title) {
+//						viewModel.feedSelected.saved = feed.saved
+//					}
+//				}
+//			}
 		}
 		viewModel.feedSelected?.description.let {
 			if (it != null) {

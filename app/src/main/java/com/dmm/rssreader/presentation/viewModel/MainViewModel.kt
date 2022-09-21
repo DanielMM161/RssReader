@@ -10,12 +10,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.rssreader.MainApplication
 import com.dmm.rssreader.R
-import com.dmm.rssreader.model.FeedUI
-import com.dmm.rssreader.model.UserProfile
+import com.dmm.rssreader.domain.model.Feed
+import com.dmm.rssreader.domain.model.FeedUI
+import com.dmm.rssreader.domain.model.UserProfile
+import com.dmm.rssreader.domain.usecase.FetchFeedAndroidBlogsUseCase
+import com.dmm.rssreader.domain.usecase.FetchFeedAppleUseCase
 import com.dmm.rssreader.repository.MainRepository
 import com.dmm.rssreader.utils.Constants
-import com.dmm.rssreader.utils.Constants.DEVELOPER_ANDROID_BLOG
-import com.dmm.rssreader.utils.Constants.DEVELOPER_APPEL
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
@@ -34,14 +35,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
 	app: Application,
-	private val mainRepository: MainRepository,
-	private val hostSelectionInterceptor: HostSelectionInterceptor
+	private val fetchFeedAndroidBlogs: FetchFeedAndroidBlogsUseCase,
+	private val fetchFeedAppleUseCase: FetchFeedAppleUseCase
 ) : AndroidViewModel(app) {
 
 	init {
 		viewModelScope.async {
 			getUserSettings().await().let {
-				fetchFeedsDeveloper()
+				//fetchFeedsDeveloper()
 			}
 		}
 	}
@@ -56,59 +57,55 @@ class MainViewModel @Inject constructor(
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
 		if(hasInternetConnection()) {
-			if (mainRepository.feedsResponse == null) {
-				_developerFeeds.value = Resource.Loading()
-				val userSettings = userSettings.first()
-				var data: Resource<List<FeedUI>?> = Resource.Loading()
+			_developerFeeds.value = Resource.Loading()
+			val userSettings = userSettings.first()
+			var listFeed: MutableList<FeedUI> = mutableListOf()
 
-				userSettings.feeds.forEach { it ->
-					when (it) {
-						FEED_ANDROID_BLOGS -> {
-							setBaseUrl(DEVELOPER_ANDROID_BLOG)
-							data = mainRepository.fetchDeveloperAndroidBlogs()
+			userSettings.feeds.forEach { it ->
+				when (it) {
+					FEED_ANDROID_BLOGS -> {
+						fetchFeedAndroidBlogs().await().data?.forEach { feedUI ->
+							listFeed.add(feedUI)
 						}
-						FEED_APPLE_NEWS -> {
-							setBaseUrl(DEVELOPER_APPEL)
-							data = mainRepository.fetchDeveloperApple()
+					}
+					FEED_APPLE_NEWS -> {
+						fetchFeedAppleUseCase().await().data?.forEach { feedUI ->
+							listFeed.add(feedUI)
 						}
 					}
 				}
-				setDeveloperFeeds(data)
 			}
+			setDeveloperFeeds(listFeed)
 		} else {
 			 _developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
 		}
 	}
 
-	fun setDeveloperFeeds(data: Resource<List<FeedUI>?>) = viewModelScope.launch {
-		if (data.data != null) {
-			_developerFeeds.value = sortedFeed(data.data.filter { it -> !it.description!!.isEmpty() }.distinct())
+	fun setDeveloperFeeds(feedUIList: List<FeedUI>) = viewModelScope.launch {
+		if (feedUIList != null) {
+			_developerFeeds.value = sortedFeed(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
 		} else {
 			_developerFeeds.value = Resource.Success(listOf())
 		}
 	}
 
-	fun setBaseUrl(baseUrl: String) {
-		hostSelectionInterceptor.setHostBaseUrl(baseUrl)
-	}
-
 	fun getUserSettings() = viewModelScope.async {
-		var userSettings = mainRepository.getUser()
-		if (userSettings == null) {
-			userSettings = UserProfile(
-				theme = THEME_DAY,
-				feeds = mutableListOf(FEED_ANDROID_MEDIUM, FEED_ANDROID_BLOGS, FEED_APPLE_NEWS)
-			)
-			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-		}
-		autoSelectedTheme(userSettings)
-		_userProfile.value = userSettings
+//		var userSettings = mainRepository.getUser()
+//		if (userSettings == null) {
+//			userSettings = UserProfile(
+//				theme = THEME_DAY,
+//				feeds = mutableListOf(FEED_ANDROID_MEDIUM, FEED_ANDROID_BLOGS, FEED_APPLE_NEWS)
+//			)
+//			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//		}
+//		autoSelectedTheme(userSettings)
+//		_userProfile.value = userSettings
 	}
 
 	fun setTheme(theme: String) = viewModelScope.launch {
 		val userSetting = userSettings.first()
 		userSetting.theme = theme
-		mainRepository.saveUser(userSetting)
+		// SAVE USER HERE
 	}
 
 	fun setFeed(feedName: String) = viewModelScope.launch {
@@ -118,17 +115,19 @@ class MainViewModel @Inject constructor(
 		} else {
 			userSetting.feeds.add(feedName)
 		}
-		mainRepository.saveUser(userSetting)
+		// SAVE USER HERE
 	}
 
 	fun insertFeed(feedUI: FeedUI) = viewModelScope.launch {
-		mainRepository.insertFeed(feedUI)
+		// INSERT FEED HERE
 	}
 
-	fun getFeedList() = mainRepository.getFeedList()
+	fun getFeedList() {
+		// GET FEEDS HERE
+	}
 
 	fun resetResponse() {
-		mainRepository.resetResponse()
+		// RESET RESPONSE
 	}
 
 	fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {

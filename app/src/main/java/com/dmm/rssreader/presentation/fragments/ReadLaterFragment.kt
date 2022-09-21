@@ -25,12 +25,12 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		setUpRecyclerView()
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.getFeedList().collect {
-					val feeds = it.filter { it -> it.saved }
-					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
-					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
-					feedAdapter.differ.submitList(feeds)
-				}
+//				viewModel.getFeedList().collect {
+//					val feeds = it.filter { it -> it.saved }
+//					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
+//					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
+//					feedAdapter.differ.submitList(feeds)
+//				}
 			}
 		}
 	}

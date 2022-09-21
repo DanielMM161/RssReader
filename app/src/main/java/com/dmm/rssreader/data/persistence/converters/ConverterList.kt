@@ -1,4 +1,4 @@
-package com.dmm.rssreader.persistence.converters
+package com.dmm.rssreader.data.persistence.converters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter

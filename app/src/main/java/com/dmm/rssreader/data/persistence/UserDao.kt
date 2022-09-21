@@ -1,10 +1,10 @@
-package com.dmm.rssreader.persistence
+package com.dmm.rssreader.data.persistence
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dmm.rssreader.model.UserProfile
+import com.dmm.rssreader.domain.model.UserProfile
 
 @Dao
 interface UserDao {

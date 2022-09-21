@@ -2,10 +2,10 @@ package com.dmm.rssreader.di
 
 import android.app.Application
 import androidx.room.Room
-import com.dmm.rssreader.persistence.AppDatabase
-import com.dmm.rssreader.persistence.FeedsDao
-import com.dmm.rssreader.persistence.UserDao
-import com.dmm.rssreader.persistence.converters.ConverterList
+import com.dmm.rssreader.data.persistence.AppDatabase
+import com.dmm.rssreader.data.persistence.FeedsDao
+import com.dmm.rssreader.data.persistence.UserDao
+import com.dmm.rssreader.data.persistence.converters.ConverterList
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

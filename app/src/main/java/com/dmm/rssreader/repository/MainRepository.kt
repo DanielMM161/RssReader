@@ -1,10 +1,10 @@
 package com.dmm.rssreader.repository
 
-import com.dmm.rssreader.model.FeedUI
-import com.dmm.rssreader.model.UserProfile
-import com.dmm.rssreader.network.RssClient
-import com.dmm.rssreader.persistence.FeedsDao
-import com.dmm.rssreader.persistence.UserDao
+import com.dmm.rssreader.domain.model.FeedUI
+import com.dmm.rssreader.domain.model.UserProfile
+import com.dmm.rssreader.data.network.RssClient
+import com.dmm.rssreader.data.persistence.FeedsDao
+import com.dmm.rssreader.data.persistence.UserDao
 import com.dmm.rssreader.utils.Utils
 import com.dmm.rssreader.utils.Resource
 import retrofit2.Response

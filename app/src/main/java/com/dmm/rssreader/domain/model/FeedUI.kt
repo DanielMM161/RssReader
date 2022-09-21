@@ -1,4 +1,4 @@
-package com.dmm.rssreader.model
+package com.dmm.rssreader.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,4 +1,4 @@
-package com.dmm.rssreader.model
+package com.dmm.rssreader.domain.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -23,5 +23,8 @@ data class UserProfile(
 	@ColumnInfo(name = "theme")
 	var theme: String = "",
 	@ColumnInfo(name = "feeds")
-	var feeds: MutableList<String> = mutableListOf()
+	var feeds: MutableList<String> = mutableListOf(),
+	val isNew: Boolean = false,
+	val isAuthenticated: Boolean = false,
+	val uuid: String = ""
 ): Parcelable

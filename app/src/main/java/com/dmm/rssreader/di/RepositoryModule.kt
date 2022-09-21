@@ -1,8 +1,8 @@
 package com.dmm.rssreader.di
 
-import com.dmm.rssreader.network.RssClient
-import com.dmm.rssreader.persistence.FeedsDao
-import com.dmm.rssreader.persistence.UserDao
+import com.dmm.rssreader.data.network.RssClient
+import com.dmm.rssreader.data.persistence.FeedsDao
+import com.dmm.rssreader.data.persistence.UserDao
 import com.dmm.rssreader.repository.MainRepository
 import dagger.Module
 import dagger.Provides

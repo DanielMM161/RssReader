@@ -10,7 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityMainBinding
-import com.dmm.rssreader.model.UserProfile
+import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.viewModel.MainViewModel
 import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode

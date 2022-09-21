@@ -1,7 +1,7 @@
-package com.dmm.rssreader.network
+package com.dmm.rssreader.data.network
 
-import com.dmm.rssreader.model.Feed
-import com.dmm.rssreader.model.feedandroidblogs.FeedAndroidBlogs
+import com.dmm.rssreader.domain.model.Feed
+import com.dmm.rssreader.domain.model.feedandroidblogs.FeedAndroidBlogs
 import retrofit2.Response
 import retrofit2.http.GET
 

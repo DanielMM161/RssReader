@@ -7,7 +7,7 @@
 
     <variable
       name="feed"
-      type="com.dmm.rssreader.model.FeedUI" />
+      type="com.dmm.rssreader.domain.model.FeedUI" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout

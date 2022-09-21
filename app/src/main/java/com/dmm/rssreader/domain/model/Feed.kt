@@ -1,4 +1,4 @@
-package com.dmm.rssreader.model
+package com.dmm.rssreader.domain.model
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList

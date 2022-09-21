@@ -4,14 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.util.Log
 import android.widget.Toast
-import com.dmm.rssreader.R
-import com.dmm.rssreader.model.Feed
-import com.dmm.rssreader.model.FeedUI
-import com.dmm.rssreader.model.Item
-import com.dmm.rssreader.model.feedandroidblogs.Entry
-import com.dmm.rssreader.model.feedandroidblogs.FeedAndroidBlogs
+import com.dmm.rssreader.domain.model.Feed
+import com.dmm.rssreader.domain.model.FeedUI
+import com.dmm.rssreader.domain.model.Item
+import com.dmm.rssreader.domain.model.feedandroidblogs.Entry
+import com.dmm.rssreader.domain.model.feedandroidblogs.FeedAndroidBlogs
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_1
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_2
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
@@ -27,12 +25,9 @@ import com.dmm.rssreader.utils.Constants.MATCH_SOURCE_MEDIUM
 import com.dmm.rssreader.utils.Constants.SOURCE_APPLE
 import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
 import com.dmm.rssreader.utils.Constants.SOURCE_MEDIUM
-import dagger.hilt.android.internal.Contexts.getApplication
+import retrofit2.Response
 import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import kotlin.collections.get as get1
 
 class Utils {
 
@@ -140,6 +135,16 @@ class Utils {
 
 		fun showToast(context: Context, message: String) {
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+		}
+
+		fun <T> handleResponse(response: Response<T>) : Resource<List<FeedUI>?> {
+			if(response.isSuccessful) {
+				response.body().let { result ->
+					val data: List<FeedUI> = MapResponse((result))
+					return Resource.Success(data)
+				}
+			}
+			return Resource.Error(response.message())
 		}
 
 		fun getSomeString(app: Application, id: Int): String {

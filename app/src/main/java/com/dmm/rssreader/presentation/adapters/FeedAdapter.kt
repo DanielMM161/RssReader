@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dmm.rssreader.databinding.ItemFeedBinding
-import com.dmm.rssreader.model.FeedUI
+import com.dmm.rssreader.domain.model.FeedUI
 
 class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() {
 

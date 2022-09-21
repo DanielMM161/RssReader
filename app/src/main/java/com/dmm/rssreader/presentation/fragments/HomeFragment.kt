@@ -26,10 +26,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-					subscribeObservableDeveloperFeeds()
+				//	subscribeObservableDeveloperFeeds()
 				}
 				launch {
-					viewModel.fetchFeedsDeveloper()
+				//	viewModel.fetchFeedsDeveloper()
 				}
 			}
 		}

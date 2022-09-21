@@ -1,11 +1,9 @@
 package com.dmm.rssreader.repository
 
 import android.content.Intent
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dmm.rssreader.model.UserProfile
-import com.dmm.rssreader.persistence.UserDao
+import com.dmm.rssreader.domain.model.UserProfile
+import com.dmm.rssreader.data.persistence.UserDao
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.USERS_COLLECTION
 import com.dmm.rssreader.utils.Resource
@@ -16,12 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.snapshots
-import com.google.firebase.firestore.ktx.toObject
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
