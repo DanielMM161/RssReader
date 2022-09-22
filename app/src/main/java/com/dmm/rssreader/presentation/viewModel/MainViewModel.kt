@@ -95,11 +95,11 @@ class MainViewModel @Inject constructor(
 		return fireBaseUseCase.saveUser(userProfile)
 	}
 
-	fun insertFeed(feedUI: FeedUI) = viewModelScope.launch {
+	fun saveFavouriteFeed(feedUI: FeedUI) = viewModelScope.launch {
 		favouriteFeeds.saveFavouriteFeed(feedUI)
 	}
 
-	suspend fun getFeedList(): Flow<List<FeedUI>> {
+	fun getFeedList(): Flow<List<FeedUI>> {
 		return favouriteFeeds.getFavouriteFeeds()
 	}
 

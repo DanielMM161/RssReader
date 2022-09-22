@@ -93,7 +93,6 @@ class LoginActivity : AppCompatActivity() {
 		val intent = Intent(this, MainActivity::class.java)
 		intent.putExtra(USER_KEY, user)
 		startActivity(intent)
-		finish()
 	}
 
 	private fun logginWithGoogle() {

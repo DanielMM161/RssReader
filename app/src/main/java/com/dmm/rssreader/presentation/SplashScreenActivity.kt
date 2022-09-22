@@ -60,7 +60,6 @@ class SplashScreenActivity : AppCompatActivity() {
 		authViewModel.currentUser.observe(this) { user ->
 			if(user != null) {
 				goToMainActivity(user)
-				finish()
 			} else {
 				// GIVE FEEDBACK USER
 			}
@@ -96,7 +95,6 @@ class SplashScreenActivity : AppCompatActivity() {
 			} else {
 				startActivity(intent)
 			}
-			finish()
 		}, SPLASH_SCREEN)
 	}
 

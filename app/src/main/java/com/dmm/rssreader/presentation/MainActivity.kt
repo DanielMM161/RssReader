@@ -1,6 +1,7 @@
 package com.dmm.rssreader.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -43,8 +44,15 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		setSupportActionBar(binding.toolbar)
+		log("despues de set support acgtion bar")
 		destinationChangedListener()
+		log("despues de listener")
 		setShadowColor()
+		log("despues de shadow color")
+	}
+
+	private fun log(message: String) {
+		Log.e("Main Activity", message)
 	}
 
 	private fun getUserFromActivity(): UserProfile {
@@ -90,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	override fun onSupportNavigateUp(): Boolean {
+		log("on support navigate up")
 		return navController.navigateUp() || super.onSupportNavigateUp()
 	}
 
@@ -100,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 				return true
 			}
 		}
+		log("optioms item selected")
 		return super.onOptionsItemSelected(item)
 	}
 }

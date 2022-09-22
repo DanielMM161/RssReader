@@ -1,8 +1,9 @@
 package com.dmm.rssreader.domain.repositories
 
 import com.dmm.rssreader.domain.model.FeedUI
+import kotlinx.coroutines.flow.Flow
 
 interface RepositoryFavouriteFeeds {
-  suspend fun getFavouriteFeeds(): List<FeedUI>
-  fun saveFavouriteFeed(feedUI: FeedUI)
+  fun getFavouriteFeeds(): Flow<List<FeedUI>>
+  suspend fun saveFavouriteFeed(feedUI: FeedUI)
 }

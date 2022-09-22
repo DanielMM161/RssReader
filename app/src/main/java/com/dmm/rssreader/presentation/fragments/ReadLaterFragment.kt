@@ -26,7 +26,7 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				viewModel.getFeedList().collect {
-					val feeds = it.filter { it -> it.favourite }
+					val feeds = it.filter { feed -> feed.favourite }
 					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
 					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
 					feedAdapter.differ.submitList(feeds)
@@ -51,10 +51,10 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 				val position = viewHolder.adapterPosition
 				val feed = feedAdapter.differ.currentList[position]
-				viewModel.insertFeed(feed.copy(favourite = false))
+				viewModel.saveFavouriteFeed(feed.copy(favourite = false))
 				Snackbar.make(binding.root, getString(R.string.delete_feed, feed.title), Snackbar.LENGTH_LONG).apply {
 					setAction(getString(R.string.undo)) {
-						viewModel.insertFeed(feed.copy(favourite = true))
+						viewModel.saveFavouriteFeed(feed.copy(favourite = true))
 					}
 					setTextColor(resources.getColor(R.color.primary))
 					show()
