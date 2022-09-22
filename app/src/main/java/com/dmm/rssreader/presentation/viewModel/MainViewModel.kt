@@ -10,19 +10,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.rssreader.MainApplication
 import com.dmm.rssreader.R
-import com.dmm.rssreader.domain.model.Feed
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.usecase.FetchFeedAndroidBlogsUseCase
 import com.dmm.rssreader.domain.usecase.FetchFeedAppleUseCase
-import com.dmm.rssreader.repository.MainRepository
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
 import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.Constants.THEME_NIGHT
-import com.dmm.rssreader.utils.HostSelectionInterceptor
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -40,36 +37,34 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(app) {
 
 	init {
-		viewModelScope.async {
-			getUserSettings().await().let {
-				//fetchFeedsDeveloper()
-			}
-		}
+
 	}
 
-	private var _userProfile = MutableStateFlow(UserProfile())
-	val userSettings = _userProfile.asStateFlow()
+	lateinit var userProfile: UserProfile
 
 	private var _developerFeeds = MutableStateFlow<Resource<List<FeedUI>?>>(Resource.Loading())
 	val developerFeeds = _developerFeeds.asStateFlow()
 
 	lateinit var feedSelected: FeedUI
 
+	fun userProfileInitialized(): Boolean {
+		return this::userProfile.isInitialized
+	}
+
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
 		if(hasInternetConnection()) {
 			_developerFeeds.value = Resource.Loading()
-			val userSettings = userSettings.first()
 			var listFeed: MutableList<FeedUI> = mutableListOf()
 
-			userSettings.feeds.forEach { it ->
-				when (it) {
+			userProfile.feeds.forEach { feed ->
+				when (feed) {
 					FEED_ANDROID_BLOGS -> {
-						fetchFeedAndroidBlogs().await().data?.forEach { feedUI ->
+						fetchFeedAndroidBlogs().data?.forEach { feedUI ->
 							listFeed.add(feedUI)
 						}
 					}
 					FEED_APPLE_NEWS -> {
-						fetchFeedAppleUseCase().await().data?.forEach { feedUI ->
+						fetchFeedAppleUseCase().data?.forEach { feedUI ->
 							listFeed.add(feedUI)
 						}
 					}
@@ -102,18 +97,17 @@ class MainViewModel @Inject constructor(
 //		_userProfile.value = userSettings
 	}
 
-	fun setTheme(theme: String) = viewModelScope.launch {
-		val userSetting = userSettings.first()
-		userSetting.theme = theme
+	fun setTheme(theme: String) {
+		userProfile.theme = theme
+		val a = userProfile.theme
 		// SAVE USER HERE
 	}
 
 	fun setFeed(feedName: String) = viewModelScope.launch {
-		val userSetting = userSettings.first()
-		if (userSetting.feeds.contains(feedName)) {
-			userSetting.feeds.remove(feedName)
+		if (userProfile.feeds.contains(feedName)) {
+			userProfile.feeds.remove(feedName)
 		} else {
-			userSetting.feeds.add(feedName)
+			userProfile.feeds.add(feedName)
 		}
 		// SAVE USER HERE
 	}

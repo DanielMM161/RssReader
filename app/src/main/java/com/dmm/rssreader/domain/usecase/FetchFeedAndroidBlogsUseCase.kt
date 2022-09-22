@@ -11,7 +11,7 @@ import javax.inject.Inject
 class FetchFeedAndroidBlogsUseCase @Inject constructor(
 	private val repository: RepositoryFeedAndroidBlogs
 ) {
-	suspend operator fun invoke(): Deferred<Resource<List<FeedUI>?>> = GlobalScope.async {
+	suspend operator fun invoke(): Resource<List<FeedUI>?> = GlobalScope.async {
 		return@async repository.fetchFeedAndroidBlogs()
-	}
+	}.await()
 }

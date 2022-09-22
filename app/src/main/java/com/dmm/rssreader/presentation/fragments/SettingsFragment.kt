@@ -1,5 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
@@ -19,99 +20,85 @@ import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import kotlinx.coroutines.launch
 
 class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
-	SettingsFragmentBinding::inflate
+  SettingsFragmentBinding::inflate
 ) {
 
-	override fun setupUI() {
-		super.setupUI()
-		viewLifecycleOwner.lifecycleScope.launch {
-			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				launch {
-					autoSelectedTheme()
-				}
-				launch {
-					autoSelectedFeed()
-				}
-				launch {
-					selectedFeeds()
-				}
+  override fun setupUI() {
+    super.setupUI()
+
+		autoSelectedTheme()
+		autoSelectedFeed()
+		selectedFeeds()
+    selectedTheme()
+
+    Log.e("Soy setting fragment", "En SetupUI")
+  }
+
+  fun selectedFeeds() {
+    binding.layoutFeeds.children.forEach { view ->
+      val switch = (view as Switch)
+      switch.setOnCheckedChangeListener { compoundButton, isChecked ->
+        when (compoundButton.text) {
+          getString(R.string.android_developer_blogs) -> {
+            viewModel.setFeed(FEED_ANDROID_BLOGS)
+          }
+          getString(R.string.android_developer_medium) -> {
+            viewModel.setFeed(FEED_ANDROID_MEDIUM)
+          }
+          getString(R.string.apple_developers_news) -> {
+            viewModel.setFeed(FEED_APPLE_NEWS)
+          }
+        }
+
+      }
+    }
+  }
+
+  fun selectedTheme() {
+    binding.layoutDay.setOnClickListener {
+      selectedView(binding.layoutDay, true)
+      selectedView(binding.layoutNight, false)
+      viewModel.setTheme(THEME_DAY)
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    binding.layoutNight.setOnClickListener {
+      selectedView(binding.layoutNight, true)
+      selectedView(binding.layoutDay, false)
+      viewModel.setTheme(THEME_NIGHT)
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
+  }
+
+	fun autoSelectedFeed() {
+    viewModel.userProfile.feeds.forEach { feed ->
+      when (feed) {
+        FEED_ANDROID_BLOGS -> {
+          binding.switchBlogs.isChecked = true
+        }
+        FEED_APPLE_NEWS -> {
+          binding.switchApple.isChecked = true
+        }
+      }
+    }
+  }
+
+	fun autoSelectedTheme() {
+    when (viewModel.userProfile.theme) {
+			THEME_DAY -> {
+				selectedView(binding.layoutDay, true)
+			}
+			THEME_NIGHT -> {
+				selectedView(binding.layoutNight, true)
 			}
 		}
-		selectedTheme()
-	}
+  }
 
-	fun selectedFeeds() {
-		binding.layoutFeeds.children.forEach { view ->
-			val switch = (view as Switch)
-			switch.setOnCheckedChangeListener { compoundButton, isChecked ->
-				viewModel.resetResponse()
-				when (compoundButton.text) {
-					getString(R.string.android_developer_blogs) -> {
-						viewModel.setFeed(FEED_ANDROID_BLOGS)
-					}
-					getString(R.string.android_developer_medium) -> {
-						viewModel.setFeed(FEED_ANDROID_MEDIUM)
-					}
-					getString(R.string.apple_developers_news) -> {
-						viewModel.setFeed(FEED_APPLE_NEWS)
-					}
-				}
-
-			}
-		}
-	}
-
-	suspend fun autoSelectedFeed() {
-		viewModel.userSettings.collect() {
-			it.feeds.forEach { feed ->
-				when (feed) {
-					FEED_ANDROID_BLOGS -> {
-						binding.switchBlogs.isChecked = true
-					}
-					FEED_APPLE_NEWS -> {
-						binding.switchApple.isChecked = true
-					}
-				}
-			}
-		}
-	}
-
-	suspend fun autoSelectedTheme() {
-		viewModel.userSettings.collect() {
-			if (it != null) {
-				when (it.theme) {
-					THEME_DAY -> {
-						selectedView(binding.layoutDay, true)
-					}
-					THEME_NIGHT -> {
-						selectedView(binding.layoutNight, true)
-					}
-				}
-			}
-		}
-	}
-
-	fun selectedTheme() {
-		binding.layoutDay.setOnClickListener {
-			selectedView(binding.layoutDay, true)
-			selectedView(binding.layoutNight, false)
-			viewModel.setTheme(THEME_DAY)
-			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-		}
-
-		binding.layoutNight.setOnClickListener {
-			selectedView(binding.layoutNight, true)
-			selectedView(binding.layoutDay, false)
-			viewModel.setTheme(THEME_NIGHT)
-			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-		}
-	}
-
-	fun selectedView(view: View, selected: Boolean) {
-		(view as ViewGroup).forEach { view ->
-			view.isSelected = selected
-		}
-	}
+  fun selectedView(view: View, selected: Boolean) {
+    (view as ViewGroup).forEach { view ->
+      view.isSelected = selected
+    }
+  }
 
 
 }

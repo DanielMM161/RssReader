@@ -12,7 +12,7 @@ class FetchFeedAppleUseCase @Inject constructor(
 	private val repository: RepositoryFeedApple
 ) {
 
-	suspend operator fun invoke(): Deferred<Resource<List<FeedUI>?>> = GlobalScope.async {
+	suspend operator fun invoke(): Resource<List<FeedUI>?> = GlobalScope.async {
 		return@async repository.fetchFeedApple()
-	}
+	}.await()
 }

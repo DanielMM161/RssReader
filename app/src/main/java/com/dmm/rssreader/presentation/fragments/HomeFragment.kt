@@ -26,10 +26,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-				//	subscribeObservableDeveloperFeeds()
+					subscribeObservableDeveloperFeeds()
 				}
 				launch {
-				//	viewModel.fetchFeedsDeveloper()
+					viewModel.fetchFeedsDeveloper()
 				}
 			}
 		}
@@ -73,8 +73,8 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 				}
 				is Resource.Success -> {
 					it.data?.let { feeds ->
-						binding.totalArticles = feeds.size
 						binding.swipeRefresh.isRefreshing = false
+						binding.totalArticles = feeds.size
 						feedAdapter.differ.submitList(feeds)
 					}
 				}

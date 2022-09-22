@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityMainBinding
 	private lateinit var viewModel: MainViewModel
-	lateinit var navController: NavController
+	private lateinit var navController: NavController
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -38,18 +38,21 @@ class MainActivity : AppCompatActivity() {
 		binding.toolbar.setupWithNavController(navController, appConfiguration)
 		binding.bottomNavigation.setupWithNavController(navController)
 
-		val user = getParcelable()
+		// Get the userProfile
+		if(!viewModel.userProfileInitialized()) {
+			viewModel.userProfile = getUserFromActivity()!!
+		}
 
 		setSupportActionBar(binding.toolbar)
 		destinationChangedListener()
 		setShadowColor()
 	}
 
-	private fun getParcelable(): UserProfile? {
-		var userProfile: UserProfile? = null
+	private fun getUserFromActivity(): UserProfile {
+		var userProfile = UserProfile()
 		val extras = intent.extras
 		if(extras != null) {
-			userProfile = extras.getParcelable<UserProfile>(USER_KEY)
+			userProfile = extras.getParcelable(USER_KEY)!!
 		}
 		return userProfile
 	}
