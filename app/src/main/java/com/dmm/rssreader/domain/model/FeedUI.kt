@@ -19,6 +19,6 @@ data class FeedUI(
 	val image: String? = "",
 	@ColumnInfo(name = "published")
 	val published: String? = "",
-	@ColumnInfo(name = "saved")
-	var saved: Boolean = false
+	@ColumnInfo(name = "favourite")
+	var favourite: Boolean = false
 )

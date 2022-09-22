@@ -1,9 +1,11 @@
 package com.dmm.rssreader.di
 
 import com.dmm.rssreader.data.repositories.RepositoryAuthImpl
+import com.dmm.rssreader.data.repositories.RepositoryFavouriteFeedsImpl
 import com.dmm.rssreader.data.repositories.RepositoryFeedAndroidBlogsImpl
 import com.dmm.rssreader.data.repositories.RepositoryFeedAppleImpl
 import com.dmm.rssreader.domain.repositories.RepositoryAuth
+import com.dmm.rssreader.domain.repositories.RepositoryFavouriteFeeds
 import com.dmm.rssreader.domain.repositories.RepositoryFeedAndroidBlogs
 import com.dmm.rssreader.domain.repositories.RepositoryFeedApple
 import dagger.Binds
@@ -29,6 +31,11 @@ abstract class RepositoriesModule {
 	abstract fun bindRepositoryAuth(
 		repoAuth: RepositoryAuthImpl
 	) : RepositoryAuth
+
+	@Binds
+	abstract fun bindRepositoryFavouriteFeeds(
+		repoAuth: RepositoryFavouriteFeedsImpl
+	) : RepositoryFavouriteFeeds
 
 
 }

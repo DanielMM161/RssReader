@@ -1,5 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,12 +25,12 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		setUpRecyclerView()
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//				viewModel.getFeedList().collect {
-//					val feeds = it.filter { it -> it.saved }
-//					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
-//					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
-//					feedAdapter.differ.submitList(feeds)
-//				}
+				viewModel.getFeedList().collect {
+					val feeds = it.filter { it -> it.favourite }
+					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
+					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
+					feedAdapter.differ.submitList(feeds)
+				}
 			}
 		}
 	}
@@ -50,10 +51,10 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 				val position = viewHolder.adapterPosition
 				val feed = feedAdapter.differ.currentList[position]
-				viewModel.insertFeed(feed.copy(saved = false))
+				viewModel.insertFeed(feed.copy(favourite = false))
 				Snackbar.make(binding.root, getString(R.string.delete_feed, feed.title), Snackbar.LENGTH_LONG).apply {
 					setAction(getString(R.string.undo)) {
-						viewModel.insertFeed(feed.copy(saved = true))
+						viewModel.insertFeed(feed.copy(favourite = true))
 					}
 					setTextColor(resources.getColor(R.color.primary))
 					show()

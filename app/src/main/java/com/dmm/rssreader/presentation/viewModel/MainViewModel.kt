@@ -13,6 +13,7 @@ import com.dmm.rssreader.MainApplication
 import com.dmm.rssreader.R
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.UserProfile
+import com.dmm.rssreader.domain.usecase.FavouriteFeedsUseCase
 import com.dmm.rssreader.domain.usecase.FetchFeedAndroidBlogsUseCase
 import com.dmm.rssreader.domain.usecase.FetchFeedAppleUseCase
 import com.dmm.rssreader.domain.usecase.FireBaseUseCase
@@ -34,7 +35,8 @@ class MainViewModel @Inject constructor(
 	app: Application,
 	private val fetchFeedAndroidBlogs: FetchFeedAndroidBlogsUseCase,
 	private val fetchFeedAppleUseCase: FetchFeedAppleUseCase,
-	private val fireBaseUseCase: FireBaseUseCase
+	private val fireBaseUseCase: FireBaseUseCase,
+	private val favouriteFeeds: FavouriteFeedsUseCase
 ) : AndroidViewModel(app) {
 
 	lateinit var userProfile: UserProfile
@@ -94,11 +96,11 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun insertFeed(feedUI: FeedUI) = viewModelScope.launch {
-		// INSERT FEED HERE
+		favouriteFeeds.saveFavouriteFeed(feedUI)
 	}
 
-	fun getFeedList() {
-		// GET FEEDS HERE
+	suspend fun getFeedList(): Flow<List<FeedUI>> {
+		return favouriteFeeds.getFavouriteFeeds()
 	}
 
 	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {

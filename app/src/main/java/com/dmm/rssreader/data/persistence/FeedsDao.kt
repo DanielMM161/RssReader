@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FeedsDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertFeed(feedUI: FeedUI)
+	fun saveFavouriteFeed(feedUI: FeedUI)
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertFeeds(feedUI: List<FeedUI>)
 
-	@Query("SELECT * FROM feeds")
-	fun getFeedList(): Flow<List<FeedUI>>
+	@Query("SELECT * FROM feeds WHERE favourite = 1")
+	suspend fun getFavouriteFeeds(): List<FeedUI>
 
 	@Query("SELECT * FROM feeds WHERE feed_source = :feedSource")
 	suspend fun getFeedsList(feedSource: String): List<FeedUI>

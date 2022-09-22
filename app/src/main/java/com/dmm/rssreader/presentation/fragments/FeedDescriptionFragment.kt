@@ -39,7 +39,7 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-		if (viewModel.feedSelected.saved) {
+		if (viewModel.feedSelected.favourite) {
 			inflater.inflate(R.menu.feed_description_saved_menu, menu)
 		} else {
 			inflater.inflate(R.menu.feed_description_menu, menu)
@@ -53,13 +53,13 @@ class FeedDescriptionFragment : BaseFragment<FeedDescriptionFragmentBinding>(
 				item.title = getString(R.string.title_saved_fill)
 				item.setIcon(R.drawable.bookmark_add_fill)
 				item.isChecked = true
-				viewModel.insertFeed(viewModel.feedSelected.copy(saved = true))
+				viewModel.insertFeed(viewModel.feedSelected.copy(favourite = true))
 			}
 			getString(R.string.title_saved_fill) -> {
 				item.title = getString(R.string.title_saved)
 				item.setIcon(R.drawable.bookmark_add)
 				item.isChecked = false
-				viewModel.insertFeed(viewModel.feedSelected.copy(saved = false))
+				viewModel.insertFeed(viewModel.feedSelected.copy(favourite = false))
 			}
 		}
 		return super.onOptionsItemSelected(item)
