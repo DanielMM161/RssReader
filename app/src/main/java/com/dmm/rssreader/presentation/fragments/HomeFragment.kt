@@ -18,7 +18,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 ) {
 
 	private lateinit var feedAdapter: FeedAdapter
-	var firstTime = true
 
 	override fun setupUI() {
 		super.setupUI()
@@ -60,7 +59,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 
 	private fun onRefreshListener() {
 		binding.swipeRefresh.setOnRefreshListener {
-			viewModel.resetResponse()
 			viewModel.fetchFeedsDeveloper()
 		}
 	}

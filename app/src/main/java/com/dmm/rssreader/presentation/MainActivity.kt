@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 		binding.toolbar.setupWithNavController(navController, appConfiguration)
 		binding.bottomNavigation.setupWithNavController(navController)
 
-		// Get the userProfile
 		if(!viewModel.userProfileInitialized()) {
 			viewModel.userProfile = getUserFromActivity()!!
 		}

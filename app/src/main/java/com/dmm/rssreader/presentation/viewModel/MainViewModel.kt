@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dmm.rssreader.MainApplication
 import com.dmm.rssreader.R
@@ -14,15 +15,14 @@ import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.usecase.FetchFeedAndroidBlogsUseCase
 import com.dmm.rssreader.domain.usecase.FetchFeedAppleUseCase
+import com.dmm.rssreader.domain.usecase.FireBaseUseCase
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
 import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
 import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -33,18 +33,13 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
 	app: Application,
 	private val fetchFeedAndroidBlogs: FetchFeedAndroidBlogsUseCase,
-	private val fetchFeedAppleUseCase: FetchFeedAppleUseCase
+	private val fetchFeedAppleUseCase: FetchFeedAppleUseCase,
+	private val fireBaseUseCase: FireBaseUseCase
 ) : AndroidViewModel(app) {
 
-	init {
-
-	}
-
 	lateinit var userProfile: UserProfile
-
 	private var _developerFeeds = MutableStateFlow<Resource<List<FeedUI>?>>(Resource.Loading())
 	val developerFeeds = _developerFeeds.asStateFlow()
-
 	lateinit var feedSelected: FeedUI
 
 	fun userProfileInitialized(): Boolean {
@@ -76,7 +71,7 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	fun setDeveloperFeeds(feedUIList: List<FeedUI>) = viewModelScope.launch {
+	private fun setDeveloperFeeds(feedUIList: List<FeedUI>) {
 		if (feedUIList != null) {
 			_developerFeeds.value = sortedFeed(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
 		} else {
@@ -84,32 +79,18 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	fun getUserSettings() = viewModelScope.async {
-//		var userSettings = mainRepository.getUser()
-//		if (userSettings == null) {
-//			userSettings = UserProfile(
-//				theme = THEME_DAY,
-//				feeds = mutableListOf(FEED_ANDROID_MEDIUM, FEED_ANDROID_BLOGS, FEED_APPLE_NEWS)
-//			)
-//			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//		}
-//		autoSelectedTheme(userSettings)
-//		_userProfile.value = userSettings
-	}
-
-	fun setTheme(theme: String) {
+	fun setTheme(theme: String): MutableLiveData<Resource<Boolean>> {
 		userProfile.theme = theme
-		val a = userProfile.theme
-		// SAVE USER HERE
+		return fireBaseUseCase.saveUser(userProfile)
 	}
 
-	fun setFeed(feedName: String) = viewModelScope.launch {
+	fun setFeed(feedName: String): MutableLiveData<Resource<Boolean>> {
 		if (userProfile.feeds.contains(feedName)) {
 			userProfile.feeds.remove(feedName)
 		} else {
 			userProfile.feeds.add(feedName)
 		}
-		// SAVE USER HERE
+		return fireBaseUseCase.saveUser(userProfile)
 	}
 
 	fun insertFeed(feedUI: FeedUI) = viewModelScope.launch {
@@ -120,17 +101,13 @@ class MainViewModel @Inject constructor(
 		// GET FEEDS HERE
 	}
 
-	fun resetResponse() {
-		// RESET RESPONSE
-	}
-
-	fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
+	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
 		return Resource.Success(feeds!!.sortedByDescending { it ->
 			LocalDate.parse(it.published, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_OUTPUT))
 		})
 	}
 
-	fun autoSelectedTheme(userProfile: UserProfile) {
+	fun autoSelectedTheme() {
 		when (userProfile.theme) {
 			THEME_DAY -> {
 				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -141,7 +118,7 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	fun hasInternetConnection(): Boolean {
+	private fun hasInternetConnection(): Boolean {
 		val connectivityManager = getApplication<MainApplication>().getSystemService(
 			Context.CONNECTIVITY_SERVICE
 		) as ConnectivityManager

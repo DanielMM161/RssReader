@@ -36,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
 		setContentView(binding.root)
 
 		initGoogleSignInClient()
-		authViewModel.googleClientSignOut()
 		logginWithGoogle()
 	}
 
@@ -46,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
 			.requestEmail()
 			.build()
 		googleClient = GoogleSignIn.getClient(this, googleSignInOptions)
+		googleClient.signOut()
 	}
 
 	private fun getGoogleAuthCredential(googleSignInAccount: GoogleSignInAccount) {
@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
 	private fun signInGoogleAuthCredential(authCredential: AuthCredential) {
 		binding.progressBar.show()
 		authViewModel.signInWithGoogle(authCredential)
-		authViewModel._authUser.observe(this) { authUser ->
+		authViewModel.authUser.observe(this) { authUser ->
 			if(authUser.isNew) {
 				createUser(authUser)
 			} else {
@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
 
 	private fun createUser(user: UserProfile) {
 		authViewModel.createNewUser(user)
-		authViewModel._currentUser.observe(this) { user ->
+		authViewModel.currentUser.observe(this) { user ->
 			binding.progressBar.gone()
 			if(user != null) {
 				goToMainActivity(user)
@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
 	private fun getUserFireBase(documentPath: String) {
 		authViewModel.getUserFireBase(documentPath)
-		authViewModel._currentUser.observe(this) { user ->
+		authViewModel.currentUser.observe(this) { user ->
 			if(user != null) {
 				goToMainActivity(user)
 			} else {
@@ -116,29 +116,4 @@ class LoginActivity : AppCompatActivity() {
 			}
 		}
 	}
-
-
-//	viewModel.signInGoogle(data!!).observe(this) {
-//		when (it) {
-//			is Resource.Success -> {
-//				binding.progressBar.gone()
-//				if (it.data != null) {
-//					val intent = Intent(this, MainActivity::class.java)
-//					intent.putExtra(USER_KEY, it.data)
-//					startActivity(intent)
-//
-//					finish()
-//				} else {
-//					showToast(this, getString(R.string.error_login))
-//				}
-//			}
-//			is Resource.Error -> {
-//				binding.progressBar.gone()
-//				showToast(this, it.message)
-//			}
-//			is Resource.Loading -> {
-//				binding.progressBar.show()
-//			}
-//		}
-//	}
 }

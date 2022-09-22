@@ -18,8 +18,6 @@ import com.dmm.rssreader.presentation.login.LoginActivity
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import java.util.*
 
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
@@ -48,7 +46,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
 	private fun checkIfUserAuthenticated() {
 		authViewModel.checkIfUserIsAuthenticatedInFireBase()
-		authViewModel._authUser.observe(this) { user ->
+		authViewModel.authUser.observe(this) { user ->
 			if(!user.isAuthenticated) {
 				goToLoginActivity()
 			} else {
@@ -59,7 +57,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
 	private fun getUserFireBase(documentPath: String) {
 		authViewModel.getUserFireBase(documentPath)
-		authViewModel._currentUser.observe(this) { user ->
+		authViewModel.currentUser.observe(this) { user ->
 			if(user != null) {
 				goToMainActivity(user)
 				finish()

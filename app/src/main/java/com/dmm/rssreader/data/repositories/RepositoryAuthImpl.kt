@@ -1,6 +1,5 @@
 package com.dmm.rssreader.data.repositories
 
-import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.repositories.RepositoryAuth
@@ -13,7 +12,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
-
 
 class RepositoryAuthImpl @Inject constructor(
 	private val firebaseAuth: FirebaseAuth,
@@ -88,5 +86,4 @@ class RepositoryAuthImpl @Inject constructor(
 		}
 		return user
 	}
-
 }

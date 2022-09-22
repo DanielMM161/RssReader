@@ -1,6 +1,5 @@
 package com.dmm.rssreader.presentation.fragments
 
-import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
