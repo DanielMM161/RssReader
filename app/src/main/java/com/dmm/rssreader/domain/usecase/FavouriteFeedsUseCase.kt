@@ -17,4 +17,8 @@ class FavouriteFeedsUseCase @Inject constructor(
   suspend fun saveFavouriteFeed(feedUI: FeedUI) {
     repository.saveFavouriteFeed(feedUI)
   }
+
+  suspend fun updateFavouriteFeed(favorite: Boolean,title: String) {
+    repository.updateFeed(favorite, title)
+  }
 }

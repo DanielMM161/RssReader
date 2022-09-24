@@ -17,4 +17,8 @@ class RepositoryFavouriteFeedsImpl @Inject constructor(
   override suspend fun saveFavouriteFeed(feedUI: FeedUI) {
     feedsDao.saveFavouriteFeed(feedUI)
   }
+
+  override suspend fun updateFeed(favorite: Boolean, title: String) {
+    feedsDao.updateFeed(favorite, title)
+  }
 }

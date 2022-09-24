@@ -26,8 +26,4 @@ class RepositoryFeedAndroidBlogsImpl @Inject constructor(
 	override suspend fun saveFeedAndroidBlogs(feedsUI: List<FeedUI>) {
 		feedsDao.insertFeeds(feedsUI)
 	}
-
-	override suspend fun saveFavouriteFeedAndroidBlogs(feedUI: FeedUI) {
-		TODO("Not yet implemented")
-	}
 }

@@ -36,12 +36,13 @@
           app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-          android:id="@+id/saved"
+          android:id="@+id/save"
           android:layout_width="30dp"
           android:layout_height="30dp"
           android:background="@color/transparent"
           android:scaleType="fitXY"
           android:src="@drawable/bookmark_add"
+          app:tint="@color/primary"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent" />

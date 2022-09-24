@@ -51,10 +51,10 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 				val position = viewHolder.adapterPosition
 				val feed = feedAdapter.differ.currentList[position]
-				viewModel.saveFavouriteFeed(feed.copy(favourite = false))
+				viewModel.saveFavouriteFeed(feed)
 				Snackbar.make(binding.root, getString(R.string.delete_feed, feed.title), Snackbar.LENGTH_LONG).apply {
 					setAction(getString(R.string.undo)) {
-						viewModel.saveFavouriteFeed(feed.copy(favourite = true))
+						viewModel.saveFavouriteFeed(feed)
 					}
 					setTextColor(resources.getColor(R.color.primary))
 					show()

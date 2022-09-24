@@ -6,5 +6,4 @@ import com.dmm.rssreader.utils.Resource
 interface RepositoryFeedAndroidBlogs {
 	suspend fun fetchFeedAndroidBlogs(): Resource<List<FeedUI>?>
 	suspend fun saveFeedAndroidBlogs(feedUI: List<FeedUI>)
-	suspend fun saveFavouriteFeedAndroidBlogs(feedUI: FeedUI)
 }

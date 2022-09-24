@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.FeedDescriptionDialogBinding
 import com.dmm.rssreader.domain.model.FeedUI
+import com.dmm.rssreader.presentation.viewModel.MainViewModel
 import com.dmm.rssreader.utils.ImageGetter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,6 +24,7 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 	private lateinit var binding: FeedDescriptionDialogBinding
 	private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 	private lateinit var dialog: BottomSheetDialog
+	private lateinit var viewModel: MainViewModel
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -49,6 +52,7 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		binding = FeedDescriptionDialogBinding.bind(view)
+		viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 		bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
 		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 		val layout = binding.bottomSheetLayout
@@ -56,9 +60,11 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 			layout?.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
 		}
 		setUpUI()
+		saveFeed()
 	}
 
 	private fun setUpUI(){
+		setImageResourceImageButton(feedSelected.favourite)
 		binding.title.text = feedSelected.title
 		feedSelected.description.let {
 			if(it != null) {
@@ -75,5 +81,20 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 		binding.htmlViewer.movementMethod = LinkMovementMethod.getInstance()
 
 		binding.htmlViewer.text = styledText
+	}
+
+	private fun saveFeed() {
+		binding.save.setOnClickListener {
+			viewModel.saveFavouriteFeed(feedSelected)
+			setImageResourceImageButton(feedSelected.favourite)
+		}
+	}
+
+	private fun setImageResourceImageButton(favourite: Boolean) {
+		if(favourite) {
+			binding.save.setImageResource(R.drawable.bookmark_add_fill)
+		} else {
+			binding.save.setImageResource(R.drawable.bookmark_add)
+		}
 	}
 }
