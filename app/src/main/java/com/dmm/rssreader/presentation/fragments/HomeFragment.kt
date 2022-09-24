@@ -25,10 +25,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-					subscribeObservableDeveloperFeeds()
+					viewModel.fetchFeedsDeveloper()
 				}
 				launch {
-					viewModel.fetchFeedsDeveloper()
+					subscribeObservableDeveloperFeeds()
 				}
 			}
 		}
@@ -92,7 +92,9 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	}
 
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
-		viewModel.feedSelected = it
-		findNavController().navigate(R.id.action_homeFragment_to_feedDescriptionFragment)
+		val feedDescriptionDialog = FeedDescriptionDialog(it)
+		feedDescriptionDialog.show(parentFragmentManager, feedDescriptionDialog.tag)
+		//viewModel.feedSelected = it
+		//findNavController().navigate(R.id.action_homeFragment_to_feedDescriptionFragment)
 	}
 }

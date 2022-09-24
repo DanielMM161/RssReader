@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -50,24 +51,24 @@ class MainViewModel @Inject constructor(
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
 		if(hasInternetConnection()) {
-			_developerFeeds.value = Resource.Loading()
-			var listFeed: MutableList<FeedUI> = mutableListOf()
+				_developerFeeds.value = Resource.Loading()
+				var listFeed: MutableList<FeedUI> = mutableListOf()
 
-			userProfile.feeds.forEach { feed ->
-				when (feed) {
-					FEED_ANDROID_BLOGS -> {
-						fetchFeedAndroidBlogs().data?.forEach { feedUI ->
-							listFeed.add(feedUI)
+				userProfile.feeds.forEach { feed ->
+					when (feed) {
+						FEED_ANDROID_BLOGS -> {
+							fetchFeedAndroidBlogs().data?.forEach { feedUI ->
+								listFeed.add(feedUI)
+							}
 						}
-					}
-					FEED_APPLE_NEWS -> {
-						fetchFeedAppleUseCase().data?.forEach { feedUI ->
-							listFeed.add(feedUI)
+						FEED_APPLE_NEWS -> {
+							fetchFeedAppleUseCase().data?.forEach { feedUI ->
+								listFeed.add(feedUI)
+							}
 						}
 					}
 				}
-			}
-			setDeveloperFeeds(listFeed)
+				setDeveloperFeeds(listFeed)
 		} else {
 			 _developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
 		}
@@ -75,7 +76,8 @@ class MainViewModel @Inject constructor(
 
 	private fun setDeveloperFeeds(feedUIList: List<FeedUI>) {
 		if (feedUIList != null) {
-			_developerFeeds.value = sortedFeed(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
+			//SORTED FEED AQUI
+			_developerFeeds.value = Resource.Success(feedUIList.filter { it -> !it.description!!.isEmpty()}.distinct())
 		} else {
 			_developerFeeds.value = Resource.Success(listOf())
 		}

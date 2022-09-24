@@ -44,11 +44,8 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		setSupportActionBar(binding.toolbar)
-		log("despues de set support acgtion bar")
 		destinationChangedListener()
-		log("despues de listener")
 		setShadowColor()
-		log("despues de shadow color")
 	}
 
 	private fun log(message: String) {
@@ -109,7 +106,6 @@ class MainActivity : AppCompatActivity() {
 				return true
 			}
 		}
-		log("optioms item selected")
 		return super.onOptionsItemSelected(item)
 	}
 }
