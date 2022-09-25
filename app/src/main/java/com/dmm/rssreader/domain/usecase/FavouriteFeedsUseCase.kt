@@ -21,4 +21,12 @@ class FavouriteFeedsUseCase @Inject constructor(
   suspend fun updateFavouriteFeed(favorite: Boolean,title: String) {
     repository.updateFeed(favorite, title)
   }
+
+  fun updateFavouritesFeedsFireBase(avouriteFeeds: List<FeedUI>, documentPath: String) {
+    repository.updateFavouritesFeedsFireBase(avouriteFeeds, documentPath)
+  }
+
+  fun saveFavouritesFeedsFireBase(favouriteFeeds: List<FeedUI>, documentPath: String) {
+    repository.saveFavouritesFeedsFireBase(favouriteFeeds, documentPath)
+  }
 }

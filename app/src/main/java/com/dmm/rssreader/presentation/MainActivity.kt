@@ -48,10 +48,6 @@ class MainActivity : AppCompatActivity() {
 		setShadowColor()
 	}
 
-	private fun log(message: String) {
-		Log.e("Main Activity", message)
-	}
-
 	private fun getUserFromActivity(): UserProfile {
 		var userProfile = UserProfile()
 		val extras = intent.extras
@@ -73,9 +69,6 @@ class MainActivity : AppCompatActivity() {
 				R.id.settingsFragment -> {
 					setTitleMateriaToolbar(R.string.title_settings_fragment)
 				}
-				R.id.feedDescriptionFragment -> {
-					binding.toolbar.title = viewModel.feedSelected.title
-				}
 			}
 		}
 	}
@@ -95,7 +88,6 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	override fun onSupportNavigateUp(): Boolean {
-		log("on support navigate up")
 		return navController.navigateUp() || super.onSupportNavigateUp()
 	}
 

@@ -1,5 +1,6 @@
 package com.dmm.rssreader.data.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.repositories.RepositoryAuth

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.room.Room
 import com.dmm.rssreader.data.persistence.AppDatabase
 import com.dmm.rssreader.data.persistence.FeedsDao
-import com.dmm.rssreader.data.persistence.UserDao
 import com.dmm.rssreader.data.persistence.converters.ConverterList
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -32,14 +31,7 @@ object PersistenceModule {
 		return Room
 			.databaseBuilder(application, AppDatabase::class.java, "rssReader.db")
 			.fallbackToDestructiveMigration()
-			.addTypeConverter(converterList)
 			.build()
-	}
-
-	@Provides
-	@Singleton
-	fun provideUserSettingsDao(appDatabase: AppDatabase): UserDao {
-		return appDatabase.userDao()
 	}
 
 	@Provides

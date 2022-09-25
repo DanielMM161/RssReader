@@ -3,17 +3,26 @@ package com.dmm.rssreader.data.repositories
 import com.dmm.rssreader.data.persistence.FeedsDao
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.repositories.RepositoryFavouriteFeeds
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RepositoryFavouriteFeedsImpl @Inject constructor(
-    private val feedsDao: FeedsDao
+    private val feedsDao: FeedsDao,
+    private val docRef: CollectionReference
 ) : RepositoryFavouriteFeeds {
 
   override fun getFavouriteFeeds(): Flow<List<FeedUI>> {
     return feedsDao.getFavouriteFeeds()
   }
 
+  override fun updateFavouritesFeedsFireBase(favouriteFeeds: List<FeedUI>, documentPath: String) {
+    docRef.document(documentPath).update(mapOf(
+      "favouritesFeeds" to favouriteFeeds
+    ))
+  }
+  
   override suspend fun saveFavouriteFeed(feedUI: FeedUI) {
     feedsDao.saveFavouriteFeed(feedUI)
   }

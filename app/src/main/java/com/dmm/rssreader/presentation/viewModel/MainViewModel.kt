@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(
 	private val fetchFeedAndroidBlogs: FetchFeedAndroidBlogsUseCase,
 	private val fetchFeedAppleUseCase: FetchFeedAppleUseCase,
 	private val fireBaseUseCase: FireBaseUseCase,
-	private val favouriteFeeds: FavouriteFeedsUseCase
+	private val favouriteFeedsUseCase: FavouriteFeedsUseCase
 ) : AndroidViewModel(app) {
 
 	lateinit var userProfile: UserProfile
@@ -99,11 +99,18 @@ class MainViewModel @Inject constructor(
 
 	fun saveFavouriteFeed(feedSelected: FeedUI) = viewModelScope.launch {
 		feedSelected.favourite = !feedSelected.favourite
-		favouriteFeeds.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
+		if(userProfile.favouritesFeeds.contains(feedSelected)) {
+			userProfile.favouritesFeeds.remove(feedSelected)
+			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(userProfile.favouritesFeeds, userProfile.email)
+		} else {
+			userProfile.favouritesFeeds.add(feedSelected)
+			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(userProfile.favouritesFeeds, userProfile.email)
+		}
+		favouriteFeedsUseCase.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
 	}
 
 	fun getFeedList(): Flow<List<FeedUI>> {
-		return favouriteFeeds.getFavouriteFeeds()
+		return favouriteFeedsUseCase.getFavouriteFeeds()
 	}
 
 	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {

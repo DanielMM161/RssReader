@@ -1,7 +1,6 @@
 package com.dmm.rssreader.data.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.dmm.rssreader.data.persistence.UserDao
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.repositories.RepositoryFireBase
 import com.dmm.rssreader.utils.Constants
@@ -12,7 +11,6 @@ import javax.inject.Inject
 
 class RepositoryFireBaseImpl @Inject constructor(
   private val db: FirebaseFirestore,
-  private val userDao: UserDao
 ) : RepositoryFireBase {
 
   override fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Boolean>> {
