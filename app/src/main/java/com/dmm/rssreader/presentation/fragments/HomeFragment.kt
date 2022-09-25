@@ -94,7 +94,5 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
 		val feedDescriptionDialog = FeedDescriptionDialog(it.copy())
 		feedDescriptionDialog.show(parentFragmentManager, feedDescriptionDialog.tag)
-		//viewModel.feedSelected = it
-		//findNavController().navigate(R.id.action_homeFragment_to_feedDescriptionFragment)
 	}
 }

@@ -26,10 +26,9 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				viewModel.getFeedList().collect {
-					val feeds = it.filter { feed -> feed.favourite }
-					binding.noReadLater.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
-					binding.willBeHere.visibility = if(feeds.isEmpty()) View.VISIBLE else View.GONE
-					feedAdapter.differ.submitList(feeds)
+					binding.noReadLater.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
+					binding.willBeHere.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
+					feedAdapter.differ.submitList(it)
 				}
 			}
 		}
@@ -76,7 +75,7 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 	}
 
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
-		viewModel.feedSelected = it
-		findNavController().navigate(R.id.action_readLaterFragment_to_feedDescriptionFragment)
+		val feedDescriptionDialog = FeedDescriptionDialog(it.copy())
+		feedDescriptionDialog.show(parentFragmentManager, feedDescriptionDialog.tag)
 	}
 }

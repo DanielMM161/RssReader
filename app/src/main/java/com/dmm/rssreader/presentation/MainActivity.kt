@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 		if(!viewModel.userProfileInitialized()) {
 			viewModel.userProfile = getUserFromActivity()!!
+			viewModel.fetchFeedsDeveloper()
 		}
 
 		setSupportActionBar(binding.toolbar)

@@ -68,6 +68,14 @@ class MainViewModel @Inject constructor(
 						}
 					}
 				}
+				// Save the favouritesFeeds in the local Data Base
+				userProfile.favouritesFeeds.forEach { favouriteFeed ->
+					val feed = listFeed.find { it.title == favouriteFeed.title }
+					if(feed != null) {
+						feed.favourite = true
+						favouriteFeedsUseCase.updateFavouriteFeed(feed.favourite, feed.title)
+					}
+				}
 				setDeveloperFeeds(listFeed)
 		} else {
 			 _developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
@@ -98,15 +106,19 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun saveFavouriteFeed(feedSelected: FeedUI) = viewModelScope.launch {
+		updateFavouritesFeedsFireBase(feedSelected)
 		feedSelected.favourite = !feedSelected.favourite
+		favouriteFeedsUseCase.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
+	}
+
+	fun updateFavouritesFeedsFireBase(feedSelected: FeedUI) {
 		if(userProfile.favouritesFeeds.contains(feedSelected)) {
 			userProfile.favouritesFeeds.remove(feedSelected)
 			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(userProfile.favouritesFeeds, userProfile.email)
 		} else {
-			userProfile.favouritesFeeds.add(feedSelected)
+			userProfile.favouritesFeeds.add(feedSelected.copy(favourite = true))
 			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(userProfile.favouritesFeeds, userProfile.email)
 		}
-		favouriteFeedsUseCase.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
 	}
 
 	fun getFeedList(): Flow<List<FeedUI>> {
