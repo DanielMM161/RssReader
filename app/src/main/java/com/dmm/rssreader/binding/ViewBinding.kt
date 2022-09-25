@@ -1,12 +1,11 @@
 package com.dmm.rssreader.binding
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.dmm.rssreader.R
-import com.dmm.rssreader.model.FeedUI
+import com.dmm.rssreader.domain.model.FeedUI
 
 object ViewBinding {
 
