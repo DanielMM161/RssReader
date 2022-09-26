@@ -62,4 +62,7 @@
   <string name="article_will_be_here">The articles you want to read later will be\nhere</string>
   <string name="offline">No internet connection</string>
 
+  <!-- Item Theme Options -->
+  <string name="choose_theme">Choose Theme</string>
+
 </resources>

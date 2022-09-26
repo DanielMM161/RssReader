@@ -32,4 +32,9 @@
     <item name="android:layout_width">match_parent</item>
     <item name="color">@color/black</item>
   </style>
+
+  <style name="TransparentBackgroundDialog" parent="Theme.Design.Light.BottomSheetDialog">
+    <item name="android:background">@drawable/top_border_layout</item>
+  </style>
+
 </resources>

@@ -26,6 +26,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 //		autoSelectedFeed()
 //		selectedFeeds()
 //    selectedTheme()
+    themesOption()
   }
 
 //  private fun selectedFeeds() {
@@ -48,21 +49,6 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 //    }
 //  }
 //
-//  private fun selectedTheme() {
-//    binding.layoutDay.setOnClickListener {
-//      selectedView(binding.layoutDay, true)
-//      selectedView(binding.layoutNight, false)
-//      setTheme(THEME_DAY)
-//      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//    }
-//
-//    binding.layoutNight.setOnClickListener {
-//      selectedView(binding.layoutNight, true)
-//      selectedView(binding.layoutDay, false)
-//      setTheme(THEME_NIGHT)
-//      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//    }
-//  }
 //
 //  private fun autoSelectedFeed() {
 //    viewModel.userProfile.feeds.forEach { feed ->
@@ -72,35 +58,6 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 //        }
 //        FEED_APPLE_NEWS -> {
 //          binding.switchApple.isChecked = true
-//        }
-//      }
-//    }
-//  }
-//
-//	private fun autoSelectedTheme() {
-//    when (viewModel.userProfile.theme) {
-//			THEME_DAY -> {
-//				selectedView(binding.layoutDay, true)
-//			}
-//			THEME_NIGHT -> {
-//				selectedView(binding.layoutNight, true)
-//			}
-//		}
-//  }
-//
-//  private fun selectedView(view: View, selected: Boolean) {
-//    (view as ViewGroup).forEach { view ->
-//      view.isSelected = selected
-//    }
-//  }
-//
-//  private fun setTheme(theme: String) {
-//    viewModel.setTheme(theme).observe(this) {
-//      when(it) {
-//        is Resource.Success -> {
-//          if(!it.data!!) {
-//            // GIVE FEEDBACK TO USER
-//          }
 //        }
 //      }
 //    }
@@ -117,4 +74,17 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 //      }
 //    }
 //  }
+
+  private fun feedSourcesOption() {
+    binding.userFeedsLayout.setOnClickListener {
+
+    }
+  }
+
+  private fun themesOption() {
+    binding.userThemeLayout.setOnClickListener {
+      val themeDialogFragment = ThemeDialogFragment()
+      themeDialogFragment.show(parentFragmentManager, themeDialogFragment.tag)
+    }
+  }
 }
