@@ -7,7 +7,7 @@
   <string name="feeds">Feeds</string>
   <string name="theme">Themes</string>
 
-  <!--  Themes-->
+  <!-- Themes -->
   <string name="day_theme">Day</string>
   <string name="night_theme">Night</string>
   <string name="auto_theme">Auto</string>
@@ -37,19 +37,23 @@
   <string name="android_developer_medium">Android Developers Medium</string>
   <string name="apple_developers_news">Appel Developers News</string>
 
-  <!--  Home Fragment-->
+  <!-- Home Fragment -->
   <string name="title_home_fragment">All Articles</string>
   <string name="all_articles">All articles</string>
   <string name="total">%s Total</string>
   <string name="date">/ %s</string>
 
-  <!--  ReadLater Fragment-->
+  <!-- ReadLater Fragment -->
   <string name="title_readlater_fragment">Read Later</string>
   <string name="delete_feed">%s Was delete</string>
   <string name="undo">Undo</string>
 
-  <!--  ReadLater Fragment-->
+  <!-- Setting Fragment -->
   <string name="title_settings_fragment">Settings</string>
+  <string name="all_articles_settings">All Articles</string>
+  <string name="read_later">Read Later</string>
+  <string name="all_sources">All Sources</string>
+  <string name="themes">Themes</string>
 
   <!-- Item Icon Title -->
   <string name="title_saved">Saved</string>
