@@ -1,19 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Switch
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.children
-import androidx.core.view.forEach
-import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.SettingsFragmentBinding
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
-import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
-import com.dmm.rssreader.utils.Constants.THEME_DAY
-import com.dmm.rssreader.utils.Constants.THEME_NIGHT
-import com.dmm.rssreader.utils.Resource
 
 class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
   SettingsFragmentBinding::inflate
@@ -27,6 +14,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 //		selectedFeeds()
 //    selectedTheme()
     themesOption()
+    feedSourcesOption()
   }
 
 //  private fun selectedFeeds() {
@@ -77,7 +65,8 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 
   private fun feedSourcesOption() {
     binding.userFeedsLayout.setOnClickListener {
-
+      val sourcesDialogFragment = SourcesDialogFragment()
+      sourcesDialogFragment.show(parentFragmentManager, sourcesDialogFragment.tag)
     }
   }
 

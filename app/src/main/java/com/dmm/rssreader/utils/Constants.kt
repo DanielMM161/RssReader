@@ -7,11 +7,12 @@ object Constants {
 	// Themes
 	const val THEME_DAY = "DAY"
 	const val THEME_NIGHT = "NIGHT"
-	const val THEME_AUTO = "AUTO"
-	// Feeds
-	const val FEED_ANDROID_MEDIUM = "ANDROID_MEDIUM"
-	const val FEED_ANDROID_BLOGS = "ANDROID_BLOGS"
-	const val FEED_APPLE_NEWS = "APPLE_NEWS"
+	// Source Feeds Title
+	const val SOURCE_ANDROID_MEDIUM = "Medium Android Devs"
+	const val SOURCE_ANDROID_BLOGS = "Android Devs Blogs"
+	const val SOURCE_KOTLIN_WEEKLY = "Android Kotlin Weekly"
+	const val SOURCE_DANLEW_BLOG = "Danlew Blog"
+	const val SOURCE_DEVELOPER_CO = "AndroidDeveloper.co.in"
 	// Feeds Source Match
 	const val MATCH_SOURCE_BLOGS = "Developers Blog"
 	const val MATCH_SOURCE_MEDIUM = "Medium"

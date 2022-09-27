@@ -19,8 +19,7 @@ import com.dmm.rssreader.domain.usecase.FetchFeedAndroidBlogsUseCase
 import com.dmm.rssreader.domain.usecase.FetchFeedAppleUseCase
 import com.dmm.rssreader.domain.usecase.FireBaseUseCase
 import com.dmm.rssreader.utils.Constants
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
-import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
+import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import com.dmm.rssreader.utils.Resource
@@ -56,13 +55,8 @@ class MainViewModel @Inject constructor(
 
 				userProfile.feeds.forEach { feed ->
 					when (feed) {
-						FEED_ANDROID_BLOGS -> {
+						SOURCE_ANDROID_BLOGS -> {
 							fetchFeedAndroidBlogs().data?.forEach { feedUI ->
-								listFeed.add(feedUI)
-							}
-						}
-						FEED_APPLE_NEWS -> {
-							fetchFeedAppleUseCase().data?.forEach { feedUI ->
 								listFeed.add(feedUI)
 							}
 						}

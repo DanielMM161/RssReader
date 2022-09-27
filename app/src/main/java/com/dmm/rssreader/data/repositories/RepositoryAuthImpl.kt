@@ -1,13 +1,14 @@
 package com.dmm.rssreader.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.repositories.RepositoryAuth
 import com.dmm.rssreader.utils.Constants
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_BLOGS
-import com.dmm.rssreader.utils.Constants.FEED_ANDROID_MEDIUM
-import com.dmm.rssreader.utils.Constants.FEED_APPLE_NEWS
+import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_BLOGS
+import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_MEDIUM
+import com.dmm.rssreader.utils.Constants.SOURCE_DANLEW_BLOG
+import com.dmm.rssreader.utils.Constants.SOURCE_DEVELOPER_CO
+import com.dmm.rssreader.utils.Constants.SOURCE_KOTLIN_WEEKLY
 import com.dmm.rssreader.utils.Constants.USERS_COLLECTION
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -33,9 +34,11 @@ class RepositoryAuthImpl @Inject constructor(
 						isNew = isNewUser,
 						theme = Constants.THEME_DAY,
 						feeds = mutableListOf(
-							FEED_ANDROID_MEDIUM,
-							FEED_ANDROID_BLOGS,
-							FEED_APPLE_NEWS
+							SOURCE_ANDROID_MEDIUM,
+							SOURCE_ANDROID_BLOGS,
+							SOURCE_KOTLIN_WEEKLY,
+							SOURCE_DANLEW_BLOG,
+							SOURCE_DEVELOPER_CO
 						)
 					)
 					authenticatedUser.value = userProfile

@@ -44,10 +44,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/day_theme"
         android:textColor="@color/theme_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/day"
         app:layout_constraintTop_toTopOf="@+id/day" />
 
@@ -77,10 +77,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/night_theme"
         android:textColor="@color/theme_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/night"
         app:layout_constraintTop_toTopOf="@+id/night" />
 

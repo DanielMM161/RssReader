@@ -27,11 +27,6 @@
   <string name="phone">Phone No</string>
   <string name="have_account">ALREADY HAVE A ACCOUNT? LOGIN</string>
 
-  <!-- Feeds -->
-  <string name="android_developer_blogs">Android Developers Blogs</string>
-  <string name="android_developer_medium">Android Developers Medium</string>
-  <string name="apple_developers_news">Appel Developers News</string>
-
   <!-- Home Fragment -->
   <string name="title_home_fragment">All Articles</string>
   <string name="all_articles">All articles</string>
@@ -65,5 +60,15 @@
 
   <!-- Sources Dialog Fragment -->
   <string name="sources">Sources</string>
+<!--  <string name="developer_blogs">Android Devs Blogs</string>-->
+<!--  <string name="medium">Medium Android Devs</string>-->
+<!--  <string name="kotlin_weekly">Android Kotlin Weekly</string>-->
+<!--  <string name="danlew_blog">Danlew Blog</string>-->
+<!--  <string name="developer_co">AndroidDeveloper.co.in</string>-->
+
+<!--  &lt;!&ndash; Feeds &ndash;&gt;-->
+<!--  <string name="android_developer_blogs">Android Developers Blogs</string>-->
+<!--  <string name="android_developer_medium">Android Developers Medium</string>-->
+<!--  <string name="apple_developers_news">Appel Developers News</string>-->
 
 </resources>
