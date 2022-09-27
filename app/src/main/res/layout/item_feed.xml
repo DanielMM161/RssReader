@@ -43,25 +43,27 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentEnd="true"
-          android:layout_marginStart="8dp"
+          android:layout_marginStart="12dp"
           android:layout_toEndOf="@+id/image"
           android:ellipsize="end"
+          android:fontFamily="@font/open_sans_bold"
           android:maxLines="2"
           android:text="@{feed.title}"
           android:textSize="20dp"
-          android:textStyle="bold"
           tools:text="Jetpack Compose Stability Explained" />
 
         <TextView
           android:id="@+id/feed_source"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_alignParentBottom="true"
-          android:layout_marginStart="8dp"
+          android:layout_below="@+id/title"
+          android:layout_marginStart="12dp"
+          android:layout_marginTop="2dp"
           android:layout_toEndOf="@+id/image"
           android:ellipsize="end"
           android:maxLines="2"
           android:text="@{feed.feedSource}"
+          android:textColor="@color/light_gray"
           android:textSize="14dp"
           android:textStyle="bold"
           tools:text="Android Dev Blogs" />
@@ -70,15 +72,30 @@
           android:id="@+id/feed_date"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_alignParentBottom="true"
+          android:layout_below="@+id/title"
           android:layout_marginStart="4dp"
+          android:layout_marginTop="2dp"
           android:layout_toEndOf="@+id/feed_source"
           android:ellipsize="end"
           android:maxLines="2"
           android:text="@{String.format(@string/date,feed.published.toString())}"
+          android:textColor="@color/light_gray"
           android:textSize="14dp"
           android:textStyle="bold"
           tools:text="/ 20-07-2022" />
+
+        <ImageButton
+          android:id="@+id/save"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="2dp"
+          android:background="@color/transparent"
+          android:scaleType="fitXY"
+          android:src="@drawable/bookmark_add"
+          android:layout_below="@+id/title"
+          android:layout_alignParentEnd="true"
+          app:tint="@color/primary" />
 
       </RelativeLayout>
     </androidx.cardview.widget.CardView>

@@ -7,11 +7,6 @@
   <string name="feeds">Feeds</string>
   <string name="theme">Themes</string>
 
-  <!-- Themes -->
-  <string name="day_theme">Day</string>
-  <string name="night_theme">Night</string>
-  <string name="auto_theme">Auto</string>
-
   <!-- Login Activity -->
   <string name="welcome">Hello There, Welcome Back</string>
   <string name="sig_in">Sig In to continue</string>
@@ -64,5 +59,11 @@
 
   <!-- Item Theme Options -->
   <string name="choose_theme">Choose Theme</string>
+  <string name="day_theme">Day</string>
+  <string name="night_theme">Night</string>
+  <string name="auto_theme">Auto</string>
+
+  <!-- Sources Dialog Fragment -->
+  <string name="sources">Sources</string>
 
 </resources>
