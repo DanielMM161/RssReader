@@ -14,10 +14,7 @@ import com.dmm.rssreader.MainApplication
 import com.dmm.rssreader.R
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.UserProfile
-import com.dmm.rssreader.domain.usecase.FavouriteFeedsUseCase
-import com.dmm.rssreader.domain.usecase.FetchFeedAndroidBlogsUseCase
-import com.dmm.rssreader.domain.usecase.FetchFeedAppleUseCase
-import com.dmm.rssreader.domain.usecase.FireBaseUseCase
+import com.dmm.rssreader.domain.usecase.*
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.THEME_DAY
@@ -33,8 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
 	app: Application,
-	private val fetchFeedAndroidBlogs: FetchFeedAndroidBlogsUseCase,
-	private val fetchFeedAppleUseCase: FetchFeedAppleUseCase,
+	private val fetchDataUseCase: FetchDataUseCase,
 	private val fireBaseUseCase: FireBaseUseCase,
 	private val favouriteFeedsUseCase: FavouriteFeedsUseCase
 ) : AndroidViewModel(app) {
@@ -49,37 +45,37 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
-		if(hasInternetConnection()) {
-				_developerFeeds.value = Resource.Loading()
-				var listFeed: MutableList<FeedUI> = mutableListOf()
+		if (hasInternetConnection()) {
+			_developerFeeds.value = Resource.Loading()
+			var listFeed: MutableList<FeedUI> = mutableListOf()
 
-				userProfile.feeds.forEach { feed ->
-					when (feed) {
-						SOURCE_ANDROID_BLOGS -> {
-							fetchFeedAndroidBlogs().data?.forEach { feedUI ->
-								listFeed.add(feedUI)
-							}
-						}
-					}
+			userProfile.feeds.forEach { feed ->
+				fetchDataUseCase.fetchData(feed).data?.forEach { feedUI ->
+					listFeed.add(feedUI)
 				}
-				// Save the favouritesFeeds in the local Data Base
-				userProfile.favouritesFeeds.forEach { favouriteFeed ->
-					val feed = listFeed.find { it.title == favouriteFeed.title }
-					if(feed != null) {
-						feed.favourite = true
-						favouriteFeedsUseCase.updateFavouriteFeed(feed.favourite, feed.title)
-					}
-				}
-				setDeveloperFeeds(listFeed)
+			}
+			saveFavouriteFeedsInLocal(listFeed)
+			setDeveloperFeeds(listFeed)
 		} else {
-			 _developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
+			_developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
+		}
+	}
+
+	private suspend fun saveFavouriteFeedsInLocal(listFeed: MutableList<FeedUI>) {
+		userProfile.favouritesFeeds.forEach { favouriteFeed ->
+			val feed = listFeed.find { it.title == favouriteFeed.title }
+			if (feed != null) {
+				feed.favourite = true
+				favouriteFeedsUseCase.updateFavouriteFeed(feed.favourite, feed.title)
+			}
 		}
 	}
 
 	private fun setDeveloperFeeds(feedUIList: List<FeedUI>) {
 		if (feedUIList != null) {
 			//SORTED FEED AQUI
-			_developerFeeds.value = Resource.Success(feedUIList.filter { it -> !it.description!!.isEmpty()}.distinct())
+			_developerFeeds.value =
+				Resource.Success(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
 		} else {
 			_developerFeeds.value = Resource.Success(listOf())
 		}
@@ -106,12 +102,18 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun updateFavouritesFeedsFireBase(feedSelected: FeedUI) {
-		if(userProfile.favouritesFeeds.contains(feedSelected)) {
+		if (userProfile.favouritesFeeds.contains(feedSelected)) {
 			userProfile.favouritesFeeds.remove(feedSelected)
-			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(userProfile.favouritesFeeds, userProfile.email)
+			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(
+				userProfile.favouritesFeeds,
+				userProfile.email
+			)
 		} else {
 			userProfile.favouritesFeeds.add(feedSelected.copy(favourite = true))
-			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(userProfile.favouritesFeeds, userProfile.email)
+			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(
+				userProfile.favouritesFeeds,
+				userProfile.email
+			)
 		}
 	}
 
@@ -140,7 +142,7 @@ class MainViewModel @Inject constructor(
 		val connectivityManager = getApplication<MainApplication>().getSystemService(
 			Context.CONNECTIVITY_SERVICE
 		) as ConnectivityManager
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			val activeNetwork = connectivityManager.activeNetwork ?: return false
 			val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
 			return when {
@@ -151,7 +153,7 @@ class MainViewModel @Inject constructor(
 			}
 		} else {
 			connectivityManager.activeNetworkInfo?.run {
-				return when(type) {
+				return when (type) {
 					ConnectivityManager.TYPE_WIFI -> return true
 					ConnectivityManager.TYPE_MOBILE -> return true
 					ConnectivityManager.TYPE_ETHERNET -> return true

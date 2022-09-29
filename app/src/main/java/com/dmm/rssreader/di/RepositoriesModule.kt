@@ -1,13 +1,7 @@
 package com.dmm.rssreader.di
 
-import com.dmm.rssreader.data.repositories.RepositoryAuthImpl
-import com.dmm.rssreader.data.repositories.RepositoryFavouriteFeedsImpl
-import com.dmm.rssreader.data.repositories.RepositoryFeedAndroidBlogsImpl
-import com.dmm.rssreader.data.repositories.RepositoryFeedAppleImpl
-import com.dmm.rssreader.domain.repositories.RepositoryAuth
-import com.dmm.rssreader.domain.repositories.RepositoryFavouriteFeeds
-import com.dmm.rssreader.domain.repositories.RepositoryFeedAndroidBlogs
-import com.dmm.rssreader.domain.repositories.RepositoryFeedApple
+import com.dmm.rssreader.data.repositories.*
+import com.dmm.rssreader.domain.repositories.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,24 +12,18 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class RepositoriesModule {
 
 	@Binds
-	abstract fun bindRepositoryFeedAndroidBlogs(
-		repoFeedAndroidBlogs: RepositoryFeedAndroidBlogsImpl
-	): RepositoryFeedAndroidBlogs
-
-	@Binds
-	abstract fun bindRepositoryFeedApple(
-		repoFeedAndroid: RepositoryFeedAppleImpl
-	) : RepositoryFeedApple
-
-	@Binds
 	abstract fun bindRepositoryAuth(
 		repoAuth: RepositoryAuthImpl
-	) : RepositoryAuth
+	): RepositoryAuth
 
 	@Binds
 	abstract fun bindRepositoryFavouriteFeeds(
 		repoAuth: RepositoryFavouriteFeedsImpl
-	) : RepositoryFavouriteFeeds
+	): RepositoryFavouriteFeeds
 
+	@Binds
+	abstract fun bindRepositoryFetchData(
+		repoFetchData: RepositoryFetchDataImpl
+	): RepositoryFetchData
 
 }

@@ -37,6 +37,7 @@ ext.versions = [
         retrofitVersion  : '2.9.0',
         converterXml     : '2.6.1',
         okhttpVersion    : '4.10.0',
+        scalarsVersion   : '2.1.0',
 
         // moshi
         moshiVersion     : '1.13.0',

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.util.Log
 import android.widget.Toast
 import com.dmm.rssreader.domain.model.Feed
 import com.dmm.rssreader.domain.model.FeedUI
@@ -50,6 +51,7 @@ class Utils {
 		}
 
 		fun fromItemFeedToFeedUI(item: Item, feedSource: String): FeedUI {
+			Log.e("fromItemFeedToFeedUI ----> ", "content: ---> ${item.content}")
 			return FeedUI(
 				feedSource = determineFeedSource(feedSource),
 				title = item.title!!,

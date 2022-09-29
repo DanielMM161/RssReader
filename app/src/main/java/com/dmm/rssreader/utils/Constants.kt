@@ -4,6 +4,10 @@ object Constants {
 	// Urls
 	const val DEVELOPER_APPEL = "https://developer.apple.com/"
 	const val DEVELOPER_ANDROID_BLOG = "https://feeds.feedburner.com/"
+	const val DEVELOPER_MEDIUM = "https://medium.com/"
+	const val ANDROID_DEVELOPERS = "https://www.androiddeveloper.co.in/"
+	const val KOTLIN_WEEKLY = "https://vtsen.hashnode.dev/"
+	const val DANLEW_BLOG = "https://blog.danlew.net/"
 	// Themes
 	const val THEME_DAY = "DAY"
 	const val THEME_NIGHT = "NIGHT"
@@ -11,7 +15,7 @@ object Constants {
 	const val SOURCE_ANDROID_MEDIUM = "Medium Android Devs"
 	const val SOURCE_ANDROID_BLOGS = "Android Devs Blogs"
 	const val SOURCE_KOTLIN_WEEKLY = "Android Kotlin Weekly"
-	const val SOURCE_DANLEW_BLOG = "Danlew Blog"
+	const val SOURCE_DANLEW_BLOG = "Dan Lew Codes"
 	const val SOURCE_DEVELOPER_CO = "AndroidDeveloper.co.in"
 	// Feeds Source Match
 	const val MATCH_SOURCE_BLOGS = "Developers Blog"

@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityLoginBinding
+import com.dmm.rssreader.domain.extension.gone
+import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.MainActivity
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants.USER_KEY
-import com.dmm.rssreader.utils.gone
-import com.dmm.rssreader.utils.show
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
