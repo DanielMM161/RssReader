@@ -16,7 +16,6 @@ import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.usecase.*
 import com.dmm.rssreader.utils.Constants
-import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_BLOGS
 import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import com.dmm.rssreader.utils.Resource
@@ -51,9 +50,11 @@ class MainViewModel @Inject constructor(
 
 			userProfile.feeds.forEach { feed ->
 				fetchDataUseCase.fetchData(feed).data?.forEach { feedUI ->
+
 					listFeed.add(feedUI)
 				}
 			}
+			Log.e("fetch data --> ", "${listFeed.size}")
 			saveFavouriteFeedsInLocal(listFeed)
 			setDeveloperFeeds(listFeed)
 		} else {
@@ -73,9 +74,7 @@ class MainViewModel @Inject constructor(
 
 	private fun setDeveloperFeeds(feedUIList: List<FeedUI>) {
 		if (feedUIList != null) {
-			//SORTED FEED AQUI
-			_developerFeeds.value =
-				Resource.Success(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
+			_developerFeeds.value = sortedFeed(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
 		} else {
 			_developerFeeds.value = Resource.Success(listOf())
 		}

@@ -139,16 +139,6 @@ class Utils {
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 		}
 
-		fun <T> handleResponse(response: Response<T>) : Resource<List<FeedUI>?> {
-			if(response.isSuccessful) {
-				response.body().let { result ->
-					val data: List<FeedUI> = MapResponse((result))
-					return Resource.Success(data)
-				}
-			}
-			return Resource.Error(response.message())
-		}
-
 		fun getSomeString(app: Application, id: Int): String {
 			return app.resources.getString(id)
 		}

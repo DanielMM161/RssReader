@@ -2,16 +2,14 @@ package com.dmm.rssreader.utils
 
 import android.util.Log
 import com.dmm.rssreader.domain.model.FeedUI
-import com.dmm.rssreader.utils.Constants.MATCH_SOURCE_BLOGS
-import com.dmm.rssreader.utils.Constants.MATCH_SOURCE_MEDIUM
-import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_BLOGS
-import com.dmm.rssreader.utils.Constants.SOURCE_BLOGS
-import com.dmm.rssreader.utils.Constants.SOURCE_DANLEW_BLOG
-import com.dmm.rssreader.utils.Constants.SOURCE_DEVELOPER_CO
-import com.dmm.rssreader.utils.Constants.SOURCE_KOTLIN_WEEKLY
-import com.dmm.rssreader.utils.Constants.SOURCE_MEDIUM
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_1
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_2
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_3
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_4
+import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
+import java.text.SimpleDateFormat
 
 class FeedParser {
 
@@ -24,22 +22,16 @@ class FeedParser {
 
 		parser.setInput(xml.byteInputStream(), null)
 
-		try {
-			while (parser.eventType != XmlPullParser.END_DOCUMENT) {
-				if(parser.eventType == XmlPullParser.START_TAG && parser.name == "title") {
-					feedTitle = readText(parser)
-				} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
-					feedsUI.add(readFeedItem(parser, feedTitle))
-				} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "entry") {
-					feedsUI.add(readFeedItem(parser, feedTitle))
-				}
-				parser.next()
+		while (parser.eventType != XmlPullParser.END_DOCUMENT) {
+			if(parser.eventType == XmlPullParser.START_TAG && parser.name == "title") {
+				feedTitle = readText(parser)
+			} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
+				feedsUI.add(readFeedItem(parser, feedTitle))
+			} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "entry") {
+				feedsUI.add(readFeedItem(parser, feedTitle))
 			}
-		}catch (e: Exception) {
-			Log.e("EXCEPTION ---> ", "${e.message}")
+			parser.next()
 		}
-
-
 
 		return feedsUI
 	}
@@ -61,12 +53,14 @@ class FeedParser {
 				description = readText(parser)
 			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "content:encoded") {
 				description = readText(parser)
+			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "content") {
+				description = readText(parser)
 			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "cover_image") {
 				image = readText(parser)
 			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "published") {
-				published = readText(parser)
+				published = parseDate(readText(parser))
 			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "pubDate") {
-				published = readText(parser)
+				published = parseDate(readText(parser))
 			} else if(parser.eventType == XmlPullParser.START_TAG) {
 				skipTag(parser)
 			}
@@ -86,6 +80,33 @@ class FeedParser {
 		)
 	}
 
+	fun parseDate(dateString: String): String {
+		var result = ""
+		val dateFormats: List<String> = listOf(DATE_PATTERN_1, DATE_PATTERN_2, DATE_PATTERN_3,DATE_PATTERN_4)
+		run lit@{
+			dateFormats.forEach { format ->
+				val dateformatted = formattedDate(dateString,format)
+				if(!dateformatted.isEmpty()) {
+					result = dateformatted
+					return@lit
+				}
+			}
+		}
+
+
+		return result
+	}
+
+	fun formattedDate(dateString: String?, dateFormat: String): String {
+		try {
+			val sdf = SimpleDateFormat(dateFormat).parse(dateString)
+			return SimpleDateFormat(DATE_PATTERN_OUTPUT).format(sdf)
+		} catch (e: Exception) {
+			return ""
+		}
+		return ""
+	}
+
 	private fun readText(parser: XmlPullParser) : String {
 		var text = ""
 		while (parser.next() != XmlPullParser.END_TAG) {
@@ -94,23 +115,6 @@ class FeedParser {
 			}
 		}
 		return text
-	}
-
-	private fun determineFeedSource(source: String): String {
-		var feedSource = ""
-		val sourceMatch = source.uppercase()
-		if (sourceMatch.contains(MATCH_SOURCE_BLOGS)) {
-			feedSource = SOURCE_ANDROID_BLOGS
-		} else if (sourceMatch.contains(MATCH_SOURCE_MEDIUM)) {
-			feedSource = SOURCE_MEDIUM
-		} else if (sourceMatch.contains(SOURCE_KOTLIN_WEEKLY)) {
-			feedSource = SOURCE_KOTLIN_WEEKLY
-		} else if (sourceMatch.contains(SOURCE_DANLEW_BLOG)) {
-			feedSource = SOURCE_DANLEW_BLOG
-		} else {
-			feedSource = SOURCE_DEVELOPER_CO
-		}
-		return feedSource
 	}
 
 	private fun getImageFromContent(content: String?): String {

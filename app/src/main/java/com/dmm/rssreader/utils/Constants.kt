@@ -2,7 +2,6 @@ package com.dmm.rssreader.utils
 
 object Constants {
 	// Urls
-	const val DEVELOPER_APPEL = "https://developer.apple.com/"
 	const val DEVELOPER_ANDROID_BLOG = "https://feeds.feedburner.com/"
 	const val DEVELOPER_MEDIUM = "https://medium.com/"
 	const val ANDROID_DEVELOPERS = "https://www.androiddeveloper.co.in/"
@@ -35,6 +34,8 @@ object Constants {
 	// Date Pattern
 	const val DATE_PATTERN_1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 	const val DATE_PATTERN_2 = "EEE, d MMM yyyy HH:mm:ss Z"
+	const val DATE_PATTERN_3 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+	const val DATE_PATTERN_4 = "EEE, d MMM yyyy HH:mm:ss z"
 	const val DATE_PATTERN_OUTPUT = "dd-MM-yyyy"
 	// Firebase Collections
 	const val USERS_COLLECTION = "Users"

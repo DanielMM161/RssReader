@@ -72,17 +72,15 @@
           android:id="@+id/feed_date"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_below="@+id/title"
-          android:layout_marginStart="4dp"
+          android:layout_below="@+id/feed_source"
+          android:layout_marginStart="12dp"
           android:layout_marginTop="2dp"
-          android:layout_toEndOf="@+id/feed_source"
-          android:ellipsize="end"
-          android:maxLines="2"
-          android:text="@{String.format(@string/date,feed.published.toString())}"
+          android:layout_toEndOf="@+id/image"
+          android:text="@{feed.published}"
           android:textColor="@color/light_gray"
-          android:textSize="14dp"
+          android:textSize="12dp"
           android:textStyle="bold"
-          tools:text="/ 20-07-2022" />
+          tools:text="20-07-2022" />
 
         <ImageButton
           android:id="@+id/save"
