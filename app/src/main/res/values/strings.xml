@@ -12,12 +12,14 @@
   <string name="sig_in">Sig In to continue</string>
   <string name="userName">Username</string>
   <string name="password">Password</string>
+  <string name="repeat_password">Repeat Password</string>
   <string name="forget_password">Forget Password?</string>
   <string name="go">Go</string>
   <string name="new_user">New User? SIGN UP</string>
   <string name="not_empty">The field cant be empty</string>
   <string name="or_sigin">Or Signin With</string>
   <string name="error_login">There were a Error with Google SignIn</string>
+  <string name="error_login_email_password">Incorrect Username or Password</string>
 
   <!-- Register Activity -->
   <string name="welcome_register">Welcome</string>
@@ -60,15 +62,18 @@
 
   <!-- Sources Dialog Fragment -->
   <string name="sources">Sources</string>
-<!--  <string name="developer_blogs">Android Devs Blogs</string>-->
-<!--  <string name="medium">Medium Android Devs</string>-->
-<!--  <string name="kotlin_weekly">Android Kotlin Weekly</string>-->
-<!--  <string name="danlew_blog">Danlew Blog</string>-->
-<!--  <string name="developer_co">AndroidDeveloper.co.in</string>-->
 
-<!--  &lt;!&ndash; Feeds &ndash;&gt;-->
-<!--  <string name="android_developer_blogs">Android Developers Blogs</string>-->
-<!--  <string name="android_developer_medium">Android Developers Medium</string>-->
-<!--  <string name="apple_developers_news">Appel Developers News</string>-->
+  <!-- Validate Login/Register -->
+  <string name="email_not_blank">Email cannot be blank</string>
+  <string name="fullname_not_blank">Full name cannot be blank</string>
+  <string name="email_not_valid">That\'s not a valid Email</string>
+  <string name="password_length">The password needs to consist of at least 8 characters</string>
+  <string name="password_digit">The password needs to contain at least one letter and digit</string>
+  <string name="repeated_password">The passwords don\'t match</string>
+
+  <string name="error_signIn_email_password">There were a error SignIn</string>
+  <string name="error_creating_user_email_password">Some errors occurred while creating the user</string>
+  <string name="error_get_user_document">Some errors have occurred</string>
+
 
 </resources>

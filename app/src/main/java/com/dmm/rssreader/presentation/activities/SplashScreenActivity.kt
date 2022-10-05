@@ -1,4 +1,4 @@
-package com.dmm.rssreader.presentation
+package com.dmm.rssreader.presentation.activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivitySplashScreenBinding
 import com.dmm.rssreader.domain.model.UserProfile
-import com.dmm.rssreader.presentation.login.LoginActivity
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
+import com.dmm.rssreader.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,18 +50,27 @@ class SplashScreenActivity : AppCompatActivity() {
 			if(!user.isAuthenticated) {
 				goToLoginActivity()
 			} else {
-				getUserFireBase(user.email)
+				getUserDocument(user.email)
 			}
 		}
 	}
 
-	private fun getUserFireBase(documentPath: String) {
-		authViewModel.getUserFireBase(documentPath)
-		authViewModel.currentUser.observe(this) { user ->
-			if(user != null) {
-				goToMainActivity(user)
-			} else {
-				// GIVE FEEDBACK USER
+	private fun getUserDocument(documentPath: String) {
+		authViewModel.getUserDocument(documentPath)
+		authViewModel.currentUser.observe(this) { it ->
+			when(it) {
+				is Resource.Success -> {
+					val user = it.data
+					if(user != null) {
+						goToMainActivity(user)
+					}
+				}
+				is Resource.ErrorCaught -> {
+
+				}
+				is Resource.Error -> {
+
+				}
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package com.dmm.rssreader.utils
 
-import android.util.Log
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_1
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_2

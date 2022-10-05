@@ -35,7 +35,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:context=".presentation.login.LoginActivity">
+      tools:context=".presentation.activities.LoginActivity">
 
       <ImageView
         android:id="@+id/logo"
@@ -117,6 +117,19 @@
           android:text="@string/go"
           android:textColor="@color/white"
           android:transitionName="button_tran" />
+
+        <Button
+          android:id="@+id/signup_btn"
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:layout_gravity="right"
+          android:background="@color/transparent"
+          android:elevation="0dp"
+          android:fontFamily="@font/antic"
+          android:text="@string/new_user"
+          android:textStyle="bold"
+          android:textColor="@color/black"
+          android:transitionName="loggin_signup_tran"/>
 
         <TextView
           android:layout_width="wrap_content"

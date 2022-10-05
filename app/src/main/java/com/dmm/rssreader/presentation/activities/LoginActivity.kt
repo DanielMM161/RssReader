@@ -1,17 +1,22 @@
-package com.dmm.rssreader.presentation.login
+package com.dmm.rssreader.presentation.activities
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.util.Pair
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityLoginBinding
 import com.dmm.rssreader.domain.extension.gone
 import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.domain.model.UserProfile
-import com.dmm.rssreader.presentation.MainActivity
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants.USER_KEY
+import com.dmm.rssreader.utils.Resource
+import com.dmm.rssreader.utils.Utils.Companion.showToast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,21 +27,81 @@ import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseRegisterLoginActivity<ActivityLoginBinding>(
+	ActivityLoginBinding::inflate
+) {
 
 	private val GOOGLE_SIGN_IN = 1000
 	private lateinit var googleClient: GoogleSignInClient
-	private lateinit var binding: ActivityLoginBinding
-	private lateinit var authViewModel: AuthViewModel
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		binding = ActivityLoginBinding.inflate(layoutInflater)
-		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 		setContentView(binding.root)
 
+		goToRegister()
+		validateField()
+		loginEmailPassword()
 		initGoogleSignInClient()
 		logginWithGoogle()
+	}
+
+	private fun validateField() {
+		val editTextUserName = binding.username.editText
+		editTextUserName?.setOnFocusChangeListener { view, focus ->
+			if(!focus) {
+				val email = editTextUserName.text.toString()
+				val result = authViewModel.validateEmail(email)
+				if(!result.successful) {
+					binding.username.error = getString(result.resId!!)
+				}
+			} else {
+				binding.username.error = null
+			}
+		}
+	}
+
+	private fun loginEmailPassword() {
+		binding.loginBtn.setOnClickListener {
+			binding.progressBar.show()
+			val email = binding.username.editText?.text.toString() ?: ""
+			val password = binding.password.editText?.text.toString() ?: ""
+			authViewModel.signInEmailPassword(email, password).observe(this) {
+				when(it) {
+					is Resource.Success -> {
+						getUserDocument(
+							email,
+							{binding.progressBar.gone()}
+						)
+					}
+					is Resource.Error -> {
+						showToast(this,it.message)
+					}
+					is Resource.ErrorCaught -> {
+						showToast(this, it.asString(this))
+					}
+				}
+			}
+		}
+	}
+
+	private fun goToRegister() {
+		binding.signupBtn.setOnClickListener {
+			val intent = Intent(this, RegisterActivity::class.java)
+
+			val pairs: Array<Pair<View, String>?> = arrayOfNulls(7)
+			pairs[0] = Pair<View, String>(binding.logo, "logo_image")
+			pairs[1] = Pair<View, String>(binding.logoText, "logo_title")
+			pairs[2] = Pair<View, String>(binding.signinText, "logo_subtitle")
+			pairs[3] = Pair<View, String>(binding.username, "username_tran")
+			pairs[4] = Pair<View, String>(binding.password, "password_tran")
+			pairs[5] = Pair<View, String>(binding.loginBtn, "button_tran")
+			pairs[6] = Pair<View, String>(binding.signupBtn, "login_signup_tran")
+
+			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
+				startActivity(intent, options.toBundle())
+			}
+		}
 	}
 
 	private fun initGoogleSignInClient() {
@@ -59,40 +124,17 @@ class LoginActivity : AppCompatActivity() {
 		authViewModel.signInWithGoogle(authCredential)
 		authViewModel.authUser.observe(this) { authUser ->
 			if(authUser.isNew) {
-				createUser(authUser)
+				createUserDocument(
+					authUser,
+					{binding.progressBar.gone()}
+				)
 			} else {
-				getUserFireBase(authUser.email)
+				getUserDocument(
+					authUser.email,
+					{binding.progressBar.gone()}
+				)
 			}
 		}
-	}
-
-	private fun createUser(user: UserProfile) {
-		authViewModel.createNewUser(user)
-		authViewModel.currentUser.observe(this) { user ->
-			binding.progressBar.gone()
-			if(user != null) {
-				goToMainActivity(user)
-			} else {
-				// GIVE FEEDBACK USER
-			}
-		}
-	}
-
-	private fun getUserFireBase(documentPath: String) {
-		authViewModel.getUserFireBase(documentPath)
-		authViewModel.currentUser.observe(this) { user ->
-			if(user != null) {
-				goToMainActivity(user)
-			} else {
-				// GIVE FEEDBACK USER
-			}
-		}
-	}
-
-	private fun goToMainActivity(user: UserProfile) {
-		val intent = Intent(this, MainActivity::class.java)
-		intent.putExtra(USER_KEY, user)
-		startActivity(intent)
 	}
 
 	private fun logginWithGoogle() {

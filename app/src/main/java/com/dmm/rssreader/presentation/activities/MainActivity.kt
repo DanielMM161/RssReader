@@ -1,7 +1,6 @@
-package com.dmm.rssreader.presentation
+package com.dmm.rssreader.presentation.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
