@@ -74,10 +74,12 @@ class LoginActivity : BaseRegisterLoginActivity<ActivityLoginBinding>(
 						)
 					}
 					is Resource.Error -> {
-						showToast(this,it.message)
+						binding.progressBar.gone()
+						alertDialog(it.message)
 					}
 					is Resource.ErrorCaught -> {
-						showToast(this, it.asString(this))
+						binding.progressBar.gone()
+						alertDialog(it.asString(this))
 					}
 				}
 			}

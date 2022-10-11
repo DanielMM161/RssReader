@@ -25,17 +25,18 @@ class RepositoryAuthImpl @Inject constructor(
 
 	override fun signInEmailPassword(email: String, password: String): MutableLiveData<Resource<Boolean>> {
 		val emailUser = MutableLiveData<Resource<Boolean>>(Resource.Loading())
-		firebaseAuth.signInWithEmailAndPassword(email, password)
-			.addOnCompleteListener { task ->
-				if(task.isSuccessful) {
-					emailUser.value = Resource.Success(true)
-				} else {
-					emailUser.value = Resource.ErrorCaught(resId = R.string.error_signIn_email_password)
+		if(!email.isEmpty() && !password.isEmpty()) {
+			firebaseAuth.signInWithEmailAndPassword(email, password)
+				.addOnCompleteListener {
+					if(it.isSuccessful) {
+						emailUser.value = Resource.Success(true)
+					} else {
+						emailUser.value = Resource.Error(it.exception?.message.toString())
+					}
 				}
-			}
-			.addOnFailureListener {
-				emailUser.value = Resource.Error(it.message.toString())
-			}
+		} else {
+			emailUser.value = Resource.ErrorCaught(resId = R.string.email_password_not_emptu)
+		}
 		return emailUser
 	}
 
@@ -48,11 +49,8 @@ class RepositoryAuthImpl @Inject constructor(
 					val user = newUser("", email, firebaseUser?.uid!!, isNewUser = true)
 					result.value = Resource.Success(user)
 				} else {
-					result.value = Resource.ErrorCaught(resId = R.string.error_creating_user_email_password)
+					result.value = Resource.Error(it.exception?.message.toString())
 				}
-			}
-			.addOnFailureListener {
-				result.value = Resource.Error(it.message.toString())
 			}
 		return result
 	}
@@ -73,16 +71,15 @@ class RepositoryAuthImpl @Inject constructor(
 	}
 
 	override fun createUserDocument(user: UserProfile): MutableLiveData<Resource<UserProfile>> {
-		var userCreated = MutableLiveData<Resource<UserProfile>>(Resource.Success(user))
+		var userCreated = MutableLiveData<Resource<UserProfile>>(Resource.Loading())
 		val docRef = db.collection(USERS_COLLECTION).document(user.email)
 		docRef.set(user)
-			.addOnCompleteListener { userCreationTask ->
-				if(!userCreationTask.isSuccessful) {
-					userCreated.value = Resource.ErrorCaught(resId = R.string.error_creating_user_email_password)
+			.addOnCompleteListener {
+				if(!it.isSuccessful) {
+					userCreated.value = Resource.Error(it.exception?.message.toString())
+				} else {
+					userCreated.value = Resource.Success(user)
 				}
-			}
-			.addOnFailureListener {
-				userCreated.value = Resource.Error(it.message.toString())
 			}
 		return userCreated
 	}
@@ -91,19 +88,18 @@ class RepositoryAuthImpl @Inject constructor(
 		val user = MutableLiveData<Resource<UserProfile>>(Resource.Loading())
 		val docRef = db.collection(USERS_COLLECTION).document(documentPath)
 		docRef.get()
-			.addOnCompleteListener { task ->
-				if(task.isSuccessful) {
-					val document = task.result
+			.addOnCompleteListener {
+				if(it.isSuccessful) {
+					val document = it.result
 					if(document.exists()) {
 						val userProfile = document.toObject(UserProfile::class.java)!!
 						user.value = Resource.Success(userProfile)
 					} else {
 						user.value = Resource.ErrorCaught(resId = R.string.error_get_user_document)
 					}
+				} else {
+					user.value = Resource.Error(it.exception?.message.toString())
 				}
-			}
-			.addOnFailureListener {
-				user.value = Resource.Error(it.message.toString())
 			}
 		return user
 	}

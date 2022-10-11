@@ -6,8 +6,11 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.databinding.ActivityRegisterBinding
+import com.dmm.rssreader.domain.extension.gone
+import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
@@ -18,10 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseRegisterLoginActivity<ActivityRegisterBinding>(
+	ActivityRegisterBinding::inflate
+) {
 
-	private lateinit var binding: ActivityRegisterBinding
-	private lateinit var authViewModel: AuthViewModel
 	private lateinit var fullNameET: EditText
 	private lateinit var emailET: EditText
 	private lateinit var passwordET: EditText
@@ -29,7 +32,6 @@ class RegisterActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		binding = ActivityRegisterBinding.inflate(layoutInflater)
 		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 		setContentView(binding.root)
 		fullNameET = binding.fullnameLayout.editText!!
@@ -39,6 +41,7 @@ class RegisterActivity : AppCompatActivity() {
 
 		validateFields()
 		registerUser()
+		alreadytHaveAccount()
 	}
 
 	fun registerUser() {
@@ -67,49 +70,27 @@ class RegisterActivity : AppCompatActivity() {
 	}
 
 	private fun createUserEmailPassword(email: String, password: String) {
+		binding.progressBar.show()
 		authViewModel.createUserEmailPassword(email, password).observe(this) {
 			when(it) {
 				is Resource.Success -> {
 					val user = it.data
 					if(user != null) {
-						createUserDocument(user)
+						createUserDocument(
+							user.copy(fullName = fullNameET.text.toString()),
+							{binding.progressBar.gone()}
+						)
 					}
 				}
 				is Resource.Error -> {
-
+					binding.progressBar.gone()
+					alertDialog(it.message)
 				}
 				is Resource.ErrorCaught -> {
-
+					binding.progressBar.gone()
 				}
 			}
 		}
-	}
-
-	private fun createUserDocument(user: UserProfile) {
-		authViewModel.createUserDocument(user)
-		authViewModel.currentUser.observe(this) { it ->
-			when(it) {
-				is Resource.Success -> {
-					val user = it.data
-					if(user != null) {
-						goToMainActivity(user)
-					}
-				}
-				is Resource.ErrorCaught -> {
-
-				}
-				is Resource.Error -> {
-
-				}
-			}
-		}
-	}
-
-	private fun goToMainActivity(user: UserProfile) {
-		val intent = Intent(this, MainActivity::class.java)
-		intent.putExtra(Constants.USER_KEY, user)
-		startActivity(intent)
-		finish()
 	}
 
 	fun validateFields() {
@@ -145,4 +126,9 @@ class RegisterActivity : AppCompatActivity() {
 		}
 	}
 
+	private fun alreadytHaveAccount() {
+		binding.alreadyAccount.setOnClickListener {
+			onBackPressed()
+		}
+	}
 }

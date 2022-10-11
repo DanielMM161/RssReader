@@ -51,7 +51,6 @@ class Utils {
 		}
 
 		fun fromItemFeedToFeedUI(item: Item, feedSource: String): FeedUI {
-			Log.e("fromItemFeedToFeedUI ----> ", "content: ---> ${item.content}")
 			return FeedUI(
 				feedSource = determineFeedSource(feedSource),
 				title = item.title!!,

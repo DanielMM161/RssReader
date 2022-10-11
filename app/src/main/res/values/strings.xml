@@ -10,7 +10,7 @@
   <!-- Login Activity -->
   <string name="welcome">Hello There, Welcome Back</string>
   <string name="sig_in">Sig In to continue</string>
-  <string name="userName">Username</string>
+  <string name="Email">Email</string>
   <string name="password">Password</string>
   <string name="repeat_password">Repeat Password</string>
   <string name="forget_password">Forget Password?</string>
@@ -70,10 +70,13 @@
   <string name="password_length">The password needs to consist of at least 8 characters</string>
   <string name="password_digit">The password needs to contain at least one letter and digit</string>
   <string name="repeated_password">The passwords don\'t match</string>
+  <string name="email_password_not_emptu">Email &amp; Password cannot be empty</string>
 
   <string name="error_signIn_email_password">There were a error SignIn</string>
   <string name="error_creating_user_email_password">Some errors occurred while creating the user</string>
   <string name="error_get_user_document">Some errors have occurred</string>
 
+  <!-- Dialog Alert -->
+  <string name="accept">Accept</string>
 
 </resources>
