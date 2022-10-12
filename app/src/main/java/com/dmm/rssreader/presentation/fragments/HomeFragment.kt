@@ -27,7 +27,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-					viewModel.getFavouriteFeeds().collectLatest {
+					viewModel.getFavouriteFeeds().collect {
 						val list = it
 						feedAdapter.differ.currentList.forEach {
 							it.favourite = list.contains(it)
@@ -56,7 +56,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		}
 	}
 
-
 	private fun setUpRecyclerView() = binding.rvFeeds.apply {
 		feedAdapter = FeedAdapter()
 		adapter = feedAdapter
@@ -67,6 +66,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 
 	private fun onRefreshListener() {
 		binding.swipeRefresh.setOnRefreshListener {
+			viewModel.deleteTable()
 			viewModel.fetchFeedsDeveloper()
 		}
 	}

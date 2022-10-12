@@ -29,9 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
 	app: Application,
-	private val fetchDataUseCase: FetchDataUseCase,
+	private val feedsUseCase: FeedsUseCase,
 	private val fireBaseUseCase: FireBaseUseCase,
-	private val favouriteFeedsUseCase: FavouriteFeedsUseCase,
 	private val authUseCase: AuthUseCase,
 ) : AndroidViewModel(app) {
 
@@ -50,7 +49,7 @@ class MainViewModel @Inject constructor(
 			var listFeed: MutableList<FeedUI> = mutableListOf()
 
 			userProfile.feeds.forEach { feed ->
-				fetchDataUseCase.fetchData(feed).data?.forEach { feedUI ->
+				feedsUseCase.fetchFeeds(feed).data?.forEach { feedUI ->
 
 					listFeed.add(feedUI)
 				}
@@ -67,7 +66,7 @@ class MainViewModel @Inject constructor(
 			val feed = listFeed.find { it.title == favouriteFeed.title }
 			if (feed != null) {
 				feed.favourite = true
-				favouriteFeedsUseCase.updateFavouriteFeed(feed.favourite, feed.title)
+				feedsUseCase.updateFavouriteFeed(feed.favourite, feed.title)
 			}
 		}
 	}
@@ -97,19 +96,19 @@ class MainViewModel @Inject constructor(
 	fun saveFavouriteFeed(feedSelected: FeedUI) = viewModelScope.launch {
 		updateFavouritesFeedsFireBase(feedSelected)
 		feedSelected.favourite = !feedSelected.favourite
-		favouriteFeedsUseCase.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
+		feedsUseCase.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
 	}
 
 	fun updateFavouritesFeedsFireBase(feedSelected: FeedUI) {
 		if (userProfile.favouritesFeeds.contains(feedSelected)) {
 			userProfile.favouritesFeeds.remove(feedSelected)
-			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(
+			feedsUseCase.updateFavouritesFeedsFireBase(
 				userProfile.favouritesFeeds,
 				userProfile.email
 			)
 		} else {
 			userProfile.favouritesFeeds.add(feedSelected.copy(favourite = true))
-			favouriteFeedsUseCase.updateFavouritesFeedsFireBase(
+			feedsUseCase.updateFavouritesFeedsFireBase(
 				userProfile.favouritesFeeds,
 				userProfile.email
 			)
@@ -117,7 +116,7 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun getFavouriteFeeds(): Flow<List<FeedUI>> {
-		return favouriteFeedsUseCase.getFavouriteFeeds()
+		return feedsUseCase.getFavouriteFeeds()
 	}
 
 	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
@@ -139,6 +138,10 @@ class MainViewModel @Inject constructor(
 
 	fun signOut() {
 		authUseCase.signOut()
+	}
+
+	fun deleteTable() = viewModelScope.launch {
+		feedsUseCase.deleteTable()
 	}
 
 	private fun hasInternetConnection(): Boolean {

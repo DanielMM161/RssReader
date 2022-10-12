@@ -17,13 +17,7 @@ abstract class RepositoriesModule {
 	): RepositoryAuth
 
 	@Binds
-	abstract fun bindRepositoryFavouriteFeeds(
-		repoAuth: RepositoryFavouriteFeedsImpl
-	): RepositoryFavouriteFeeds
-
-	@Binds
-	abstract fun bindRepositoryFetchData(
-		repoFetchData: RepositoryFetchDataImpl
-	): RepositoryFetchData
-
+	abstract fun bindRepositoryFeeds(
+		repoFeeds: RepositoryFeedsImpl
+	): RepositoryFeeds
 }
