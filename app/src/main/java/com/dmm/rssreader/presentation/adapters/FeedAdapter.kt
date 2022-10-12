@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ItemFeedBinding
 import com.dmm.rssreader.domain.model.FeedUI
 
@@ -13,6 +14,11 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 	inner class FeedAdapterViewHolder(private val binding: ItemFeedBinding) : RecyclerView.ViewHolder(binding.root) {
 		fun bind(feedUI: FeedUI) {
 			binding.feed = feedUI
+			setImageResourceImageButton(binding, feedUI.favourite)
+			binding.save.setOnClickListener {
+				readLaterOnItemClickListener?.let { it(feedUI) }
+				setImageResourceImageButton(binding, feedUI.favourite)
+			}
 		}
 	}
 
@@ -56,5 +62,13 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 
 	override fun getItemCount(): Int {
 		return differ.currentList.size
+	}
+
+	private fun setImageResourceImageButton(binding: ItemFeedBinding, favourite: Boolean) {
+		if(favourite) {
+			binding.save.setImageResource(R.drawable.bookmark_add_fill)
+		} else {
+			binding.save.setImageResource(R.drawable.bookmark_add)
+		}
 	}
 }

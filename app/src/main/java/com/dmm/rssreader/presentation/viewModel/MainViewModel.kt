@@ -116,7 +116,7 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	fun getFeedList(): Flow<List<FeedUI>> {
+	fun getFavouriteFeeds(): Flow<List<FeedUI>> {
 		return favouriteFeedsUseCase.getFavouriteFeeds()
 	}
 

@@ -86,13 +86,13 @@
           android:id="@+id/save"
           android:layout_width="20dp"
           android:layout_height="20dp"
+          android:layout_below="@+id/title"
+          android:layout_alignParentEnd="true"
           android:layout_marginStart="8dp"
           android:layout_marginTop="2dp"
           android:background="@color/transparent"
           android:scaleType="fitXY"
           android:src="@drawable/bookmark_add"
-          android:layout_below="@+id/title"
-          android:layout_alignParentEnd="true"
           app:tint="@color/primary" />
 
       </RelativeLayout>

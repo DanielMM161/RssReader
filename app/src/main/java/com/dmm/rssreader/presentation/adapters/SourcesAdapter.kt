@@ -1,18 +1,14 @@
 package com.dmm.rssreader.presentation.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ItemSourcesBinding
-import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.SingleSources
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 class SourcesAdapter(
-	val sourceList: List<SingleSources>,
+	private val sourceList: List<SingleSources>,
 	private val userFeeds: List<String>,
 	private val onCheckedChangeListener: ((String) -> Unit)
 	) : BaseAdapter() {

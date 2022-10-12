@@ -11,6 +11,8 @@ import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import com.dmm.rssreader.utils.Utils.Companion.showToast
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
@@ -25,7 +27,12 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-					viewModel.fetchFeedsDeveloper()
+					viewModel.getFavouriteFeeds().collectLatest {
+						val list = it
+						feedAdapter.differ.currentList.forEach {
+							it.favourite = list.contains(it)
+						}
+					}
 				}
 				launch {
 					subscribeObservableDeveloperFeeds()
@@ -55,6 +62,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		adapter = feedAdapter
 		layoutManager = LinearLayoutManager(requireContext())
 		itemClickListener()
+		readLaterItemClickListener()
 	}
 
 	private fun onRefreshListener() {
@@ -94,5 +102,9 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
 		val feedDescriptionDialog = FeedDescriptionDialog(it.copy())
 		feedDescriptionDialog.show(parentFragmentManager, feedDescriptionDialog.tag)
+	}
+
+	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener {
+		viewModel.saveFavouriteFeed(it)
 	}
 }

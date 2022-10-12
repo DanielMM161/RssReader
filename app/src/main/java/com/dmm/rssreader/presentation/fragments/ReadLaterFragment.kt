@@ -25,7 +25,7 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		setUpRecyclerView()
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.getFeedList().collect {
+				viewModel.getFavouriteFeeds().collect {
 					binding.noReadLater.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
 					binding.willBeHere.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
 					feedAdapter.differ.submitList(it)
@@ -72,10 +72,15 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		layoutManager = LinearLayoutManager(requireContext())
 		deleteItemSwipe()
 		itemClickListener()
+		readLaterItemClickListener()
 	}
 
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
 		val feedDescriptionDialog = FeedDescriptionDialog(it.copy())
 		feedDescriptionDialog.show(parentFragmentManager, feedDescriptionDialog.tag)
+	}
+
+	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener {
+		viewModel.saveFavouriteFeed(it)
 	}
 }
