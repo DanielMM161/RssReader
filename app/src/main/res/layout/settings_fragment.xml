@@ -3,10 +3,6 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <data>
-
-  </data>
-
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,35 +17,34 @@
       app:layout_constraintTop_toTopOf="parent"
       android:padding="16dp">
 
-      <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:elevation="12dp"
-        android:innerRadius="0dp"
-        android:shape="ring"
-        android:thicknessRatio="1.9"
-        app:cardCornerRadius="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--      <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/card_view"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:elevation="12dp"-->
+<!--        android:innerRadius="0dp"-->
+<!--        android:shape="ring"-->
+<!--        android:thicknessRatio="1.9"-->
+<!--        app:cardCornerRadius="40dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <ImageView
-          android:id="@+id/imageView1"
-          android:layout_width="match_parent"
-          android:layout_height="80dp"
-          android:layout_alignParentTop="true"
-          android:layout_centerHorizontal="true"
-          android:src="@drawable/bookmark_add" />
-      </androidx.cardview.widget.CardView>
+<!--        <ImageView-->
+<!--          android:id="@+id/imageView1"-->
+<!--          android:layout_width="match_parent"-->
+<!--          android:layout_height="80dp"-->
+<!--          android:layout_alignParentTop="true"-->
+<!--          android:layout_centerHorizontal="true"-->
+<!--          android:src="@drawable/bookmark_add" />-->
+<!--      </androidx.cardview.widget.CardView>-->
 
       <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/card_view"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Daniel Moreno Marquez" />
 
@@ -57,11 +52,10 @@
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/light_gray"
-        android:textSize="10dp"
-        app:layout_constraintStart_toEndOf="@+id/card_view"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="devmmarquez@gmail.com" />
 
@@ -72,7 +66,7 @@
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view">
+        app:layout_constraintTop_toBottomOf="@+id/email">
 
         <ImageView
           android:id="@+id/image_feeds"
@@ -96,12 +90,13 @@
           android:text="@string/all_articles_settings" />
 
         <TextView
-          android:id="@+id/image_feeds_number"
+          android:id="@+id/feeds_number"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:gravity="center"
           android:layout_marginEnd="8dp"
           android:textSize="20dp"
+          android:textColor="@color/primary"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="@+id/image_feeds"
@@ -140,12 +135,13 @@
           android:text="@string/read_later" />
 
         <TextView
-          android:id="@+id/image_favourites_number"
+          android:id="@+id/favourites_number"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:gravity="center"
           android:layout_marginEnd="8dp"
           android:textSize="20dp"
+          android:textColor="@color/primary"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
@@ -225,6 +221,16 @@
       </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/logout_btn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:backgroundTint="@color/red"
+      android:text="@string/logout"
+      app:layout_constraintBottom_toBottomOf="parent"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

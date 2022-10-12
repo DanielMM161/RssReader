@@ -3,20 +3,14 @@ package com.dmm.rssreader.presentation.activities
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.util.Pair
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityLoginBinding
 import com.dmm.rssreader.domain.extension.gone
 import com.dmm.rssreader.domain.extension.show
-import com.dmm.rssreader.domain.model.UserProfile
-import com.dmm.rssreader.presentation.viewModel.AuthViewModel
-import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Resource
-import com.dmm.rssreader.utils.Utils.Companion.showToast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -112,7 +106,9 @@ class LoginActivity : BaseRegisterLoginActivity<ActivityLoginBinding>(
 			.requestEmail()
 			.build()
 		googleClient = GoogleSignIn.getClient(this, googleSignInOptions)
+		Log.e("initGoogleSignInClient", " ANTES DE SIGNOUT")
 		googleClient.signOut()
+		googleClient.revokeAccess()
 	}
 
 	private fun getGoogleAuthCredential(googleSignInAccount: GoogleSignInAccount) {

@@ -31,7 +31,8 @@ class MainViewModel @Inject constructor(
 	app: Application,
 	private val fetchDataUseCase: FetchDataUseCase,
 	private val fireBaseUseCase: FireBaseUseCase,
-	private val favouriteFeedsUseCase: FavouriteFeedsUseCase
+	private val favouriteFeedsUseCase: FavouriteFeedsUseCase,
+	private val authUseCase: AuthUseCase,
 ) : AndroidViewModel(app) {
 
 	lateinit var userProfile: UserProfile
@@ -54,7 +55,6 @@ class MainViewModel @Inject constructor(
 					listFeed.add(feedUI)
 				}
 			}
-			Log.e("fetch data --> ", "${listFeed.size}")
 			saveFavouriteFeedsInLocal(listFeed)
 			setDeveloperFeeds(listFeed)
 		} else {
@@ -135,6 +135,10 @@ class MainViewModel @Inject constructor(
 				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 			}
 		}
+	}
+
+	fun signOut() {
+		authUseCase.signOut()
 	}
 
 	private fun hasInternetConnection(): Boolean {

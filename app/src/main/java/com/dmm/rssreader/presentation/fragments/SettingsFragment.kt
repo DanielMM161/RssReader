@@ -1,6 +1,11 @@
 package com.dmm.rssreader.presentation.fragments
 
+import android.content.Intent
+import androidx.appcompat.app.AlertDialog
+import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.SettingsFragmentBinding
+import com.dmm.rssreader.presentation.activities.LoginActivity
+import com.dmm.rssreader.utils.Utils
 
 class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
   SettingsFragmentBinding::inflate
@@ -9,59 +14,15 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
   override fun setupUI() {
     super.setupUI()
 
-//		autoSelectedTheme()
-//		autoSelectedFeed()
-//		selectedFeeds()
-//    selectedTheme()
+    binding.name.text = viewModel.userProfile.fullName
+    binding.email.text = viewModel.userProfile.email
+    binding.feedsNumber.text = viewModel.developerFeeds.value.data?.size.toString()
+    binding.favouritesNumber.text = viewModel.userProfile.favouritesFeeds.size.toString()
+
+    logout()
     themesOption()
     feedSourcesOption()
   }
-
-//  private fun selectedFeeds() {
-//    binding.layoutFeeds.children.forEach { view ->
-//      val switch = (view as Switch)
-//      switch.setOnCheckedChangeListener { compoundButton, isChecked ->
-//        when (compoundButton.text) {
-//          getString(R.string.android_developer_blogs) -> {
-//            setFeed(FEED_ANDROID_BLOGS)
-//          }
-//          getString(R.string.android_developer_medium) -> {
-//            setFeed(FEED_ANDROID_MEDIUM)
-//          }
-//          getString(R.string.apple_developers_news) -> {
-//            setFeed(FEED_APPLE_NEWS)
-//          }
-//        }
-//
-//      }
-//    }
-//  }
-//
-//
-//  private fun autoSelectedFeed() {
-//    viewModel.userProfile.feeds.forEach { feed ->
-//      when (feed) {
-//        FEED_ANDROID_BLOGS -> {
-//          binding.switchBlogs.isChecked = true
-//        }
-//        FEED_APPLE_NEWS -> {
-//          binding.switchApple.isChecked = true
-//        }
-//      }
-//    }
-//  }
-//
-//  private fun setFeed(feed: String) {
-//    viewModel.setFeed(feed).observe(this) {
-//      when(it) {
-//        is Resource.Success -> {
-//          if(!it.data!!) {
-//            // GIVE FEEDBACK TO USER
-//          }
-//        }
-//      }
-//    }
-//  }
 
   private fun feedSourcesOption() {
     binding.userFeedsLayout.setOnClickListener {
@@ -74,6 +35,24 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
     binding.userThemeLayout.setOnClickListener {
       val themeDialogFragment = ThemeDialogFragment()
       themeDialogFragment.show(parentFragmentManager, themeDialogFragment.tag)
+    }
+  }
+
+  private fun logout() {
+    binding.logoutBtn.setOnClickListener {
+      var alert = AlertDialog.Builder(context!!)
+      Utils.alertDialog(
+        alertDialog = alert,
+        message = getString(R.string.message_logout),
+        title = getString(R.string.title_logout),
+        textPositiveButton = getString(R.string.accept),
+        textNegativeButton = getString(R.string.cancel)
+      ) {
+        viewModel.signOut()
+        val intent = Intent(context, LoginActivity::class.java)
+        startActivity(intent)
+      }
+
     }
   }
 }

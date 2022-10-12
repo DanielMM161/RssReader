@@ -46,6 +46,9 @@
   <string name="read_later">Read Later</string>
   <string name="all_sources">All Sources</string>
   <string name="themes">Themes</string>
+  <string name="logout">Log Out</string>
+  <string name="title_logout">Are you sure?</string>
+  <string name="message_logout">The app Will close with your account</string>
 
   <!-- Item Icon Title -->
   <string name="title_saved">Saved</string>
@@ -78,5 +81,6 @@
 
   <!-- Dialog Alert -->
   <string name="accept">Accept</string>
+  <string name="cancel">Cancel</string>
 
 </resources>

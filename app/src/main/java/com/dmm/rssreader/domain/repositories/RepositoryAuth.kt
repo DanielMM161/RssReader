@@ -12,4 +12,5 @@ interface RepositoryAuth {
 	fun createUserDocument(user: UserProfile):  MutableLiveData<Resource<UserProfile>>
 	fun getUserDocument(documentPath: String):MutableLiveData<Resource<UserProfile>>
 	fun checkIfUserIsAuthenticatedInFireBase(): MutableLiveData<UserProfile>
+	fun signOut()
 }

@@ -35,4 +35,8 @@ class AuthUseCase @Inject constructor(
 	fun createUserEmailPassword(email: String, password: String): MutableLiveData<Resource<UserProfile>> {
 		return repositoryAuth.createUserEmailPassword(email, password)
 	}
+
+	fun signOut() {
+		repositoryAuth.signOut()
+	}
 }

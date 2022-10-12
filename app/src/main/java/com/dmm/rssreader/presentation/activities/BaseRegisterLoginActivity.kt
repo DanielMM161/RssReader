@@ -1,6 +1,5 @@
 package com.dmm.rssreader.presentation.activities
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Resource
+import com.dmm.rssreader.utils.Utils.Companion.alertDialog
 
 
 abstract class BaseRegisterLoginActivity<VB : ViewBinding>(
@@ -88,14 +88,14 @@ abstract class BaseRegisterLoginActivity<VB : ViewBinding>(
 	}
 
 	protected fun alertDialog(message: String) {
-		var builder = AlertDialog.Builder(this)
-		builder.setMessage(message)
-
-		builder.setPositiveButton(
-			getString(R.string.accept),
-			DialogInterface.OnClickListener { dialog, id -> dialog.cancel() }
-		)
-
-		builder.create().show()
+		var alert = AlertDialog.Builder(this)
+		alertDialog(
+			alertDialog = alert,
+			message = message,
+			textPositiveButton = getString(R.string.accept),
+			textNegativeButton = getString(R.string.cancel)
+		) {
+			it.cancel()
+		}
 	}
 }

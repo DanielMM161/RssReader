@@ -119,6 +119,10 @@ class RepositoryAuthImpl @Inject constructor(
 		return user
 	}
 
+	override fun signOut() {
+		firebaseAuth.signOut()
+	}
+
 	private fun newUser(fullName: String, email: String, uid: String, isNewUser: Boolean): UserProfile {
 		return UserProfile(
 			fullName = fullName,

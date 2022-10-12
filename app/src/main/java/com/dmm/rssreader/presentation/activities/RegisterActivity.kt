@@ -86,9 +86,6 @@ class RegisterActivity : BaseRegisterLoginActivity<ActivityRegisterBinding>(
 					binding.progressBar.gone()
 					alertDialog(it.message)
 				}
-				is Resource.ErrorCaught -> {
-					binding.progressBar.gone()
-				}
 			}
 		}
 	}
