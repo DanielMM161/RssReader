@@ -27,6 +27,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
+					viewModel.fetchFeedsDeveloper()
 					viewModel.getFavouriteFeeds().collect {
 						val list = it
 						feedAdapter.differ.currentList.forEach {

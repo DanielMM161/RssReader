@@ -144,6 +144,10 @@ class MainViewModel @Inject constructor(
 		feedsUseCase.deleteTable()
 	}
 
+	fun deleteFeeds(sourceFeed: String) = viewModelScope.launch {
+		feedsUseCase.deleteFeeds(sourceFeed)
+	}
+
 	private fun hasInternetConnection(): Boolean {
 		val connectivityManager = getApplication<MainApplication>().getSystemService(
 			Context.CONNECTIVITY_SERVICE

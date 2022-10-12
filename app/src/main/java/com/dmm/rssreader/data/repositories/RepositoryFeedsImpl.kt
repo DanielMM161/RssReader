@@ -27,11 +27,11 @@ class RepositoryFeedsImpl @Inject constructor(
 		var result = feedsDao.getFeedsList(source)
 		if(result.isEmpty()) {
 			when(source) {
-				Constants.SOURCE_ANDROID_BLOGS -> result = handleResponse(serviceAndroidBlogs.fetchData())
-				Constants.SOURCE_ANDROID_MEDIUM -> result = handleResponse(serviceDevsMedium.fetchData())
-				Constants.SOURCE_DEVELOPER_CO -> result = handleResponse(serviceAndroidDevelopers.fetchData())
-				Constants.SOURCE_DANLEW_BLOG -> result = handleResponse(serviceDanLew.fetchData())
-				Constants.SOURCE_KOTLIN_WEEKLY -> result = handleResponse(serviceKotlinWeekly.fetchData())
+				Constants.SOURCE_ANDROID_BLOGS -> result = handleResponse(serviceAndroidBlogs.fetchData(), source)
+				Constants.SOURCE_ANDROID_MEDIUM -> result = handleResponse(serviceDevsMedium.fetchData(), source)
+				Constants.SOURCE_DEVELOPER_CO -> result = handleResponse(serviceAndroidDevelopers.fetchData(), source)
+				Constants.SOURCE_DANLEW_BLOG -> result = handleResponse(serviceDanLew.fetchData(), source)
+				Constants.SOURCE_KOTLIN_WEEKLY -> result = handleResponse(serviceKotlinWeekly.fetchData(), source)
 			}
 			saveDataLocal(result)
 		}
@@ -64,10 +64,14 @@ class RepositoryFeedsImpl @Inject constructor(
 		feedsDao.deleteTable()
 	}
 
-	private fun handleResponse(response: Response<String>): List<FeedUI> {
+	override suspend fun deleteFeeds(sourceFeed: String) {
+		feedsDao.deleteFeedsByFeedSource(sourceFeed)
+	}
+
+	private fun handleResponse(response: Response<String>, source: String): List<FeedUI> {
 		var result: List<FeedUI> = listOf()
 		if(response!!.isSuccessful) {
-			result = FeedParser().parse(response.body()!!)
+			result = FeedParser().parse(response.body()!!, source)
 		}
 		return result
 	}

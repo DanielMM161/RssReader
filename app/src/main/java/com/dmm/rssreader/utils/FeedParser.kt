@@ -10,12 +10,12 @@ import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.text.SimpleDateFormat
 
-class FeedParser {
+class FeedParser() {
 
 	private val pullParserFactory = XmlPullParserFactory.newInstance()
 	private val parser = pullParserFactory.newPullParser()
 
-	fun parse(xml: String): List<FeedUI> {
+	fun parse(xml: String, source: String): List<FeedUI> {
 		val feedsUI: MutableList<FeedUI> = mutableListOf()
 		var feedTitle = ""
 
@@ -25,9 +25,9 @@ class FeedParser {
 			if(parser.eventType == XmlPullParser.START_TAG && parser.name == "title") {
 				feedTitle = readText(parser)
 			} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
-				feedsUI.add(readFeedItem(parser, feedTitle))
+				feedsUI.add(readFeedItem(parser, source))
 			} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "entry") {
-				feedsUI.add(readFeedItem(parser, feedTitle))
+				feedsUI.add(readFeedItem(parser, source))
 			}
 			parser.next()
 		}
@@ -35,9 +35,9 @@ class FeedParser {
 		return feedsUI
 	}
 
-	private fun readFeedItem(parse: XmlPullParser, feedTitle: String): FeedUI {
+	private fun readFeedItem(parse: XmlPullParser, source: String): FeedUI {
 		var title = ""
-		var feedSource = feedTitle
+		var feedSource = source
 		var description = ""
 		var link = ""
 		var image = ""

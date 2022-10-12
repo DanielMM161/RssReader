@@ -12,8 +12,11 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
 	override fun setupUI() {
 		super.setupUI()
 		binding.listSources.apply {
-			adapter = SourcesAdapter(contentResources, viewModel.userProfile.feeds) {
-				setFeed(it)
+			adapter = SourcesAdapter(contentResources, viewModel.userProfile.feeds) { title, isChecked ->
+				setFeed(title)
+				if(!isChecked) {
+					viewModel.deleteFeeds(title)
+				}
 			}
 		}
 	}

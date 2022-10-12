@@ -35,4 +35,8 @@ class FeedsUseCase @Inject constructor(
 	suspend fun deleteTable() {
 		repository.deleteTable()
 	}
+
+	suspend fun deleteFeeds(sourceFeed: String) {
+		repository.deleteFeeds(sourceFeed)
+	}
 }

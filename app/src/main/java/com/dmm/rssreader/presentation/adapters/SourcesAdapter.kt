@@ -10,7 +10,7 @@ import com.dmm.rssreader.domain.model.SingleSources
 class SourcesAdapter(
 	private val sourceList: List<SingleSources>,
 	private val userFeeds: List<String>,
-	private val onCheckedChangeListener: ((String) -> Unit)
+	private val onCheckedChangeListener: ((String, Boolean) -> Unit)
 	) : BaseAdapter() {
 
 	private lateinit var binding: ItemSourcesBinding
@@ -41,7 +41,7 @@ class SourcesAdapter(
 			binding.switchSource.isChecked = true
 		}
 		binding.switchSource.setOnCheckedChangeListener { compoundButton, isChecked ->
-			onCheckedChangeListener.invoke(item.title)
+			onCheckedChangeListener.invoke(item.title, isChecked)
 		}
 
 		return binding.root
