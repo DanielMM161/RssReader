@@ -27,15 +27,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				launch {
-					viewModel.fetchFeedsDeveloper()
-					viewModel.getFavouriteFeeds().collect {
-						val list = it
-						feedAdapter.differ.currentList.forEach {
-							it.favourite = list.contains(it)
-						}
-					}
-				}
-				launch {
 					subscribeObservableDeveloperFeeds()
 				}
 			}
@@ -82,7 +73,13 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					it.data?.let { feeds ->
 						binding.swipeRefresh.isRefreshing = false
 						binding.totalArticles = feeds.size
-						feedAdapter.differ.submitList(feeds)
+						viewModel.getFavouriteFeeds().collect {
+							val list = it
+							feeds.forEach {
+								it.favourite = list.contains(it)
+							}
+							feedAdapter.differ.submitList(feeds)
+						}
 					}
 				}
 				is Resource.Error -> {

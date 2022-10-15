@@ -36,7 +36,6 @@ class Utils {
 			title: String = "",
 			textPositiveButton: String,
 			textNegativeButton: String,
-			cancelButton: Boolean = false,
 			callback: (DialogInterface) -> Unit
 		) {
 			if(!title.isEmpty()) {
@@ -49,7 +48,7 @@ class Utils {
 				DialogInterface.OnClickListener { dialog, id -> callback.invoke(dialog) }
 			)
 
-			if(cancelButton) {
+			if(textNegativeButton.isNotEmpty()) {
 				alertDialog.setNegativeButton(
 					textNegativeButton,
 					null

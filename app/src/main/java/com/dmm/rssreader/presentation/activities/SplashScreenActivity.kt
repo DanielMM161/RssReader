@@ -9,14 +9,20 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivitySplashScreenBinding
+import com.dmm.rssreader.domain.extension.Error
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Resource
+import com.dmm.rssreader.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +43,7 @@ class SplashScreenActivity : AppCompatActivity() {
 		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 		setContentView(binding.root)
 		setAnimations()
+		binding.loadingFeedback.text = "Checking Credentials..."
 
 		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
 		window.setFlags(flagFullScreen, flagFullScreen)
@@ -56,22 +63,39 @@ class SplashScreenActivity : AppCompatActivity() {
 	}
 
 	private fun getUserDocument(documentPath: String) {
+		binding.loadingFeedback.text = "Upload User Data..."
 		authViewModel.getUserDocument(documentPath)
 		authViewModel.currentUser.observe(this) { it ->
 			when(it) {
 				is Resource.Success -> {
 					val user = it.data
 					if(user != null) {
+						binding.loadingFeedback.text = "Going to Home Screen"
 						goToMainActivity(user)
 					}
 				}
 				is Resource.ErrorCaught -> {
+					setErrorText()
 
 				}
 				is Resource.Error -> {
-
+					setErrorText()
 				}
 			}
+		}
+	}
+
+	private fun setErrorText() {
+		binding.loadingFeedback.Error(R.color.red, "Error Occurred")
+		var alert = AlertDialog.Builder(this)
+		Utils.alertDialog(
+			alertDialog = alert,
+			message = getString(R.string.message_logout),
+			title = getString(R.string.title_logout),
+			textPositiveButton = getString(R.string.accept),
+			textNegativeButton = getString(R.string.cancel)
+		) {
+			finish()
 		}
 	}
 
@@ -87,7 +111,7 @@ class SplashScreenActivity : AppCompatActivity() {
 		bottomAnim = setAnimation(R.anim.bottom_animation)
 		binding.imageView.animation = topAnim
 		binding.logoText.animation = bottomAnim
-		binding.slogan.animation = bottomAnim
+		binding.loadingFeedback.animation = bottomAnim
 	}
 
 	private fun goToLoginActivity() {
