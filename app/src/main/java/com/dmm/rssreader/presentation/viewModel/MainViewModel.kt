@@ -50,7 +50,6 @@ class MainViewModel @Inject constructor(
 
 			userProfile.feeds.forEach { feed ->
 				feedsUseCase.fetchFeeds(feed).data?.forEach { feedUI ->
-
 					listFeed.add(feedUI)
 				}
 			}

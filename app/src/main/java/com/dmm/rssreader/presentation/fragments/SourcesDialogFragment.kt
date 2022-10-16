@@ -14,9 +14,6 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
 		binding.listSources.apply {
 			adapter = SourcesAdapter(contentResources, viewModel.userProfile.feeds) { title, isChecked ->
 				setFeed(title)
-				if(!isChecked) {
-					viewModel.deleteFeeds(title)
-				}
 			}
 		}
 	}

@@ -35,7 +35,7 @@ class Utils {
 			message: String,
 			title: String = "",
 			textPositiveButton: String,
-			textNegativeButton: String,
+			textNegativeButton: String = "",
 			callback: (DialogInterface) -> Unit
 		) {
 			if(!title.isEmpty()) {

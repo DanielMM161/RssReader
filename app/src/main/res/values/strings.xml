@@ -7,6 +7,13 @@
   <string name="feeds">Feeds</string>
   <string name="theme">Themes</string>
 
+  <!-- Splash Activity -->
+  <string name="upload_user_data">Upload User Data...</string>
+  <string name="checking_credentials">Checking Credentials...</string>
+  <string name="going_home_screen">Going to the Home Screen</string>
+  <string name="error_occurred">Error Occurred</string>
+  <string name="error_message">It\'s looks like there were a error with the app, try to restart the app and try again</string>
+
   <!-- Login Activity -->
   <string name="welcome">Hello There, Welcome Back</string>
   <string name="sig_in">Sig In to continue</string>

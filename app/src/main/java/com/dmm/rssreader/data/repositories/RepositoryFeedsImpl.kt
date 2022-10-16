@@ -10,6 +10,9 @@ import com.dmm.rssreader.utils.FeedParser
 import com.dmm.rssreader.utils.Resource
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.toList
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -35,8 +38,15 @@ class RepositoryFeedsImpl @Inject constructor(
 			}
 			saveDataLocal(result)
 		}
+		val favouriteFeeds = feedsDao.getFavouriteFeed()
+		result.forEach {
+			it.favourite = favouriteFeeds.contains(it)
+		}
 		return Resource.Success(result)
 	}
+
+	suspend fun <T> Flow<List<T>>.flattenToList() =
+		flatMapConcat { it.asFlow() }.toList()
 
 	override suspend fun saveDataLocal(feedUI: List<FeedUI>) {
 		feedsDao.insertFeeds(feedUI)

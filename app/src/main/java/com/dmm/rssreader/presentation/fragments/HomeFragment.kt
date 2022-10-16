@@ -1,5 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -26,6 +27,9 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				launch {
+					viewModel.fetchFeedsDeveloper()
+				}
 				launch {
 					subscribeObservableDeveloperFeeds()
 				}
@@ -73,13 +77,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					it.data?.let { feeds ->
 						binding.swipeRefresh.isRefreshing = false
 						binding.totalArticles = feeds.size
-						viewModel.getFavouriteFeeds().collect {
-							val list = it
-							feeds.forEach {
-								it.favourite = list.contains(it)
-							}
-							feedAdapter.differ.submitList(feeds)
-						}
+						feedAdapter.differ.submitList(feeds)
 					}
 				}
 				is Resource.Error -> {

@@ -24,6 +24,9 @@ interface FeedsDao {
 	@Query("SELECT * FROM feeds WHERE favourite = 1")
 	fun getFavouriteFeeds(): Flow<List<FeedUI>>
 
+	@Query("SELECT * FROM feeds WHERE favourite = 1")
+	suspend fun getFavouriteFeed(): List<FeedUI>
+
 	@Query("SELECT * FROM feeds WHERE feed_source = :feedSource")
 	suspend fun getFeedsList(feedSource: String): List<FeedUI>
 }

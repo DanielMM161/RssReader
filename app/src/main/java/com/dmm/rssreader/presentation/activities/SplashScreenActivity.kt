@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivitySplashScreenBinding
 import com.dmm.rssreader.domain.extension.Error
+import com.dmm.rssreader.domain.extension.gone
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
@@ -43,7 +44,7 @@ class SplashScreenActivity : AppCompatActivity() {
 		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 		setContentView(binding.root)
 		setAnimations()
-		binding.loadingFeedback.text = "Checking Credentials..."
+		binding.loadingFeedback.text = getString(R.string.checking_credentials)
 
 		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
 		window.setFlags(flagFullScreen, flagFullScreen)
@@ -63,22 +64,24 @@ class SplashScreenActivity : AppCompatActivity() {
 	}
 
 	private fun getUserDocument(documentPath: String) {
-		binding.loadingFeedback.text = "Upload User Data..."
+		binding.loadingFeedback.text = getString(R.string.upload_user_data)
 		authViewModel.getUserDocument(documentPath)
 		authViewModel.currentUser.observe(this) { it ->
 			when(it) {
 				is Resource.Success -> {
 					val user = it.data
 					if(user != null) {
-						binding.loadingFeedback.text = "Going to Home Screen"
+						binding.loadingFeedback.text = getString(R.string.going_home_screen)
 						goToMainActivity(user)
 					}
 				}
 				is Resource.ErrorCaught -> {
+					binding.progressBar.gone()
 					setErrorText()
 
 				}
 				is Resource.Error -> {
+					binding.progressBar.gone()
 					setErrorText()
 				}
 			}
@@ -86,14 +89,13 @@ class SplashScreenActivity : AppCompatActivity() {
 	}
 
 	private fun setErrorText() {
-		binding.loadingFeedback.Error(R.color.red, "Error Occurred")
+		binding.loadingFeedback.Error(R.color.red, getString(R.string.error_occurred))
 		var alert = AlertDialog.Builder(this)
 		Utils.alertDialog(
 			alertDialog = alert,
-			message = getString(R.string.message_logout),
-			title = getString(R.string.title_logout),
+			title = getString(R.string.error_occurred),
+			message = getString(R.string.error_message),
 			textPositiveButton = getString(R.string.accept),
-			textNegativeButton = getString(R.string.cancel)
 		) {
 			finish()
 		}

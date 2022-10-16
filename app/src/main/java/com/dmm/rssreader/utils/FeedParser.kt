@@ -6,6 +6,12 @@ import com.dmm.rssreader.utils.Constants.DATE_PATTERN_2
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_3
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_4
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_OUTPUT
+import com.dmm.rssreader.utils.Constants.FORMAT_BMP
+import com.dmm.rssreader.utils.Constants.FORMAT_GIF
+import com.dmm.rssreader.utils.Constants.FORMAT_JPEG
+import com.dmm.rssreader.utils.Constants.FORMAT_JPG
+import com.dmm.rssreader.utils.Constants.FORMAT_PNG
+import com.dmm.rssreader.utils.Constants.FORMAT_TIF
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.text.SimpleDateFormat
@@ -119,12 +125,12 @@ class FeedParser() {
 	private fun getImageFromContent(content: String?): String {
 		var image = ""
 		val formats = listOf(
-			Constants.FORMAT_JPEG,
-			Constants.FORMAT_JPG,
-			Constants.FORMAT_PNG,
-			Constants.FORMAT_GIF,
-			Constants.FORMAT_TIF,
-			Constants.FORMAT_BMP
+			FORMAT_JPEG,
+			FORMAT_JPG,
+			FORMAT_PNG,
+			FORMAT_GIF,
+			FORMAT_TIF,
+			FORMAT_BMP
 		)
 		val formatsPosition = mutableMapOf<String, Int>()
 		if (content != null) {
