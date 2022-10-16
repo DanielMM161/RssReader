@@ -6,13 +6,15 @@ import com.dmm.rssreader.data.persistence.FeedsDao
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.repositories.RepositoryFeeds
 import com.dmm.rssreader.utils.Constants
+import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_BLOGS
+import com.dmm.rssreader.utils.Constants.SOURCE_ANDROID_MEDIUM
+import com.dmm.rssreader.utils.Constants.SOURCE_DANLEW_BLOG
+import com.dmm.rssreader.utils.Constants.SOURCE_DEVELOPER_CO
+import com.dmm.rssreader.utils.Constants.SOURCE_KOTLIN_WEEKLY
 import com.dmm.rssreader.utils.FeedParser
 import com.dmm.rssreader.utils.Resource
 import com.google.firebase.firestore.CollectionReference
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -30,40 +32,38 @@ class RepositoryFeedsImpl @Inject constructor(
 		var result = feedsDao.getFeedsList(source)
 		if(result.isEmpty()) {
 			when(source) {
-				Constants.SOURCE_ANDROID_BLOGS -> result = handleResponse(serviceAndroidBlogs.fetchData(), source)
-				Constants.SOURCE_ANDROID_MEDIUM -> result = handleResponse(serviceDevsMedium.fetchData(), source)
-				Constants.SOURCE_DEVELOPER_CO -> result = handleResponse(serviceAndroidDevelopers.fetchData(), source)
-				Constants.SOURCE_DANLEW_BLOG -> result = handleResponse(serviceDanLew.fetchData(), source)
-				Constants.SOURCE_KOTLIN_WEEKLY -> result = handleResponse(serviceKotlinWeekly.fetchData(), source)
+				SOURCE_ANDROID_BLOGS -> result = handleResponse(serviceAndroidBlogs.fetchData(), source)
+				SOURCE_ANDROID_MEDIUM -> result = handleResponse(serviceDevsMedium.fetchData(), source)
+				SOURCE_DEVELOPER_CO -> result = handleResponse(serviceAndroidDevelopers.fetchData(), source)
+				SOURCE_DANLEW_BLOG -> result = handleResponse(serviceDanLew.fetchData(), source)
+				SOURCE_KOTLIN_WEEKLY -> result = handleResponse(serviceKotlinWeekly.fetchData(), source)
 			}
+			setFavouritesFeeds(result)
 			saveDataLocal(result)
 		}
-		val favouriteFeeds = feedsDao.getFavouriteFeed()
-		result.forEach {
-			it.favourite = favouriteFeeds.contains(it)
-		}
+		setFavouritesFeeds(result)
 		return Resource.Success(result)
 	}
 
-	suspend fun <T> Flow<List<T>>.flattenToList() =
-		flatMapConcat { it.asFlow() }.toList()
+	private suspend fun setFavouritesFeeds(feeds: List<FeedUI>) {
+		val favouriteFeeds = feedsDao.getFavouriteFeeds()
+		feeds.forEach {
+			it.favourite = favouriteFeeds.contains(it)
+		}
+	}
 
 	override suspend fun saveDataLocal(feedUI: List<FeedUI>) {
 		feedsDao.insertFeeds(feedUI)
 	}
 
-	override fun getFavouriteFeeds(): Flow<List<FeedUI>> {
-		return feedsDao.getFavouriteFeeds()
+	override fun getFavouriteFeeds(): Flow<List<FeedUI>> = flow {
+		emit(feedsDao.getFavouriteFeeds())
 	}
 
 	override fun updateFavouritesFeedsFireBase(favouriteFeeds: List<FeedUI>, documentPath: String) {
 		docRef.document(documentPath).update(mapOf(
 			"favouritesFeeds" to favouriteFeeds
 		))
-	}
-
-	override suspend fun saveFavouriteFeed(feedUI: FeedUI) {
-		feedsDao.saveFavouriteFeed(feedUI)
 	}
 
 	override suspend fun updateFeed(favorite: Boolean, title: String) {

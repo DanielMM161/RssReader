@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface RepositoryFeeds {
 	suspend fun fetchFeeds(source: String): Resource<List<FeedUI>?>
 	suspend fun saveDataLocal(feedUI: List<FeedUI>)
-	suspend fun saveFavouriteFeed(feedUI: FeedUI)
 	suspend fun updateFeed(favorite: Boolean, title: String)
 	suspend fun deleteTable()
 	suspend fun deleteFeeds(sourceFeed: String)

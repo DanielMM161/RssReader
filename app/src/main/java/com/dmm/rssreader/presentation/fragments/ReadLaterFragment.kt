@@ -12,6 +12,8 @@ import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ReadLaterFragmentBinding
 import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
@@ -25,10 +27,15 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		setUpRecyclerView()
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.getFavouriteFeeds().collect {
-					binding.noReadLater.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
-					binding.willBeHere.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
-					feedAdapter.differ.submitList(it)
+				launch {
+					viewModel.getFavouriteFeeds()
+				}
+				launch {
+					viewModel.favouritesFeeds.collect {
+						binding.noReadLater.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
+						binding.willBeHere.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
+						feedAdapter.differ.submitList(it)
+					}
 				}
 			}
 		}

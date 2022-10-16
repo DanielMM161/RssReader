@@ -37,7 +37,9 @@ class MainViewModel @Inject constructor(
 	lateinit var userProfile: UserProfile
 	private var _developerFeeds = MutableStateFlow<Resource<List<FeedUI>?>>(Resource.Loading())
 	val developerFeeds = _developerFeeds.asStateFlow()
-	lateinit var feedSelected: FeedUI
+
+	private var _favouritesFeeds = MutableStateFlow<List<FeedUI>>(mutableListOf())
+	val favouritesFeeds = _favouritesFeeds.asStateFlow()
 
 	fun userProfileInitialized(): Boolean {
 		return this::userProfile.isInitialized
@@ -96,26 +98,25 @@ class MainViewModel @Inject constructor(
 		updateFavouritesFeedsFireBase(feedSelected)
 		feedSelected.favourite = !feedSelected.favourite
 		feedsUseCase.updateFavouriteFeed(feedSelected.favourite, feedSelected.title)
+		getFavouriteFeeds()
 	}
 
 	fun updateFavouritesFeedsFireBase(feedSelected: FeedUI) {
 		if (userProfile.favouritesFeeds.contains(feedSelected)) {
 			userProfile.favouritesFeeds.remove(feedSelected)
-			feedsUseCase.updateFavouritesFeedsFireBase(
-				userProfile.favouritesFeeds,
-				userProfile.email
-			)
 		} else {
 			userProfile.favouritesFeeds.add(feedSelected.copy(favourite = true))
-			feedsUseCase.updateFavouritesFeedsFireBase(
-				userProfile.favouritesFeeds,
-				userProfile.email
-			)
 		}
+		feedsUseCase.updateFavouritesFeedsFireBase(
+			userProfile.favouritesFeeds,
+			userProfile.email
+		)
 	}
 
-	fun getFavouriteFeeds(): Flow<List<FeedUI>> {
-		return feedsUseCase.getFavouriteFeeds()
+	fun getFavouriteFeeds() = viewModelScope.launch {
+		feedsUseCase.getFavouriteFeeds().collect{
+			_favouritesFeeds.value = it
+		}
 	}
 
 	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
