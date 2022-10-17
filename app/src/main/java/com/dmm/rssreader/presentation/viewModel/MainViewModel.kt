@@ -41,6 +41,8 @@ class MainViewModel @Inject constructor(
 	private var _favouritesFeeds = MutableStateFlow<List<FeedUI>>(mutableListOf())
 	val favouritesFeeds = _favouritesFeeds.asStateFlow()
 
+	var searchText: String = ""
+
 	fun userProfileInitialized(): Boolean {
 		return this::userProfile.isInitialized
 	}
@@ -59,6 +61,12 @@ class MainViewModel @Inject constructor(
 			setDeveloperFeeds(listFeed)
 		} else {
 			_developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
+		}
+	}
+
+	fun findFeed(text: String): List<FeedUI>? {
+		return _developerFeeds.value.data?.filter {
+			it.title.lowercase().contains(text.lowercase())
 		}
 	}
 

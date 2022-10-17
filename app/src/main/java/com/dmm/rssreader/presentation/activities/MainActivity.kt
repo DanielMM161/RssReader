@@ -1,10 +1,13 @@
 package com.dmm.rssreader.presentation.activities
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -16,6 +19,7 @@ import com.dmm.rssreader.utils.Constants.USER_KEY
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import dagger.hilt.android.AndroidEntryPoint
 
+@Suppress("UNREACHABLE_CODE")
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 		navController.addOnDestinationChangedListener { _, destination, _ ->
 			when(destination.id) {
 				R.id.homeFragment -> {
-					setTitleMateriaToolbar(R.string.title_home_fragment)
+
 				}
 				R.id.readLaterFragment -> {
 					setTitleMateriaToolbar(R.string.title_readlater_fragment)
@@ -73,8 +77,8 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun setTitleMateriaToolbar(resId: Int) {
-		binding.toolbar.title = getString(resId)
+	fun setTitleMateriaToolbar(resId: Int, parameter: String = "") {
+		binding.toolbar.title = getString(resId, parameter)
 	}
 
 	private fun setShadowColor() {

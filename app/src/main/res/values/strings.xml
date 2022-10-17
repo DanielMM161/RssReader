@@ -37,8 +37,9 @@
   <string name="have_account">ALREADY HAVE A ACCOUNT? LOGIN</string>
 
   <!-- Home Fragment -->
-  <string name="title_home_fragment">All Articles</string>
+  <string name="title_home_fragment">All Articles - %s Total</string>
   <string name="all_articles">All articles</string>
+  <string name="queryHint">Search Feeds</string>
   <string name="total">%s Total</string>
   <string name="date">/ %s</string>
 

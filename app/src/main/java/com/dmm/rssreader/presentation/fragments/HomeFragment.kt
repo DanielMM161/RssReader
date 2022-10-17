@@ -1,19 +1,18 @@
 package com.dmm.rssreader.presentation.fragments
 
 import android.util.Log
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.HomeFragmentBinding
+import com.dmm.rssreader.presentation.activities.MainActivity
 import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils.Companion.isNightMode
 import com.dmm.rssreader.utils.Utils.Companion.showToast
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment<HomeFragmentBinding>(
@@ -37,7 +36,30 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		}
 		setUpRecyclerView()
 		onRefreshListener()
+		searchFeed()
 		setColorSwipeRefresh()
+	}
+
+	private fun searchFeed() {
+		binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+			override fun onQueryTextSubmit(query: String?): Boolean {
+				query?.let {
+					if(it.isNotEmpty()) {
+						viewModel.searchText = query.trim()
+						searchFeeds()
+					}
+				}
+				return false
+			}
+
+			override fun onQueryTextChange(text: String?): Boolean {
+				if(text != null) {
+					viewModel.searchText = text.trim()
+					searchFeeds()
+				}
+				return false
+			}
+		})
 	}
 
 	private fun setColorSwipeRefresh() {
@@ -77,7 +99,12 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					it.data?.let { feeds ->
 						binding.swipeRefresh.isRefreshing = false
 						binding.totalArticles = feeds.size
-						feedAdapter.differ.submitList(feeds)
+						setMaterialToolbarFromActivity(feeds.size.toString())
+						if(viewModel.searchText.isNotEmpty()) {
+							searchFeeds()
+						} else {
+							feedAdapter.differ.submitList(feeds)
+						}
 					}
 				}
 				is Resource.Error -> {
@@ -102,5 +129,24 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 
 	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener {
 		viewModel.saveFavouriteFeed(it)
+	}
+
+	private fun setMaterialToolbarFromActivity(feedsSize: String) {
+		(activity as MainActivity?)?.setTitleMateriaToolbar(R.string.title_home_fragment, feedsSize ?: "")
+	}
+
+	private fun searchFeeds() {
+		val text = viewModel.searchText
+		if(text.isNotEmpty()) {
+			val list = viewModel.findFeed(text)
+			if(list != null) {
+				setMaterialToolbarFromActivity(list.size.toString())
+				feedAdapter.differ.submitList(list)
+			}
+		} else {
+			val list = viewModel.developerFeeds.value.data
+			setMaterialToolbarFromActivity(list?.size.toString())
+			feedAdapter.differ.submitList(list)
+		}
 	}
 }
