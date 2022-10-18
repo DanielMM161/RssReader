@@ -106,9 +106,7 @@ class LoginActivity : BaseRegisterLoginActivity<ActivityLoginBinding>(
 			.requestEmail()
 			.build()
 		googleClient = GoogleSignIn.getClient(this, googleSignInOptions)
-		Log.e("initGoogleSignInClient", " ANTES DE SIGNOUT")
 		googleClient.signOut()
-		googleClient.revokeAccess()
 	}
 
 	private fun getGoogleAuthCredential(googleSignInAccount: GoogleSignInAccount) {

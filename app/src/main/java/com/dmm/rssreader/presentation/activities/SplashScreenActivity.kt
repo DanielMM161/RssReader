@@ -24,6 +24,9 @@ import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +34,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivitySplashScreenBinding
 	private lateinit var authViewModel: AuthViewModel
+
 	lateinit var topAnim: Animation
 	lateinit var bottomAnim: Animation
 
@@ -49,8 +53,11 @@ class SplashScreenActivity : AppCompatActivity() {
 		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
 		window.setFlags(flagFullScreen, flagFullScreen)
 
+		authViewModel.signOut()
+
 		checkIfUserAuthenticated()
 	}
+
 
 	private fun checkIfUserAuthenticated() {
 		authViewModel.checkIfUserIsAuthenticatedInFireBase()

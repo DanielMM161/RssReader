@@ -63,6 +63,10 @@ class AuthViewModel @Inject constructor(
     return validateUseCase.validateRepeatedPassword(password, repeatPassword)
   }
 
+  fun signOut() {
+    authUseCase.signOut()
+  }
+
   fun validateFields(fields: List<String>): Boolean {
     fields.forEach { value ->
       if(value.isBlank()) {

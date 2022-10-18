@@ -128,9 +128,15 @@ class MainViewModel @Inject constructor(
 	}
 
 	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
-		return Resource.Success(feeds!!.sortedByDescending { it ->
+		val dateEmptyList = feeds?.filter { it.published!!.isEmpty()  }
+		val dateNoEmptyList = feeds?.filter { it.published!!.isNotEmpty()  }
+		val sortedFeeds = dateNoEmptyList!!.sortedByDescending { it ->
 			LocalDate.parse(it.published, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_OUTPUT))
-		})
+		}.toMutableList()
+		dateEmptyList?.forEach {
+			sortedFeeds.add(sortedFeeds.size - 1, it)
+		}
+		return Resource.Success(sortedFeeds.toList())
 	}
 
 	fun autoSelectedTheme() {
