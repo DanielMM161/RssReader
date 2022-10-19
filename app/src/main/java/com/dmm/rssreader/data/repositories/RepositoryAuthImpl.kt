@@ -1,5 +1,6 @@
 package com.dmm.rssreader.data.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.R
 import com.dmm.rssreader.domain.model.UserProfile
@@ -28,10 +29,15 @@ class RepositoryAuthImpl @Inject constructor(
 		if(!email.isEmpty() && !password.isEmpty()) {
 			firebaseAuth.signInWithEmailAndPassword(email, password)
 				.addOnCompleteListener {
-					if(it.isSuccessful) {
-						emailUser.value = Resource.Success(true)
+					val emailVerificated = firebaseAuth.currentUser?.isEmailVerified ?: false
+					if(emailVerificated) {
+						if(it.isSuccessful) {
+							emailUser.value = Resource.Success(true)
+						} else {
+							emailUser.value = Resource.Error(it.exception?.message.toString())
+						}
 					} else {
-						emailUser.value = Resource.Error(it.exception?.message.toString())
+						emailUser.value = Resource.ErrorCaught(resId = R.string.verificate_email)
 					}
 				}
 		} else {
@@ -78,10 +84,30 @@ class RepositoryAuthImpl @Inject constructor(
 				if(!it.isSuccessful) {
 					userCreated.value = Resource.Error(it.exception?.message.toString())
 				} else {
-					userCreated.value = Resource.Success(user)
+					val firebaseUser = firebaseAuth.currentUser
+					firebaseUser?.sendEmailVerification()?.addOnCompleteListener {
+						if(it.isSuccessful) {
+							userCreated.value = Resource.Success(user)
+						} else {
+							userCreated.value = Resource.Error(it.exception?.message.toString())
+						}
+					}
 				}
 			}
 		return userCreated
+	}
+
+	private fun sendEmailVerification(user:UserProfile): MutableLiveData<Resource<UserProfile>> {
+		var result =  MutableLiveData<Resource<UserProfile>>(Resource.Loading())
+		val firebaseUser = firebaseAuth.currentUser
+		firebaseUser?.sendEmailVerification()?.addOnCompleteListener {
+			if(it.isSuccessful) {
+				result.value = Resource.Success(user)
+			} else {
+				result.value = Resource.Error(it.exception?.message.toString())
+			}
+		}
+		return result
 	}
 
 	override fun getUserDocument(documentPath: String): MutableLiveData<Resource<UserProfile>> {

@@ -41,7 +41,7 @@
         android:id="@+id/logo"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:src="@drawable/logo_login"
+        android:src="@drawable/bee_rss_16"
         android:transitionName="logo_image" />
 
       <TextView

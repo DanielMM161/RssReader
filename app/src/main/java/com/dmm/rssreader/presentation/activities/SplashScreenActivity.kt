@@ -119,7 +119,7 @@ class SplashScreenActivity : AppCompatActivity() {
 		topAnim = setAnimation(R.anim.top_animation)
 		bottomAnim = setAnimation(R.anim.bottom_animation)
 		binding.imageView.animation = topAnim
-		binding.logoText.animation = bottomAnim
+		//binding.logoText.animation = bottomAnim
 		binding.loadingFeedback.animation = bottomAnim
 	}
 
@@ -127,9 +127,8 @@ class SplashScreenActivity : AppCompatActivity() {
 		Handler().postDelayed({
 			val intent = Intent(this, LoginActivity::class.java)
 
-			val pairs: Array<Pair<View, String>?> = arrayOfNulls(2)
+			val pairs: Array<Pair<View, String>?> = arrayOfNulls(1)
 			pairs[0] = Pair<View, String>(binding.imageView, "logo_image")
-			pairs[1] = Pair<View, String>(binding.logoText, "logo_title")
 
 			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)

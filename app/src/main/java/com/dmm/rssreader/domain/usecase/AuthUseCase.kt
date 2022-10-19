@@ -28,7 +28,7 @@ class AuthUseCase @Inject constructor(
 		return repositoryAuth.checkIfUserIsAuthenticatedInFireBase()
 	}
 
-	fun sigInEmailPassword(email: String, password: String): MutableLiveData<Resource<Boolean>> {
+	fun signInEmailPassword(email: String, password: String): MutableLiveData<Resource<Boolean>> {
 		return repositoryAuth.signInEmailPassword(email, password)
 	}
 

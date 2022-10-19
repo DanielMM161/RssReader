@@ -44,7 +44,7 @@ class AuthViewModel @Inject constructor(
   }
 
   fun signInEmailPassword(email: String, password: String): MutableLiveData<Resource<Boolean>>  {
-    return authUseCase.sigInEmailPassword(email, password)
+    return authUseCase.signInEmailPassword(email, password)
   }
 
   fun validateEmail(email: String): ValidationResult {

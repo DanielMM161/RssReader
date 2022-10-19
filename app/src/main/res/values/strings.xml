@@ -35,6 +35,9 @@
   <string name="email">Email</string>
   <string name="phone">Phone No</string>
   <string name="have_account">ALREADY HAVE A ACCOUNT? LOGIN</string>
+  <string name="title_error_creating_user">Error ocurred creating user</string>
+  <string name="title_email_verification">Email Verification</string>
+  <string name="message_email_verification">We\'ve sent you a email to verificate your account, please check your email</string>
 
   <!-- Home Fragment -->
   <string name="title_home_fragment">All Articles - %s Total</string>
@@ -82,6 +85,7 @@
   <string name="password_digit">The password needs to contain at least one letter and digit</string>
   <string name="repeated_password">The passwords don\'t match</string>
   <string name="email_password_not_emptu">Email &amp; Password cannot be empty</string>
+  <string name="verificate_email">Is necessary to verificate the Email</string>
 
   <string name="error_signIn_email_password">There were a error SignIn</string>
   <string name="error_creating_user_email_password">Some errors occurred while creating the user</string>
