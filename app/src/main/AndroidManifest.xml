@@ -34,12 +34,7 @@
     </activity>
 
     <activity
-      android:name=".presentation.activities.LoginActivity"
-      android:exported="true">
-    </activity>
-
-    <activity
-      android:name=".presentation.activities.RegisterActivity"
+      android:name=".presentation.activities.AuthActivity"
       android:exported="true">
     </activity>
 

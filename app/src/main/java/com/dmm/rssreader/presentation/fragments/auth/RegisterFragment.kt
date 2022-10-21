@@ -1,46 +1,50 @@
-package com.dmm.rssreader.presentation.activities
+package com.dmm.rssreader.presentation.fragments.auth
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dmm.rssreader.R
-import com.dmm.rssreader.databinding.ActivityRegisterBinding
+import com.dmm.rssreader.databinding.RegisterFragmentBinding
 import com.dmm.rssreader.domain.extension.gone
 import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
-import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.Utils
-import com.dmm.rssreader.utils.Utils.Companion.alertDialog
 import com.dmm.rssreader.utils.ValidationResult
 import com.google.android.material.textfield.TextInputLayout
-import dagger.hilt.android.AndroidEntryPoint
 
-
-@AndroidEntryPoint
-class RegisterActivity : AppCompatActivity() {
+class RegisterFragment : Fragment() {
 
 	private lateinit var authViewModel: AuthViewModel
-	private lateinit var binding: ActivityRegisterBinding
+	private lateinit var binding: RegisterFragmentBinding
+
 	private lateinit var fullNameET: EditText
 	private lateinit var emailET: EditText
 	private lateinit var passwordET: EditText
 	private lateinit var passwordRepeatET: EditText
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-		binding = ActivityRegisterBinding.inflate(layoutInflater)
-		setContentView(binding.root)
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		binding = RegisterFragmentBinding.inflate(inflater, container, false)
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+
 		fullNameET = binding.fullnameLayout.editText!!
 		emailET = binding.emailLayout.editText!!
 		passwordET = binding.passwordRegisterLayout.editText!!
@@ -48,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
 
 		validateFields()
 		registerUser()
-		alreadytHaveAccount()
+		alreadyHaveAccount()
 	}
 
 	fun registerUser() {
@@ -56,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
 			val email = emailET.text.toString()
 			val password = passwordET.text.toString()
 			var fails = 0
-			val listValidationResult = mapOf<TextInputLayout,ValidationResult>(
+			val listValidationResult = mapOf<TextInputLayout, ValidationResult>(
 				binding.fullnameLayout to authViewModel.validateFullName(fullNameET.text.toString()),
 				binding.emailLayout to authViewModel.validateEmail(email),
 				binding.passwordRegisterLayout to authViewModel.validatePassword(password),
@@ -78,7 +82,7 @@ class RegisterActivity : AppCompatActivity() {
 
 	private fun createUserEmailPassword(email: String, password: String) {
 		binding.progressBar.show()
-		authViewModel.createUserEmailPassword(email, password).observe(this) {
+		authViewModel.createUserEmailPassword(email, password).observe(viewLifecycleOwner) {
 			when(it) {
 				is Resource.Success -> {
 					val user = it.data
@@ -99,21 +103,16 @@ class RegisterActivity : AppCompatActivity() {
 		}
 	}
 
-	protected fun createUserDocument(user: UserProfile) {
+	private fun createUserDocument(user: UserProfile) {
 		authViewModel.createUserDocument(user)
-		authViewModel.currentUser.observe(this) { it ->
+		authViewModel.currentUser.observe(viewLifecycleOwner) { it ->
 			when(it) {
 				is Resource.Success -> {
 					binding.progressBar.gone()
 					val user = it.data
 					if(user != null) {
-						handleAlterDialog(
-							title = getString(R.string.title_email_verification),
-							message = getString(R.string.message_email_verification)
-						) {
-							it.cancel()
-							goToLoginActivity(user)
-						}
+						authViewModel.userShare = user
+						sendEmailVerification()
 					}
 				}
 				is Resource.Error -> {
@@ -129,23 +128,48 @@ class RegisterActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun handleAlterDialog(message: String, title: String = "", callback: (DialogInterface) -> Unit) {
-		var alert = AlertDialog.Builder(this)
-		alertDialog(
-			title = title,
-			message = message,
-			alertDialog = alert,
-			textPositiveButton = getString(R.string.accept)
-		) {
-			callback(it)
+	private fun sendEmailVerification() {
+		authViewModel.sendEmailVerification().observe(viewLifecycleOwner) {
+			when(it) {
+				is Resource.Success -> {
+					binding.progressBar.gone()
+					handleAlterDialog(
+						title = getString(R.string.title_email_verification),
+						message = it.asString(requireContext())
+					) {
+						it.cancel()
+						goLoginFragment()
+					}
+				}
+				is Resource.Error -> {
+					binding.progressBar.gone()
+					handleAlterDialog(
+						title = getString(R.string.error_occurred),
+						message = it.message
+					) {
+						it.cancel()
+					}
+				}
+			}
 		}
 	}
 
-	private fun goToLoginActivity(user: UserProfile) {
-		val intent = Intent(this, LoginActivity::class.java)
-		intent.putExtra(Constants.USER_KEY, user)
-		finish()
-		startActivity(intent)
+	private fun handleAlterDialog(
+		message: String,
+		title: String = "",
+		callback: (DialogInterface) -> Unit
+	) {
+		context?.let {
+			var alert = AlertDialog.Builder(it)
+			Utils.alertDialog(
+				title = title,
+				message = message,
+				alertDialog = alert,
+				textPositiveButton = getString(R.string.accept)
+			) {
+				callback(it)
+			}
+		}
 	}
 
 	fun validateFields() {
@@ -166,13 +190,13 @@ class RegisterActivity : AppCompatActivity() {
 		})
 	}
 
-	fun onFocusChangeListener(editText: EditText, function: ((String) -> ValidationResult)): OnFocusChangeListener {
-		return OnFocusChangeListener { view, focus ->
+	fun onFocusChangeListener(editText: EditText, function: ((String) -> ValidationResult)): View.OnFocusChangeListener {
+		return View.OnFocusChangeListener { view, focus ->
 			val inputLayout = editText.parent.parent as TextInputLayout
-			if(!focus) {
+			if (!focus) {
 				val textString = editText.text.toString()
 				val result = function.invoke(textString)
-				if(!result.successful) {
+				if (!result.successful) {
 					inputLayout.error = getString(result.resId!!)
 				}
 			} else {
@@ -181,9 +205,13 @@ class RegisterActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun alreadytHaveAccount() {
+	private fun alreadyHaveAccount() {
 		binding.alreadyAccount.setOnClickListener {
-			onBackPressed()
+			goLoginFragment()
 		}
+	}
+
+	private fun goLoginFragment() {
+		findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
 	}
 }

@@ -14,13 +14,13 @@
   <string name="error_occurred">Error Occurred</string>
   <string name="error_message">It\'s looks like there were a error with the app, try to restart the app and try again</string>
 
-  <!-- Login Activity -->
+  <!-- Login Fragment -->
   <string name="welcome">Hello There, Welcome Back</string>
   <string name="sig_in">Sig In to continue</string>
   <string name="Email">Email</string>
   <string name="password">Password</string>
   <string name="repeat_password">Repeat Password</string>
-  <string name="forget_password">Forget Password?</string>
+  <string name="forget_password_login">Forget Password?</string>
   <string name="go">Go</string>
   <string name="new_user">New User? SIGN UP</string>
   <string name="not_empty">The field cant be empty</string>
@@ -28,7 +28,7 @@
   <string name="error_login">There were a Error with Google SignIn</string>
   <string name="error_login_email_password">Incorrect Username or Password</string>
 
-  <!-- Register Activity -->
+  <!-- Register Fragment -->
   <string name="welcome_register">Welcome</string>
   <string name="signup">SignUp to start your new Account</string>
   <string name="fullname">Full Name</string>
@@ -38,6 +38,14 @@
   <string name="title_error_creating_user">Error ocurred creating user</string>
   <string name="title_email_verification">Email Verification</string>
   <string name="message_email_verification">We\'ve sent you a email to verificate your account, please check your email</string>
+
+  <!-- ForgetPassword Fragment -->
+  <string name="forget_password">Forget Password</string>
+  <string name="text_forget_password">Enter here your Email to reset your password, Will send you a email.</string>
+  <string name="reset_password">Reset Password</string>
+  <string name="email_sent_succesfully">Email sent succesfully  to reset your password</string>
+  <string name="error_sending_reset_password">Error sending email to reset password</string>
+  <string name="email_was_sent">The Email was sent</string>
 
   <!-- Home Fragment -->
   <string name="title_home_fragment">All Articles - %s Total</string>
@@ -86,6 +94,7 @@
   <string name="repeated_password">The passwords don\'t match</string>
   <string name="email_password_not_emptu">Email &amp; Password cannot be empty</string>
   <string name="verificate_email">Is necessary to verificate the Email</string>
+  <string name="error_has_ocurred">An error has occurred</string>
 
   <string name="error_signIn_email_password">There were a error SignIn</string>
   <string name="error_creating_user_email_password">Some errors occurred while creating the user</string>

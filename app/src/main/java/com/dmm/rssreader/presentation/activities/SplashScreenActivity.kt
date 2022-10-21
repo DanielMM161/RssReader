@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.util.Pair
 import android.view.View
 import android.view.WindowManager
@@ -50,8 +51,8 @@ class SplashScreenActivity : AppCompatActivity() {
 		setAnimations()
 		binding.loadingFeedback.text = getString(R.string.checking_credentials)
 
-		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
-		window.setFlags(flagFullScreen, flagFullScreen)
+//		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
+//		window.setFlags(flagFullScreen, flagFullScreen)
 
 		authViewModel.signOut()
 
@@ -63,6 +64,7 @@ class SplashScreenActivity : AppCompatActivity() {
 		authViewModel.checkIfUserIsAuthenticatedInFireBase()
 		authViewModel.authUser.observe(this) { user ->
 			if(!user.isAuthenticated) {
+				Log.e("checkIfUserAuthenticated ---> ", "no esta autenticado")
 				goToLoginActivity()
 			} else {
 				getUserDocument(user.email)
@@ -116,27 +118,31 @@ class SplashScreenActivity : AppCompatActivity() {
 	}
 
 	private fun setAnimations() {
-		topAnim = setAnimation(R.anim.top_animation)
-		bottomAnim = setAnimation(R.anim.bottom_animation)
-		binding.imageView.animation = topAnim
-		//binding.logoText.animation = bottomAnim
-		binding.loadingFeedback.animation = bottomAnim
+//		topAnim = setAnimation(R.anim.top_animation)
+//		bottomAnim = setAnimation(R.anim.bottom_animation)
+//		binding.imageView.animation = topAnim
+//		//binding.logoText.animation = bottomAnim
+//		binding.loadingFeedback.animation = bottomAnim
 	}
 
 	private fun goToLoginActivity() {
-		Handler().postDelayed({
-			val intent = Intent(this, LoginActivity::class.java)
-
-			val pairs: Array<Pair<View, String>?> = arrayOfNulls(1)
-			pairs[0] = Pair<View, String>(binding.imageView, "logo_image")
-
-			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
-				startActivity(intent, options.toBundle())
-			} else {
-				startActivity(intent)
-			}
-		}, SPLASH_SCREEN)
+		val intent = Intent(this, AuthActivity::class.java)
+		startActivity(intent)
+		finish()
+		//finish()
+//		Handler().postDelayed({
+//			val intent = Intent(this, AuthActivity::class.java)
+//
+//			val pairs: Array<Pair<View, String>?> = arrayOfNulls(1)
+//			pairs[0] = Pair<View, String>(binding.imageView, "logo_image")
+//
+//			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
+//				startActivity(intent, options.toBundle())
+//			} else {
+//				startActivity(intent)
+//			}
+//		}, SPLASH_SCREEN)
 	}
 
 	private fun setAnimation(id: Int): Animation {

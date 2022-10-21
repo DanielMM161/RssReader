@@ -1,24 +1,26 @@
-package com.dmm.rssreader.presentation.activities
+package com.dmm.rssreader.presentation.fragments.auth
 
-import android.app.ActivityOptions
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.util.Pair
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dmm.rssreader.R
-import com.dmm.rssreader.databinding.ActivityLoginBinding
+import com.dmm.rssreader.databinding.LoginFragmentBinding
 import com.dmm.rssreader.domain.extension.gone
 import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.domain.model.UserProfile
+import com.dmm.rssreader.presentation.activities.AuthActivity
+import com.dmm.rssreader.presentation.activities.MainActivity
 import com.dmm.rssreader.presentation.viewModel.AuthViewModel
 import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Resource
-import com.dmm.rssreader.utils.Utils.Companion.alertDialog
+import com.dmm.rssreader.utils.Utils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -26,28 +28,36 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
 
 	private lateinit var authViewModel: AuthViewModel
-	private lateinit var binding: ActivityLoginBinding
-	private val GOOGLE_SIGN_IN = 1000
+	private lateinit var binding: LoginFragmentBinding
 	private lateinit var googleClient: GoogleSignInClient
+	private val GOOGLE_SIGN_IN = 1000
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-		binding = ActivityLoginBinding.inflate(layoutInflater)
-		setContentView(binding.root)
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		binding = LoginFragmentBinding.inflate(inflater, container, false)
+
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
 
 		goToRegister()
 		validateField()
 		loginEmailPassword()
 		initGoogleSignInClient()
 		logginWithGoogle()
+		goToForgetPassword()
 	}
+
 
 	private fun validateField() {
 		val editTextUserName = binding.username.editText
@@ -81,10 +91,10 @@ class LoginActivity : AppCompatActivity() {
 			binding.progressBar.show()
 			val email = binding.username.editText?.text.toString() ?: ""
 			val password = binding.password.editText?.text.toString() ?: ""
-			authViewModel.signInEmailPassword(email, password).observe(this) {
+			authViewModel.signInEmailPassword(email, password).observe(viewLifecycleOwner) {
 				when(it) {
 					is Resource.Success -> {
-						val user = getUserFromRegisterActivity()
+						var user = authViewModel.userShare
 						if(user != null) {
 							goToMainActivity(user)
 						} else {
@@ -101,11 +111,13 @@ class LoginActivity : AppCompatActivity() {
 					}
 					is Resource.ErrorCaught -> {
 						binding.progressBar.gone()
-						handleAlterDialog(
-							title = getString(R.string.title_email_verification),
-							message = it.asString(this)
-						) {
-							it.cancel()
+						context?.let { context ->
+							handleAlterDialog(
+								title = getString(R.string.title_email_verification),
+								message = it.asString(context)
+							) {
+								it.cancel()
+							}
 						}
 					}
 				}
@@ -115,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
 
 	private fun getUserDocument(documentPath: String) {
 		authViewModel.getUserDocument(documentPath)
-		authViewModel.currentUser.observe(this) { it ->
+		authViewModel.currentUser.observe(viewLifecycleOwner) { it ->
 			when(it) {
 				is Resource.Success -> {
 					binding.progressBar.gone()
@@ -126,11 +138,14 @@ class LoginActivity : AppCompatActivity() {
 				}
 				is Resource.ErrorCaught -> {
 					binding.progressBar.gone()
-					handleAlterDialog(
-						message = it.asString(this)
-					) {
-						it.cancel()
+					context?.let { context ->
+						handleAlterDialog(
+							message = it.asString(context)
+						) {
+							it.cancel()
+						}
 					}
+
 				}
 				is Resource.Error -> {
 					binding.progressBar.gone()
@@ -165,55 +180,60 @@ class LoginActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun getUserFromRegisterActivity(): UserProfile? {
-		val extras = intent.extras
-		if(extras != null) {
-			return extras.getParcelable(Constants.USER_KEY)!!
-		}
-		return null
-	}
-
 	private fun handleAlterDialog(
 		message: String,
 		title: String = "",
 		callback: (DialogInterface) -> Unit
 	) {
-		var alert = AlertDialog.Builder(this)
-		alertDialog(
-			title = title,
-			message = message,
-			alertDialog = alert,
-			textPositiveButton = getString(R.string.accept)
-		) {
-			callback(it)
+		context?.let {
+			var alert = AlertDialog.Builder(it)
+			Utils.alertDialog(
+				title = title,
+				message = message,
+				alertDialog = alert,
+				textPositiveButton = getString(R.string.accept)
+			) {
+				callback(it)
+			}
 		}
 	}
 
 	private fun goToRegister() {
 		binding.signupBtn.setOnClickListener {
-			val intent = Intent(this, RegisterActivity::class.java)
+//			val intent = Intent(this, RegisterActivity::class.java)
+//
+//			val pairs: Array<Pair<View, String>?> = arrayOfNulls(7)
+//			pairs[0] = Pair<View, String>(binding.logo, "logo_image")
+//			pairs[1] = Pair<View, String>(binding.logoText, "logo_title")
+//			pairs[2] = Pair<View, String>(binding.signinText, "logo_subtitle")
+//			pairs[3] = Pair<View, String>(binding.username, "username_tran")
+//			pairs[4] = Pair<View, String>(binding.password, "password_tran")
+//			pairs[5] = Pair<View, String>(binding.loginBtn, "button_tran")
+//			pairs[6] = Pair<View, String>(binding.signupBtn, "login_signup_tran")
 
-			val pairs: Array<Pair<View, String>?> = arrayOfNulls(7)
-			pairs[0] = Pair<View, String>(binding.logo, "logo_image")
-			pairs[1] = Pair<View, String>(binding.logoText, "logo_title")
-			pairs[2] = Pair<View, String>(binding.signinText, "logo_subtitle")
-			pairs[3] = Pair<View, String>(binding.username, "username_tran")
-			pairs[4] = Pair<View, String>(binding.password, "password_tran")
-			pairs[5] = Pair<View, String>(binding.loginBtn, "button_tran")
-			pairs[6] = Pair<View, String>(binding.signupBtn, "login_signup_tran")
-
-			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
-				startActivity(intent, options.toBundle())
-			}
+//			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//				var options = ActivityOptions.makeSceneTransitionAnimation(this, *pairs)
+//				startActivity(intent, options.toBundle())
+//			}
+			navigate(R.id.action_loginFragment_to_registerFragment)
 		}
 	}
 
+	private fun goToForgetPassword() {
+		binding.btnForgetPassword.setOnClickListener {
+			navigate(R.id.action_loginFragment_to_forgetPasswordFragment)
+		}
+	}
+
+	private fun navigate(id: Int) {
+		findNavController().navigate(id)
+	}
+
 	private fun goToMainActivity(user: UserProfile) {
-		val intent = Intent(this, MainActivity::class.java)
+		val intent = Intent(activity, MainActivity::class.java)
 		intent.putExtra(Constants.USER_KEY, user)
-		finish()
 		startActivity(intent)
+		(activity as AuthActivity?)?.finish()
 	}
 
 	private fun initGoogleSignInClient() {
@@ -221,8 +241,10 @@ class LoginActivity : AppCompatActivity() {
 			.requestIdToken(getString(R.string.default_web_client_id))
 			.requestEmail()
 			.build()
-		googleClient = GoogleSignIn.getClient(this, googleSignInOptions)
-		googleClient.signOut()
+		activity?.let {
+			googleClient = GoogleSignIn.getClient(it, googleSignInOptions)
+			googleClient.signOut()
+		}
 	}
 
 	private fun getGoogleAuthCredential(googleSignInAccount: GoogleSignInAccount) {
@@ -233,6 +255,7 @@ class LoginActivity : AppCompatActivity() {
 
 	private fun logginWithGoogle() {
 		binding.googleIcon.setOnClickListener {
+			binding.progressBar.show()
 			startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
 		}
 	}
@@ -247,8 +270,9 @@ class LoginActivity : AppCompatActivity() {
 					getGoogleAuthCredential(googleSignInAccount)
 				}
 			} catch (e: ApiException) {
-
+				binding.progressBar.gone()
 			}
 		}
 	}
+
 }

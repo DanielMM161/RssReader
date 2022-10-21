@@ -13,4 +13,6 @@ interface RepositoryAuth {
 	fun getUserDocument(documentPath: String):MutableLiveData<Resource<UserProfile>>
 	fun checkIfUserIsAuthenticatedInFireBase(): MutableLiveData<UserProfile>
 	fun signOut()
+	fun resetPassword(email: String): MutableLiveData<Resource<String>>
+	fun sendEmailVerification(): MutableLiveData<Resource<String>>
 }

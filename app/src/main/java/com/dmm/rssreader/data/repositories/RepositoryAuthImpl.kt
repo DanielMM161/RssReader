@@ -29,15 +29,20 @@ class RepositoryAuthImpl @Inject constructor(
 		if(!email.isEmpty() && !password.isEmpty()) {
 			firebaseAuth.signInWithEmailAndPassword(email, password)
 				.addOnCompleteListener {
-					val emailVerificated = firebaseAuth.currentUser?.isEmailVerified ?: false
+					val emailVerificated = firebaseAuth.currentUser?.isEmailVerified!!
+					Log.e("signInEmailPassword ---> ", "${firebaseAuth.currentUser}")
+					Log.e("signInEmailPassword ---> ", "${firebaseAuth.currentUser?.isEmailVerified}")
+					Log.e("signInEmailPassword ---> ", "${emailVerificated}")
 					if(emailVerificated) {
 						if(it.isSuccessful) {
 							emailUser.value = Resource.Success(true)
 						} else {
 							emailUser.value = Resource.Error(it.exception?.message.toString())
 						}
-					} else {
+					} else if(emailVerificated == false) {
 						emailUser.value = Resource.ErrorCaught(resId = R.string.verificate_email)
+					} else if(emailVerificated == null) {
+						emailUser.value = Resource.ErrorCaught(resId = R.string.error_has_ocurred)
 					}
 				}
 		} else {
@@ -97,12 +102,12 @@ class RepositoryAuthImpl @Inject constructor(
 		return userCreated
 	}
 
-	private fun sendEmailVerification(user:UserProfile): MutableLiveData<Resource<UserProfile>> {
-		var result =  MutableLiveData<Resource<UserProfile>>(Resource.Loading())
+	override fun sendEmailVerification(): MutableLiveData<Resource<String>> {
+		var result =  MutableLiveData<Resource<String>>(Resource.Loading())
 		val firebaseUser = firebaseAuth.currentUser
 		firebaseUser?.sendEmailVerification()?.addOnCompleteListener {
 			if(it.isSuccessful) {
-				result.value = Resource.Success(user)
+				result.value = Resource.Success(resId = R.string.message_email_verification)
 			} else {
 				result.value = Resource.Error(it.exception?.message.toString())
 			}
@@ -147,6 +152,18 @@ class RepositoryAuthImpl @Inject constructor(
 
 	override fun signOut() {
 		firebaseAuth.signOut()
+	}
+
+	override fun resetPassword(email: String): MutableLiveData<Resource<String>> {
+		val result = MutableLiveData<Resource<String>>(Resource.Loading())
+		firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
+			if(!it.isSuccessful) {
+				result.value = Resource.Error(message = it.exception?.message.toString())
+			} else {
+				result.value = Resource.Success(resId = R.string.email_sent_succesfully)
+			}
+		}
+		return result
 	}
 
 	private fun newUser(fullName: String, email: String, uid: String, isNewUser: Boolean): UserProfile {

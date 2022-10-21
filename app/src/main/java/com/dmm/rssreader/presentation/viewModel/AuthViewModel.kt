@@ -22,6 +22,7 @@ class AuthViewModel @Inject constructor(
 
   var authUser = MutableLiveData<UserProfile>()
   var currentUser = MutableLiveData<Resource<UserProfile>>()
+  var userShare: UserProfile? = null
 
   fun signInWithGoogle(authCredential: AuthCredential)  {
     authUser = authUseCase.signInWithGoogle(authCredential)
@@ -65,6 +66,14 @@ class AuthViewModel @Inject constructor(
 
   fun signOut() {
     authUseCase.signOut()
+  }
+
+  fun resetPassword(email: String): MutableLiveData<Resource<String>> {
+    return authUseCase.resetPassword(email)
+  }
+
+  fun sendEmailVerification(): MutableLiveData<Resource<String>> {
+    return authUseCase.sendEmailVerification()
   }
 
   fun validateFields(fields: List<String>): Boolean {

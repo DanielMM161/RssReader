@@ -2,9 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools">
-  <data>
-
-  </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -34,15 +31,13 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:context=".presentation.activities.LoginActivity">
+      app:layout_constraintTop_toTopOf="parent">
 
       <ImageView
         android:id="@+id/logo"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:src="@drawable/bee_rss_16"
-        android:transitionName="logo_image" />
+        android:src="@drawable/bee_rss_15" />
 
       <TextView
         android:id="@+id/logo_text"
@@ -51,7 +46,7 @@
         android:fontFamily="@font/bungee"
         android:text="@string/welcome"
         android:textSize="35sp"
-        android:transitionName="logo_title" />
+  />
 
       <TextView
         android:id="@+id/signin_text"
@@ -99,12 +94,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+          android:id="@+id/btn_forget_password"
           android:layout_width="200dp"
           android:layout_height="wrap_content"
           android:layout_gravity="right"
           android:background="@color/transparent"
           android:elevation="0dp"
-          android:text="@string/forget_password"
+          android:text="@string/forget_password_login"
           android:textColor="@color/black" />
 
         <Button
@@ -150,7 +146,6 @@
 
     </LinearLayout>
 
-
-
   </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

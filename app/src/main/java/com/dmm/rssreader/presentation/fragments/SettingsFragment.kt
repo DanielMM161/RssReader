@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.SettingsFragmentBinding
-import com.dmm.rssreader.presentation.activities.LoginActivity
+import com.dmm.rssreader.presentation.activities.AuthActivity
 import com.dmm.rssreader.utils.Utils
 
 class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
@@ -49,7 +49,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
         textNegativeButton = getString(R.string.cancel)
       ) {
         viewModel.signOut()
-        val intent = Intent(context, LoginActivity::class.java)
+        val intent = Intent(context, AuthActivity::class.java)
         startActivity(intent)
       }
 
