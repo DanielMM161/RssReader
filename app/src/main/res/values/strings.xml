@@ -49,6 +49,7 @@
 
   <!-- Home Fragment -->
   <string name="title_home_fragment">All Articles - %s Total</string>
+  <string name="second_title_home_fragment">All Articles</string>
   <string name="all_articles">All articles</string>
   <string name="queryHint">Search Feeds</string>
   <string name="total">%s Total</string>

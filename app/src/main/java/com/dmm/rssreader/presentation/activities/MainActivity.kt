@@ -1,13 +1,10 @@
 package com.dmm.rssreader.presentation.activities
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -65,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 		navController.addOnDestinationChangedListener { _, destination, _ ->
 			when(destination.id) {
 				R.id.homeFragment -> {
-
+					setTitleMateriaToolbar(R.string.second_title_home_fragment)
 				}
 				R.id.readLaterFragment -> {
 					setTitleMateriaToolbar(R.string.title_readlater_fragment)
