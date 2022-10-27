@@ -5,5 +5,5 @@ import androidx.annotation.StringRes
 
 data class SingleSources(
 	val title: String,
-	@DrawableRes val imageRes: Int
+	@DrawableRes var imageRes: Int
 )
