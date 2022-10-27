@@ -64,7 +64,6 @@ class SplashScreenActivity : AppCompatActivity() {
 		authViewModel.checkIfUserIsAuthenticatedInFireBase()
 		authViewModel.authUser.observe(this) { user ->
 			if(!user.isAuthenticated) {
-				Log.e("checkIfUserAuthenticated ---> ", "no esta autenticado")
 				goToLoginActivity()
 			} else {
 				getUserDocument(user.email)

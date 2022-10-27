@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:android="http://schemas.android.com/apk/res/android">
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+    <variable
+      name="link"
+      type="String" />
+  </data>
 
   <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/bottom_sheet_layout"
@@ -19,10 +25,10 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:animateLayoutChanges="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:animateLayoutChanges="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
           android:id="@+id/close"
@@ -42,22 +48,23 @@
           android:background="@color/transparent"
           android:scaleType="fitXY"
           android:src="@drawable/bookmark_add"
-          app:tint="@color/primary"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toTopOf="parent" />
+          app:layout_constraintTop_toTopOf="parent"
+          app:tint="@color/primary" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 
       <LinearLayout
+        android:id="@+id/layout_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
 
         <TextView
           android:id="@+id/title"
@@ -83,6 +90,20 @@
 
         </ScrollView>
       </LinearLayout>
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/circular_layout"
+        android:text="@string/go_website"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

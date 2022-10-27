@@ -83,6 +83,9 @@
   <string name="night_theme">Night</string>
   <string name="auto_theme">Auto</string>
 
+  <!-- Feed Description Fragment -->
+  <string name="go_website">Go Website</string>
+
   <!-- Sources Dialog Fragment -->
   <string name="sources">Sources</string>
 

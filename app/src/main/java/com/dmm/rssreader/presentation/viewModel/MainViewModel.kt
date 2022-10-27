@@ -134,7 +134,7 @@ class MainViewModel @Inject constructor(
 			LocalDate.parse(it.published, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_OUTPUT))
 		}.toMutableList()
 		dateEmptyList?.forEach {
-			sortedFeeds.add(sortedFeeds.size - 1, it)
+			sortedFeeds.add(it)
 		}
 		return Resource.Success(sortedFeeds.toList())
 	}

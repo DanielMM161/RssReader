@@ -1,8 +1,11 @@
 package com.dmm.rssreader.presentation.fragments
 
 import QuoteSpanClass
+import android.R.attr.*
 import android.app.Dialog
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -11,17 +14,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.marginBottom
 import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.FeedDescriptionDialogBinding
+import com.dmm.rssreader.domain.extension.gone
+import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.presentation.viewModel.MainViewModel
 import com.dmm.rssreader.utils.ImageGetter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialogFragment() {
 
@@ -66,6 +74,7 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 		setUpUI()
 		saveFeed()
 		closeDialog()
+		showButtonUrl()
 	}
 
 	private fun setUpUI(){
@@ -134,5 +143,29 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 		binding.close.setOnClickListener {
 			dismiss()
 		}
+	}
+
+	private fun showButtonUrl() {
+		feedSelected.link?.let {
+			binding.buttonUrl.gone()
+			if(it.isNotEmpty()) {
+				binding.buttonUrl.show()
+				setMarginLayout()
+				val url = it
+				binding.buttonUrl.setOnClickListener {
+					val intent = Intent(Intent.ACTION_VIEW)
+					intent.data = Uri.parse(url)
+					startActivity(intent)
+				}
+			}
+		}
+
+	}
+
+	private fun setMarginLayout() {
+		val bottom = resources.getDimension(R.dimen.if_link_exist)
+
+		val params = binding.layoutDescription!!.layoutParams as ViewGroup.MarginLayoutParams
+		params.bottomMargin = bottom.toInt()
 	}
 }
