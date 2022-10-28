@@ -30,9 +30,6 @@ class RepositoryAuthImpl @Inject constructor(
 			firebaseAuth.signInWithEmailAndPassword(email, password)
 				.addOnCompleteListener {
 					val emailVerificated = firebaseAuth.currentUser?.isEmailVerified!!
-					Log.e("signInEmailPassword ---> ", "${firebaseAuth.currentUser}")
-					Log.e("signInEmailPassword ---> ", "${firebaseAuth.currentUser?.isEmailVerified}")
-					Log.e("signInEmailPassword ---> ", "${emailVerificated}")
 					if(emailVerificated) {
 						if(it.isSuccessful) {
 							emailUser.value = Resource.Success(true)
@@ -89,14 +86,7 @@ class RepositoryAuthImpl @Inject constructor(
 				if(!it.isSuccessful) {
 					userCreated.value = Resource.Error(it.exception?.message.toString())
 				} else {
-					val firebaseUser = firebaseAuth.currentUser
-					firebaseUser?.sendEmailVerification()?.addOnCompleteListener {
-						if(it.isSuccessful) {
-							userCreated.value = Resource.Success(user)
-						} else {
-							userCreated.value = Resource.Error(it.exception?.message.toString())
-						}
-					}
+					userCreated.value = Resource.Success(user)
 				}
 			}
 		return userCreated

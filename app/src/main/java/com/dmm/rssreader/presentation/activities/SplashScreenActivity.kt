@@ -54,8 +54,6 @@ class SplashScreenActivity : AppCompatActivity() {
 //		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
 //		window.setFlags(flagFullScreen, flagFullScreen)
 
-		authViewModel.signOut()
-
 		checkIfUserAuthenticated()
 	}
 
