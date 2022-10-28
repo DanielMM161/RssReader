@@ -72,7 +72,7 @@ class AuthViewModel @Inject constructor(
     return authUseCase.resetPassword(email)
   }
 
-  fun sendEmailVerification(): MutableLiveData<Resource<String>> {
+  fun sendEmailVerification(): MutableLiveData<Resource<Nothing>> {
     return authUseCase.sendEmailVerification()
   }
 

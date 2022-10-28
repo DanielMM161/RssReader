@@ -44,7 +44,7 @@ class AuthUseCase @Inject constructor(
 		return repositoryAuth.resetPassword(email)
 	}
 
-	fun sendEmailVerification(): MutableLiveData<Resource<String>> {
+	fun sendEmailVerification(): MutableLiveData<Resource<Nothing>> {
 		return repositoryAuth.sendEmailVerification()
 	}
 }

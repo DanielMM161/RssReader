@@ -135,7 +135,7 @@ class RegisterFragment : Fragment() {
 					binding.progressBar.gone()
 					handleAlterDialog(
 						title = getString(R.string.title_email_verification),
-						message = it.asString(requireContext())
+						message = getString(R.string.email_sent_succesfully)
 					) {
 						it.cancel()
 						goLoginFragment()

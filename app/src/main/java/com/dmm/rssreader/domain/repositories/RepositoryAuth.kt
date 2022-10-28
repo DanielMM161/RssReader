@@ -14,5 +14,5 @@ interface RepositoryAuth {
 	fun checkIfUserIsAuthenticatedInFireBase(): MutableLiveData<UserProfile>
 	fun signOut()
 	fun resetPassword(email: String): MutableLiveData<Resource<String>>
-	fun sendEmailVerification(): MutableLiveData<Resource<String>>
+	fun sendEmailVerification(): MutableLiveData<Resource<Nothing>>
 }

@@ -13,7 +13,9 @@ import com.dmm.rssreader.utils.Constants.SOURCE_DEVELOPER_CO
 import com.dmm.rssreader.utils.Constants.SOURCE_KOTLIN_WEEKLY
 import com.dmm.rssreader.utils.Constants.USERS_COLLECTION
 import com.dmm.rssreader.utils.Resource
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
@@ -28,24 +30,36 @@ class RepositoryAuthImpl @Inject constructor(
 		val emailUser = MutableLiveData<Resource<Boolean>>(Resource.Loading())
 		if(!email.isEmpty() && !password.isEmpty()) {
 			firebaseAuth.signInWithEmailAndPassword(email, password)
-				.addOnCompleteListener {
-					val emailVerificated = firebaseAuth.currentUser?.isEmailVerified!!
-					if(emailVerificated) {
-						if(it.isSuccessful) {
-							emailUser.value = Resource.Success(true)
-						} else {
-							emailUser.value = Resource.Error(it.exception?.message.toString())
+				.addOnCompleteListener { task ->
+					val currentUser = firebaseAuth.currentUser
+					if(currentUser != null) {
+						currentUser.let {
+							val emailVerificated = it.isEmailVerified
+							if(emailVerificated) {
+								emailUser.value = checkSignInEmailPassword(task)
+							} else if(!emailVerificated) {
+								emailUser.value = Resource.ErrorCaught(resId = R.string.verificate_email)
+							} else {
+								emailUser.value = Resource.ErrorCaught(resId = R.string.error_has_ocurred)
+							}
 						}
-					} else if(emailVerificated == false) {
-						emailUser.value = Resource.ErrorCaught(resId = R.string.verificate_email)
-					} else if(emailVerificated == null) {
-						emailUser.value = Resource.ErrorCaught(resId = R.string.error_has_ocurred)
+					} else {
+						emailUser.value = checkSignInEmailPassword(task)
 					}
 				}
 		} else {
 			emailUser.value = Resource.ErrorCaught(resId = R.string.email_password_not_emptu)
 		}
 		return emailUser
+	}
+
+	private fun checkSignInEmailPassword(task: Task<AuthResult>): Resource<Boolean> {
+		if(task.isSuccessful) {
+			return Resource.Success(true)
+		} else {
+			return Resource.Error(task.exception?.message.toString())
+		}
+		return Resource.Success(false)
 	}
 
 	override fun createUserEmailPassword(email: String, password: String): MutableLiveData<Resource<UserProfile>> {
@@ -92,12 +106,12 @@ class RepositoryAuthImpl @Inject constructor(
 		return userCreated
 	}
 
-	override fun sendEmailVerification(): MutableLiveData<Resource<String>> {
-		var result =  MutableLiveData<Resource<String>>(Resource.Loading())
+	override fun sendEmailVerification(): MutableLiveData<Resource<Nothing>> {
+		var result =  MutableLiveData<Resource<Nothing>>(Resource.Loading())
 		val firebaseUser = firebaseAuth.currentUser
 		firebaseUser?.sendEmailVerification()?.addOnCompleteListener {
 			if(it.isSuccessful) {
-				result.value = Resource.Success(resId = R.string.message_email_verification)
+				result.value = Resource.Success()
 			} else {
 				result.value = Resource.Error(it.exception?.message.toString())
 			}
