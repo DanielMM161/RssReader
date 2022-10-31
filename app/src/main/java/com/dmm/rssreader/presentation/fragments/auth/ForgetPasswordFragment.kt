@@ -45,7 +45,7 @@ class ForgetPasswordFragment : Fragment() {
 						is Resource.Success -> {
 							handleAlterDialog(
 								title = getString(R.string.email_was_sent),
-								message = it.asString(requireContext())
+								message = getString(R.string.email_sent_succesfully)
 							) {
 								it.cancel()
 								findNavController().navigate(R.id.action_forgetPasswordFragment_to_loginFragment)

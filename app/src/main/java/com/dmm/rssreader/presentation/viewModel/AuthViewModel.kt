@@ -68,7 +68,7 @@ class AuthViewModel @Inject constructor(
     authUseCase.signOut()
   }
 
-  fun resetPassword(email: String): MutableLiveData<Resource<String>> {
+  fun resetPassword(email: String): MutableLiveData<Resource<Nothing>> {
     return authUseCase.resetPassword(email)
   }
 

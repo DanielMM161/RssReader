@@ -158,13 +158,13 @@ class RepositoryAuthImpl @Inject constructor(
 		firebaseAuth.signOut()
 	}
 
-	override fun resetPassword(email: String): MutableLiveData<Resource<String>> {
-		val result = MutableLiveData<Resource<String>>(Resource.Loading())
+	override fun resetPassword(email: String): MutableLiveData<Resource<Nothing>> {
+		val result = MutableLiveData<Resource<Nothing>>(Resource.Loading())
 		firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
 			if(!it.isSuccessful) {
 				result.value = Resource.Error(message = it.exception?.message.toString())
 			} else {
-				result.value = Resource.Success(resId = R.string.email_sent_succesfully)
+				result.value = Resource.Success()
 			}
 		}
 		return result

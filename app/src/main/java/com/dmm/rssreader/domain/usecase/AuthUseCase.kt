@@ -40,7 +40,7 @@ class AuthUseCase @Inject constructor(
 		repositoryAuth.signOut()
 	}
 
-	fun resetPassword(email: String): MutableLiveData<Resource<String>> {
+	fun resetPassword(email: String): MutableLiveData<Resource<Nothing>> {
 		return repositoryAuth.resetPassword(email)
 	}
 

@@ -43,7 +43,7 @@
   <string name="forget_password">Forget Password</string>
   <string name="text_forget_password">Enter here your Email to reset your password, Will send you a email.</string>
   <string name="reset_password">Reset Password</string>
-  <string name="email_sent_succesfully">Email sent succesfully  to reset your password</string>
+  <string name="email_sent_succesfully">Email sent succesfully to reset your password</string>
   <string name="error_sending_reset_password">Error sending email to reset password</string>
   <string name="email_was_sent">The Email was sent</string>
 
