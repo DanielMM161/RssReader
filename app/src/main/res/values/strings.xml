@@ -22,7 +22,8 @@
   <string name="repeat_password">Repeat Password</string>
   <string name="forget_password_login">Forget Password?</string>
   <string name="go">Go</string>
-  <string name="new_user">New User? SIGN UP</string>
+  <string name="dont_have_account">Don\'t have an Account?</string>
+  <string name="sing_up">SIGN UP</string>
   <string name="not_empty">The field cant be empty</string>
   <string name="or_sigin">Or Signin With</string>
   <string name="error_login">There were a Error with Google SignIn</string>

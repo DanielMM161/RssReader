@@ -220,7 +220,7 @@ class LoginFragment : Fragment() {
 	}
 
 	private fun goToForgetPassword() {
-		binding.btnForgetPassword.setOnClickListener {
+		binding.forgetPassword.setOnClickListener {
 			navigate(R.id.action_loginFragment_to_forgetPasswordFragment)
 		}
 	}
