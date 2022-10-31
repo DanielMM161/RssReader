@@ -62,7 +62,6 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 					setAction(getString(R.string.undo)) {
 						viewModel.saveFavouriteFeed(feed)
 					}
-					setTextColor(resources.getColor(R.color.primary))
 					show()
 				}
 			}

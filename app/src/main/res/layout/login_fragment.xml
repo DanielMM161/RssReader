@@ -5,9 +5,7 @@
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center_vertical">
+    android:layout_height="match_parent" >
 
     <ProgressBar
       android:id="@+id/progress_bar"
@@ -45,8 +43,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/bungee"
         android:text="@string/welcome"
-        android:textSize="35sp"
-  />
+        android:textSize="35sp" />
 
       <TextView
         android:id="@+id/signin_text"
@@ -54,8 +51,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/antic"
         android:text="@string/sig_in"
-        android:textSize="14sp"
-        android:transitionName="logo_subtitle" />
+        android:textSize="14sp" />
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -68,8 +64,7 @@
           android:id="@+id/username"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:transitionName="username_tran">
+          android:layout_height="wrap_content" >
 
           <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -83,12 +78,12 @@
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:transitionName="password_tran"
           app:passwordToggleEnabled="true">
 
           <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:hint="@string/password" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -105,24 +100,22 @@
           android:textSize="17dp"
           android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
           android:id="@+id/login_btn"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="5dp"
           android:layout_marginBottom="5dp"
           android:background="@color/black"
-          android:text="@string/go"
-          android:textColor="@color/white"
-          android:transitionName="button_tran" />
+          android:text="@string/go" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
           android:id="@+id/signup_btn"
           android:layout_height="wrap_content"
           android:layout_width="match_parent"
+          android:minHeight="50dp"
           android:layout_gravity="right"
           android:background="@color/transparent"
-          android:elevation="0dp"
           android:fontFamily="@font/antic"
           android:text="@string/dont_have_account"
           android:textStyle="bold"
@@ -153,9 +146,6 @@
 
         </androidx.cardview.widget.CardView>
       </LinearLayout>
-
     </LinearLayout>
-
   </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

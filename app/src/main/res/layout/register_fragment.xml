@@ -42,8 +42,7 @@
         <ImageView
           android:layout_width="150dp"
           android:layout_height="150dp"
-          android:src="@drawable/bee_rss_15"
-          android:transitionName="logo_image" />
+          android:src="@drawable/bee_rss_15" />
 
         <TextView
           android:id="@+id/welcome_text"
@@ -52,8 +51,7 @@
           android:layout_marginTop="-20dp"
           android:fontFamily="@font/bungee"
           android:text="@string/welcome_register"
-          android:textSize="40sp"
-          android:transitionName="logo_title" />
+          android:textSize="40sp" />
 
         <TextView
           android:id="@+id/signup_text"
@@ -61,8 +59,7 @@
           android:layout_height="wrap_content"
           android:fontFamily="@font/antic"
           android:text="@string/signup"
-          android:textSize="18sp"
-          android:transitionName="logo_subtitle" />
+          android:textSize="18sp" />
 
         <LinearLayout
           android:id="@+id/inputs_layouts"
@@ -77,8 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="8dp"
-            android:hint="@string/fullname"
-            android:transitionName="username_tran">
+            android:hint="@string/fullname" >
 
             <com.google.android.material.textfield.TextInputEditText
               android:layout_width="match_parent"
@@ -109,7 +105,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:hint="@string/password"
-            android:transitionName="password_tran"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -137,23 +132,22 @@
 
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
           android:id="@+id/register"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:background="@color/black"
-          android:text="@string/go"
-          android:textColor="@color/white"
-          android:transitionName="button_tran" />
+          android:text="@string/go" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
           android:id="@+id/already_account"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:minHeight="50dp"
           android:background="@color/transparent"
+          android:fontFamily="@font/antic"
           android:text="@string/have_account"
-          android:textColor="@color/black"
-          android:transitionName="loggin_signup_tran" />
+          android:textColor="@color/black" />
 
       </LinearLayout>
 
