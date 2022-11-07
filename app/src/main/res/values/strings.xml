@@ -15,7 +15,7 @@
   <string name="error_message">It\'s looks like there were a error with the app, try to restart the app and try again</string>
 
   <!-- Login Fragment -->
-  <string name="welcome">Hello There, Welcome Back</string>
+  <string name="welcome">Welcome Back</string>
   <string name="sig_in">Sig In to continue</string>
   <string name="Email">Email</string>
   <string name="password">Password</string>
@@ -30,7 +30,7 @@
   <string name="error_login_email_password">Incorrect Username or Password</string>
 
   <!-- Register Fragment -->
-  <string name="welcome_register">Welcome</string>
+  <string name="welcome_register">Create Your Account</string>
   <string name="signup">SignUp to start your new Account</string>
   <string name="fullname">Full Name</string>
   <string name="email">Email</string>

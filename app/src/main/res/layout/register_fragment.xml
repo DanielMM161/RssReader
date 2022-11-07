@@ -40,18 +40,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-          android:layout_width="150dp"
-          android:layout_height="150dp"
+          android:layout_width="@dimen/logo_width"
+          android:layout_height="@dimen/logo_heigh"
           android:src="@drawable/bee_rss_15" />
 
         <TextView
           android:id="@+id/welcome_text"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginTop="-20dp"
           android:fontFamily="@font/bungee"
           android:text="@string/welcome_register"
-          android:textSize="40sp" />
+          android:textSize="@dimen/slogan_text_size" />
 
         <TextView
           android:id="@+id/signup_text"
@@ -65,6 +64,7 @@
           android:id="@+id/inputs_layouts"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
           android:orientation="vertical">
 
           <com.google.android.material.textfield.TextInputLayout
