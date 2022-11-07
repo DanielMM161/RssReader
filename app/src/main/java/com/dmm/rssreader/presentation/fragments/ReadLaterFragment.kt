@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ReadLaterFragmentBinding
+import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
@@ -57,18 +58,22 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 				val position = viewHolder.adapterPosition
 				val feed = feedAdapter.differ.currentList[position]
-				viewModel.saveFavouriteFeed(feed)
-				Snackbar.make(binding.root, getString(R.string.delete_feed, feed.title), Snackbar.LENGTH_LONG).apply {
-					setAction(getString(R.string.undo)) {
-						viewModel.saveFavouriteFeed(feed)
-					}
-					show()
-				}
+				snackBar(feed)
 			}
 		}
 
 		ItemTouchHelper(itemTouchHelperCallback).apply {
 			attachToRecyclerView(binding.rvReadLater)
+		}
+	}
+
+	private fun snackBar(feed: FeedUI) {
+		viewModel.saveFavouriteFeed(feed)
+		Snackbar.make(binding.root, getString(R.string.delete_feed, feed.title), Snackbar.LENGTH_LONG).apply {
+			setAction(getString(R.string.undo)) {
+				viewModel.saveFavouriteFeed(feed)
+			}
+			show()
 		}
 	}
 
@@ -87,6 +92,6 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 	}
 
 	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener {
-		viewModel.saveFavouriteFeed(it)
+		snackBar(it)
 	}
 }
