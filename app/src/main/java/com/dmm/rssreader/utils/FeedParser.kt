@@ -1,5 +1,6 @@
 package com.dmm.rssreader.utils
 
+import android.util.Log
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_1
 import com.dmm.rssreader.utils.Constants.DATE_PATTERN_2
@@ -49,7 +50,10 @@ class FeedParser() {
 		var image = ""
 		var published = ""
 
+
+
 		while (parse.next() != XmlPullParser.END_TAG) {
+			Log.e("red feed item -----> ", "${parser.name}")
 			if(parse.eventType == XmlPullParser.START_TAG && parser.name == "title") {
 				title = readText(parser)
 			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "link") {
@@ -118,6 +122,14 @@ class FeedParser() {
 			if(parser.eventType == XmlPullParser.TEXT) {
 				text = parser.text
 			}
+		}
+		var count = 0
+		while(count < parser.attributeCount - 1) {
+			if(parser.getAttributeName(count) == "href") {
+				text = parser.getAttributeValue(count)
+				count = parser.attributeCount
+			}
+			count++
 		}
 		return text
 	}
