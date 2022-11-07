@@ -36,9 +36,6 @@ class SplashScreenActivity : AppCompatActivity() {
 	private lateinit var binding: ActivitySplashScreenBinding
 	private lateinit var authViewModel: AuthViewModel
 
-	lateinit var topAnim: Animation
-	lateinit var bottomAnim: Animation
-
 	companion object {
 		var SPLASH_SCREEN: Long = 2000;
 	}
@@ -48,19 +45,14 @@ class SplashScreenActivity : AppCompatActivity() {
 		binding = ActivitySplashScreenBinding.inflate(layoutInflater)
 		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 		setContentView(binding.root)
-		setAnimations()
 		binding.loadingFeedback.text = getString(R.string.checking_credentials)
-
-//		val flagFullScreen = WindowManager.LayoutParams.FLAG_FULLSCREEN
-//		window.setFlags(flagFullScreen, flagFullScreen)
-
-		//authViewModel.signOut()
 
 		checkIfUserAuthenticated()
 	}
 
 
 	private fun checkIfUserAuthenticated() {
+		binding.loadingFeedback.text = getString(R.string.upload_data)
 		authViewModel.checkIfUserIsAuthenticatedInFireBase()
 		authViewModel.authUser.observe(this) { user ->
 			if(!user.isAuthenticated) {
@@ -72,7 +64,6 @@ class SplashScreenActivity : AppCompatActivity() {
 	}
 
 	private fun getUserDocument(documentPath: String) {
-		binding.loadingFeedback.text = getString(R.string.upload_user_data)
 		authViewModel.getUserDocument(documentPath)
 		authViewModel.currentUser.observe(this) { it ->
 			when(it) {
@@ -84,28 +75,12 @@ class SplashScreenActivity : AppCompatActivity() {
 					}
 				}
 				is Resource.ErrorCaught -> {
-					binding.progressBar.gone()
-					setErrorText()
-
+					goToLoginActivity()
 				}
 				is Resource.Error -> {
-					binding.progressBar.gone()
-					setErrorText()
+					goToLoginActivity()
 				}
 			}
-		}
-	}
-
-	private fun setErrorText() {
-		binding.loadingFeedback.Error(R.color.red, getString(R.string.error_occurred))
-		var alert = AlertDialog.Builder(this)
-		Utils.alertDialog(
-			alertDialog = alert,
-			title = getString(R.string.error_occurred),
-			message = getString(R.string.error_message),
-			textPositiveButton = getString(R.string.accept),
-		) {
-			finish()
 		}
 	}
 
@@ -114,14 +89,6 @@ class SplashScreenActivity : AppCompatActivity() {
 		intent.putExtra(Constants.USER_KEY, user)
 		startActivity(intent)
 		finish()
-	}
-
-	private fun setAnimations() {
-//		topAnim = setAnimation(R.anim.top_animation)
-//		bottomAnim = setAnimation(R.anim.bottom_animation)
-//		binding.imageView.animation = topAnim
-//		//binding.logoText.animation = bottomAnim
-//		binding.loadingFeedback.animation = bottomAnim
 	}
 
 	private fun goToLoginActivity() {
@@ -142,9 +109,5 @@ class SplashScreenActivity : AppCompatActivity() {
 //				startActivity(intent)
 //			}
 //		}, SPLASH_SCREEN)
-	}
-
-	private fun setAnimation(id: Int): Animation {
-		return AnimationUtils.loadAnimation(this, id)
 	}
 }

@@ -8,7 +8,7 @@
   <string name="theme">Themes</string>
 
   <!-- Splash Activity -->
-  <string name="upload_user_data">Upload User Data...</string>
+  <string name="upload_data">Loading Data...</string>
   <string name="checking_credentials">Checking Credentials...</string>
   <string name="going_home_screen">Going to the Home Screen</string>
   <string name="error_occurred">Error Occurred</string>
