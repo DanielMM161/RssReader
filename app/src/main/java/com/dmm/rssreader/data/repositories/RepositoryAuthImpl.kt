@@ -59,7 +59,6 @@ class RepositoryAuthImpl @Inject constructor(
 		} else {
 			return Resource.Error(task.exception?.message.toString())
 		}
-		return Resource.Success(false)
 	}
 
 	override fun createUserEmailPassword(email: String, password: String): MutableLiveData<Resource<UserProfile>> {

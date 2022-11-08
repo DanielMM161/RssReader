@@ -59,6 +59,7 @@ class ForgetPasswordFragment : Fragment() {
 								it.cancel()
 							}
 						}
+						else -> {}
 					}
 				}
 			} else {

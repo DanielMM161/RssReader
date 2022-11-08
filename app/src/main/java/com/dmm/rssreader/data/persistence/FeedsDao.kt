@@ -2,7 +2,6 @@ package com.dmm.rssreader.data.persistence
 
 import androidx.room.*
 import com.dmm.rssreader.domain.model.FeedUI
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FeedsDao {

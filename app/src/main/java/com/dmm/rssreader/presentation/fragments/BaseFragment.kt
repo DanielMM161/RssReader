@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.dmm.rssreader.presentation.viewModel.MainViewModel
-import java.lang.IllegalArgumentException
 
 abstract class BaseFragment<VB : ViewBinding>(
 	private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -27,10 +26,6 @@ abstract class BaseFragment<VB : ViewBinding>(
 		savedInstanceState: Bundle?
 	): View? {
 		_binding = bindingInflater.invoke(inflater)
-
-		if (_binding == null) {
-			throw IllegalArgumentException("Binding null")
-		}
 
 		setHasOptionsMenu()
 

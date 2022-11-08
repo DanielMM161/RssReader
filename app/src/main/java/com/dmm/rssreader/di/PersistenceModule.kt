@@ -27,7 +27,7 @@ object PersistenceModule {
 
 	@Provides
 	@Singleton
-	fun provideAppDatabase(application: Application, converterList: ConverterList): AppDatabase {
+	fun provideAppDatabase(application: Application): AppDatabase {
 		return Room
 			.databaseBuilder(application, AppDatabase::class.java, "rssReader.db")
 			.fallbackToDestructiveMigration()

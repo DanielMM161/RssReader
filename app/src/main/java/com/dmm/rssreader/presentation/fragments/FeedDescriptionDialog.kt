@@ -1,7 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
 import QuoteSpanClass
-import android.R.attr.*
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
@@ -14,10 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.core.view.marginBottom
 import androidx.lifecycle.ViewModelProvider
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.FeedDescriptionDialogBinding
@@ -68,9 +65,8 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 		bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
 		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 		val layout = binding.bottomSheetLayout
-		if(layout != null) {
-			layout?.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
-		}
+		layout.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
+
 		setUpUI()
 		saveFeed()
 		closeDialog()
@@ -165,7 +161,7 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 	private fun setMarginLayout() {
 		val bottom = resources.getDimension(R.dimen.if_link_exist)
 
-		val params = binding.layoutDescription!!.layoutParams as ViewGroup.MarginLayoutParams
+		val params = binding.layoutDescription.layoutParams as ViewGroup.MarginLayoutParams
 		params.bottomMargin = bottom.toInt()
 	}
 }

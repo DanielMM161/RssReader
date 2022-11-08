@@ -59,8 +59,8 @@ class ThemeDialogFragment : BaseBottomSheetDialogFragment<ItemThemeOptionsBindin
 	}
 
 	private fun selectedView(view: View, selected: Boolean) {
-		(view as ViewGroup).forEach { view ->
-			view.isSelected = selected
+		(view as ViewGroup).forEach {
+			it.isSelected = selected
 		}
 	}
 }

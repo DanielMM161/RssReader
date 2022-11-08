@@ -1,6 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
-import android.util.Log
+import android.content.Intent
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -80,6 +80,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		layoutManager = LinearLayoutManager(requireContext())
 		itemClickListener()
 		readLaterItemClickListener()
+		shareClickListener()
 	}
 
 	private fun onRefreshListener() {
@@ -118,6 +119,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 					val message = it.asString(requireContext())
 					showToast(requireContext(), message)
 				}
+				else -> {}
 			}
 		}
 	}
@@ -131,7 +133,20 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewModel.saveFavouriteFeed(it)
 	}
 
-	private fun setMaterialToolbarFromActivity(feedsSize: String) {
+	private fun shareClickListener() = feedAdapter.setShareClickListener {
+		it?.let {
+			val sendIntent: Intent = Intent().apply {
+				action = Intent.ACTION_SEND
+				putExtra(Intent.EXTRA_TEXT, it)
+				type = "text/plain"
+			}
+
+			val shareIntent = Intent.createChooser(sendIntent, null)
+			startActivity(shareIntent)
+		}
+	}
+
+	private fun setMaterialToolbarFromActivity(feedsSize: String?) {
 		(activity as MainActivity?)?.setTitleMateriaToolbar(R.string.title_home_fragment, feedsSize ?: "")
 	}
 

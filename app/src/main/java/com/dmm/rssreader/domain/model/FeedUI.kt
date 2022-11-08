@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "feeds")
@@ -17,7 +17,7 @@ data class FeedUI(
 	@ColumnInfo(name = "description")
 	val description: String? = "",
 	@ColumnInfo(name = "link")
-	val link: String? = "",
+	val link: String? = null,
 	@ColumnInfo(name = "image")
 	val image: String? = "",
 	@ColumnInfo(name = "published")

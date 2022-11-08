@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -80,7 +79,7 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	private fun setDeveloperFeeds(feedUIList: List<FeedUI>) {
+	private fun setDeveloperFeeds(feedUIList: List<FeedUI>?) {
 		if (feedUIList != null) {
 			_developerFeeds.value = sortedFeed(feedUIList.filter { it -> !it.description!!.isEmpty() }.distinct())
 		} else {
@@ -130,7 +129,7 @@ class MainViewModel @Inject constructor(
 	private fun sortedFeed(feeds: List<FeedUI>?): Resource<List<FeedUI>?> {
 		val dateEmptyList = feeds?.filter { it.published!!.isEmpty()  }
 		val dateNoEmptyList = feeds?.filter { it.published!!.isNotEmpty()  }
-		val sortedFeeds = dateNoEmptyList!!.sortedByDescending { it ->
+		val sortedFeeds = dateNoEmptyList!!.sortedByDescending {
 			LocalDate.parse(it.published, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_OUTPUT))
 		}.toMutableList()
 		dateEmptyList?.forEach {

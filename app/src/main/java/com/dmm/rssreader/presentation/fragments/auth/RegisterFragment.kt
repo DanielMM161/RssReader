@@ -99,6 +99,7 @@ class RegisterFragment : Fragment() {
 						it.cancel()
 					}
 				}
+				else -> {}
 			}
 		}
 	}
@@ -124,6 +125,7 @@ class RegisterFragment : Fragment() {
 						it.cancel()
 					}
 				}
+				else -> {}
 			}
 		}
 	}
@@ -150,6 +152,7 @@ class RegisterFragment : Fragment() {
 						it.cancel()
 					}
 				}
+				else -> {}
 			}
 		}
 	}
@@ -173,25 +176,25 @@ class RegisterFragment : Fragment() {
 	}
 
 	fun validateFields() {
-		fullNameET.setOnFocusChangeListener(onFocusChangeListener(fullNameET) {
+		fullNameET.onFocusChangeListener = onFocusChangeListener(fullNameET) {
 			authViewModel.validateFullName(it)
-		})
+		}
 
-		emailET.setOnFocusChangeListener(onFocusChangeListener(emailET) {
+		emailET.onFocusChangeListener = onFocusChangeListener(emailET) {
 			authViewModel.validateEmail(it)
-		})
+		}
 
-		passwordET.setOnFocusChangeListener(onFocusChangeListener(passwordET) {
+		passwordET.onFocusChangeListener = onFocusChangeListener(passwordET) {
 			authViewModel.validatePassword(it)
-		})
+		}
 
-		passwordRepeatET.setOnFocusChangeListener(onFocusChangeListener(passwordRepeatET) {
-			authViewModel.validateRepeatPassword(it, passwordET?.text.toString())
-		})
+		passwordRepeatET.onFocusChangeListener = onFocusChangeListener(passwordRepeatET) {
+			authViewModel.validateRepeatPassword(it, passwordET.text.toString())
+		}
 	}
 
 	fun onFocusChangeListener(editText: EditText, function: ((String) -> ValidationResult)): View.OnFocusChangeListener {
-		return View.OnFocusChangeListener { view, focus ->
+		return View.OnFocusChangeListener { _, focus ->
 			val inputLayout = editText.parent.parent as TextInputLayout
 			if (!focus) {
 				val textString = editText.text.toString()

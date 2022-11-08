@@ -64,6 +64,7 @@ class SplashScreenActivity : AppCompatActivity() {
 				is Resource.Error -> {
 					goToLoginActivity()
 				}
+				else -> {}
 			}
 		}
 	}

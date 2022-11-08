@@ -40,7 +40,7 @@ class SourcesAdapter(
 		if(userFeeds.contains(item.title)) {
 			binding.switchSource.isChecked = true
 		}
-		binding.switchSource.setOnCheckedChangeListener { compoundButton, isChecked ->
+		binding.switchSource.setOnCheckedChangeListener { _, isChecked ->
 			onCheckedChangeListener.invoke(item.title, isChecked)
 		}
 

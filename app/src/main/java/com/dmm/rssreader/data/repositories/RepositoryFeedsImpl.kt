@@ -80,7 +80,7 @@ class RepositoryFeedsImpl @Inject constructor(
 
 	private fun handleResponse(response: Response<String>, source: String): List<FeedUI> {
 		var result: List<FeedUI> = listOf()
-		if(response!!.isSuccessful) {
+		if(response.isSuccessful) {
 			result = FeedParser().parse(response.body()!!, source)
 		}
 		return result

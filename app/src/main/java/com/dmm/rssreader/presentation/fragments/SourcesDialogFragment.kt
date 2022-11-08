@@ -12,7 +12,7 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
 	override fun setupUI() {
 		super.setupUI()
 		binding.listSources.apply {
-			adapter = SourcesAdapter(contentResources, viewModel.userProfile.feeds) { title, isChecked ->
+			adapter = SourcesAdapter(contentResources, viewModel.userProfile.feeds) { title, _ ->
 				setFeed(title)
 			}
 		}
@@ -26,6 +26,7 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
             // GIVE FEEDBACK TO USER
           }
         }
+        else -> {}
       }
     }
   }

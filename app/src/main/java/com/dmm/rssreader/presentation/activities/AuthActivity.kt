@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.ActivityAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,19 +22,12 @@ class AuthActivity : AppCompatActivity() {
 		val navHostFragment = supportFragmentManager
 			.findFragmentById(R.id.fragment_auth_container) as NavHostFragment
 		navController = navHostFragment.navController
-
-
-
-//		val appConfiguration = AppBarConfiguration(setOf(R.id.loginFragment))
-//		binding.toolbar.setupWithNavController(navController, appConfiguration)
 	}
 
 	override fun onBackPressed() {
 			when(navController.currentDestination?.id) {
 				R.id.forgetPasswordFragment -> {
 					navController.navigate(R.id.action_forgetPasswordFragment_to_loginFragment)
-				}
-				R.id.loginFragment -> {
 				}
 				R.id.registerFragment -> {
 					navController.navigate(R.id.action_registerFragment_to_loginFragment)

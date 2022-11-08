@@ -24,14 +24,10 @@ class FeedParser() {
 
 	fun parse(xml: String, source: String): List<FeedUI> {
 		val feedsUI: MutableList<FeedUI> = mutableListOf()
-		var feedTitle = ""
-
 		parser.setInput(xml.byteInputStream(), null)
 
 		while (parser.eventType != XmlPullParser.END_DOCUMENT) {
-			if(parser.eventType == XmlPullParser.START_TAG && parser.name == "title") {
-				feedTitle = readText(parser)
-			} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
+			if(parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
 				feedsUI.add(readFeedItem(parser, source))
 			} else if(parser.eventType == XmlPullParser.START_TAG && parser.name == "entry") {
 				feedsUI.add(readFeedItem(parser, source))
@@ -53,7 +49,6 @@ class FeedParser() {
 
 
 		while (parse.next() != XmlPullParser.END_TAG) {
-			Log.e("red feed item -----> ", "${parser.name}")
 			if(parse.eventType == XmlPullParser.START_TAG && parser.name == "title") {
 				title = readText(parser)
 			} else if(parse.eventType == XmlPullParser.START_TAG && parser.name == "link") {
@@ -107,13 +102,12 @@ class FeedParser() {
 	}
 
 	fun formattedDate(dateString: String?, dateFormat: String): String {
-		try {
+		return try {
 			val sdf = SimpleDateFormat(dateFormat).parse(dateString)
-			return SimpleDateFormat(DATE_PATTERN_OUTPUT).format(sdf)
+			SimpleDateFormat(DATE_PATTERN_OUTPUT).format(sdf)
 		} catch (e: Exception) {
-			return ""
+			""
 		}
-		return ""
 	}
 
 	private fun readText(parser: XmlPullParser) : String {

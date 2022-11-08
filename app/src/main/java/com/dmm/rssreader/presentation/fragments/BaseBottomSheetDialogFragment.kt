@@ -1,7 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
 import android.app.Dialog
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import com.dmm.rssreader.presentation.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.lang.IllegalArgumentException
 
 abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
 	private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -49,10 +47,6 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
 	): View? {
 		_binding = bindingInflater.invoke(inflater)
 
-		if (_binding == null) {
-			throw IllegalArgumentException("Binding null")
-		}
-
 		return binding.root
 	}
 
@@ -61,10 +55,6 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
 		viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 		bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
 		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//		val layout = binding.bottomSheetLayout
-//		if(layout != null) {
-//			layout?.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
-//		}
 		setupUI()
 	}
 }

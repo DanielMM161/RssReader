@@ -1,10 +1,10 @@
 package com.dmm.rssreader.presentation.fragments
 
+import android.content.Intent
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +13,6 @@ import com.dmm.rssreader.databinding.ReadLaterFragmentBinding
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
@@ -84,6 +82,7 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		deleteItemSwipe()
 		itemClickListener()
 		readLaterItemClickListener()
+		shareClickListener()
 	}
 
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
@@ -93,5 +92,18 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 
 	private fun readLaterItemClickListener() = feedAdapter.setReadLaterOnItemClickListener {
 		snackBar(it)
+	}
+
+	private fun shareClickListener() = feedAdapter.setShareClickListener {
+		it?.let {
+			val sendIntent: Intent = Intent().apply {
+				action = Intent.ACTION_SEND
+				putExtra(Intent.EXTRA_TEXT, it)
+				type = "text/plain"
+			}
+
+			val shareIntent = Intent.createChooser(sendIntent, null)
+			startActivity(shareIntent)
+		}
 	}
 }

@@ -13,15 +13,15 @@ class Utils {
 	companion object {
 
 		fun isNightMode(resources: Resources): Boolean {
-			when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+			return when (resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
 				Configuration.UI_MODE_NIGHT_YES -> {
-					return true
+					true
 				}
 				Configuration.UI_MODE_NIGHT_NO -> {
-					return false
+					false
 				}
 				else -> {
-					return false
+					false
 				}
 			}
 		}
@@ -45,7 +45,7 @@ class Utils {
 
 			alertDialog.setPositiveButton(
 				textPositiveButton,
-				DialogInterface.OnClickListener { dialog, id -> callback.invoke(dialog) }
+				DialogInterface.OnClickListener { dialog, _ -> callback.invoke(dialog) }
 			)
 
 			if(textNegativeButton.isNotEmpty()) {

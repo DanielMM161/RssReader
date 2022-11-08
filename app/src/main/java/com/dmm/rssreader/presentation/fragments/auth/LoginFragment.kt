@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
 
 	private fun validateField() {
 		val editTextUserName = binding.username.editText
-		editTextUserName?.setOnFocusChangeListener { view, focus ->
+		editTextUserName?.setOnFocusChangeListener { _, focus ->
 			if(!focus) {
 				val email = editTextUserName.text.toString()
 				val result = authViewModel.validateEmail(email)
@@ -89,8 +89,8 @@ class LoginFragment : Fragment() {
 	private fun loginEmailPassword() {
 		binding.loginBtn.setOnClickListener {
 			binding.progressBar.show()
-			val email = binding.username.editText?.text.toString() ?: ""
-			val password = binding.password.editText?.text.toString() ?: ""
+			val email = binding.username.editText?.text.toString()
+			val password = binding.password.editText?.text.toString()
 			authViewModel.signInEmailPassword(email, password).observe(viewLifecycleOwner) {
 				when(it) {
 					is Resource.Success -> {
@@ -120,6 +120,7 @@ class LoginFragment : Fragment() {
 							}
 						}
 					}
+					else -> {}
 				}
 			}
 		}
@@ -155,19 +156,19 @@ class LoginFragment : Fragment() {
 						it.cancel()
 					}
 				}
+				else -> {}
 			}
 		}
 	}
 
 	private fun createUserDocument(user: UserProfile) {
 		authViewModel.createUserDocument(user)
-		authViewModel.currentUser.observe(this) { it ->
+		authViewModel.currentUser.observe(this) {
 			when(it) {
 				is Resource.Success -> {
 					binding.progressBar.gone()
-					val user = it.data
-					if(user != null) {
-						goToMainActivity(user)
+					if(it.data != null) {
+						goToMainActivity(it.data)
 					}
 				}
 				is Resource.ErrorCaught -> {
@@ -176,6 +177,7 @@ class LoginFragment : Fragment() {
 				is Resource.Error -> {
 					binding.progressBar.gone()
 				}
+				else -> {}
 			}
 		}
 	}

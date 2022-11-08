@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 		binding.bottomNavigation.setupWithNavController(navController)
 
 		if(!viewModel.userProfileInitialized()) {
-			viewModel.userProfile = getUserFromActivity()!!
+			viewModel.userProfile = getUserFromActivity()
 			viewModel.fetchFeedsDeveloper()
 		}
 

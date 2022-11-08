@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.usecase.AuthUseCase
 import com.dmm.rssreader.domain.usecase.ValidateUseCase
-import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Resource
 import com.dmm.rssreader.utils.ValidationResult
 import com.google.firebase.auth.AuthCredential
