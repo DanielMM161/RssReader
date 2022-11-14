@@ -12,7 +12,7 @@ class FireBaseUseCase @Inject constructor(
 	private val repository: RepositoryFireBaseImpl
 ) {
 
-	fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Boolean>> {
+	fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Nothing>> {
 		return repository.saveUser(userProfile)
 	}
 }

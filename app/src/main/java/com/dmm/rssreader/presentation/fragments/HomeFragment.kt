@@ -110,13 +110,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 				}
 				is Resource.Error -> {
 					binding.swipeRefresh.isRefreshing = false
-					it.message.let { message ->
-						showToast(requireContext(), message)
-					}
+					showToast(requireContext(), it.message)
 				}
 				is Resource.ErrorCaught -> {
 					binding.swipeRefresh.isRefreshing = false
-					val message = it.asString(requireContext())
+					val message = it.asString(context)
 					showToast(requireContext(), message)
 				}
 				else -> {}
@@ -153,7 +151,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	private fun searchFeeds() {
 		val text = viewModel.searchText
 		if(text.isNotEmpty()) {
-			val list = viewModel.findFeed(text)
+			val list = viewModel.findFeeds(text)
 			if(list != null) {
 				setMaterialToolbarFromActivity(list.size.toString())
 				feedAdapter.differ.submitList(list)

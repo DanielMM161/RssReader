@@ -15,11 +15,14 @@ sealed class Resource<T>(
 	data class Error<T>(val message: String): Resource<T>()
 
 
-	fun asString(context: Context): String {
-		return when(this) {
-			is Error -> message
-			is ErrorCaught -> context.getString(resId)
-			else -> ""
+	fun asString(context: Context?): String {
+		if (context != null) {
+			return when(this) {
+				is Error -> message
+				is ErrorCaught -> context.getString(resId)
+				else -> ""
+			}
 		}
+		return ""
 	}
 }

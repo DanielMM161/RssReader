@@ -22,11 +22,8 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
     viewModel.setFeed(feed).observe(this) {
       when(it) {
         is Resource.Success -> {
-          if(!it.data!!) {
-            // GIVE FEEDBACK TO USER
-          }
+
         }
-        else -> {}
       }
     }
   }

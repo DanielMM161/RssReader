@@ -27,7 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = ActivitySplashScreenBinding.inflate(layoutInflater)
-		authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+		authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 		setContentView(binding.root)
 		binding.loadingFeedback.text = getString(R.string.checking_credentials)
 
@@ -50,7 +50,7 @@ class SplashScreenActivity : AppCompatActivity() {
 	private fun getUserDocument(documentPath: String) {
 		binding.loadingFeedback.text = getString(R.string.upload_data)
 		authViewModel.getUserDocument(documentPath)
-		authViewModel.currentUser.observe(this) { it ->
+		authViewModel.currentUser.observe(this) {
 			when(it) {
 				is Resource.Success -> {
 					val user = it.data

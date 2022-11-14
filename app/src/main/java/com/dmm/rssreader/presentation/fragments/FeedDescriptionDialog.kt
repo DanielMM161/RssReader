@@ -61,7 +61,7 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		binding = FeedDescriptionDialogBinding.bind(view)
-		viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+		viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 		bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
 		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 		val layout = binding.bottomSheetLayout

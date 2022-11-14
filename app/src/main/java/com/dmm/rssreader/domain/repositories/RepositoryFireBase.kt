@@ -6,6 +6,6 @@ import com.dmm.rssreader.utils.Resource
 import com.google.firebase.firestore.DocumentReference
 
 interface RepositoryFireBase {
-	fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Boolean>>
+	fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Nothing>>
 	fun getDBCollection(documentPath: String?): DocumentReference
 }

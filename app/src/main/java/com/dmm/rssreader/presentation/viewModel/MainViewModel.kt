@@ -47,7 +47,6 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun fetchFeedsDeveloper() = viewModelScope.launch {
-		if (hasInternetConnection()) {
 			_developerFeeds.value = Resource.Loading()
 			var listFeed: MutableList<FeedUI> = mutableListOf()
 
@@ -58,12 +57,9 @@ class MainViewModel @Inject constructor(
 			}
 			saveFavouriteFeedsInLocal(listFeed)
 			setDeveloperFeeds(listFeed)
-		} else {
-			_developerFeeds.value = Resource.ErrorCaught(resId = R.string.offline)
-		}
 	}
 
-	fun findFeed(text: String): List<FeedUI>? {
+	fun findFeeds(text: String): List<FeedUI>? {
 		return _developerFeeds.value.data?.filter {
 			it.title.lowercase().contains(text.lowercase())
 		}
@@ -87,12 +83,12 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	fun setTheme(theme: String): MutableLiveData<Resource<Boolean>> {
+	fun setTheme(theme: String): MutableLiveData<Resource<Nothing>> {
 		userProfile.theme = theme
 		return fireBaseUseCase.saveUser(userProfile)
 	}
 
-	fun setFeed(feedName: String): MutableLiveData<Resource<Boolean>> {
+	fun setFeed(feedName: String): MutableLiveData<Resource<Nothing>> {
 		if (userProfile.feeds.contains(feedName)) {
 			userProfile.feeds.remove(feedName)
 		} else {
@@ -155,10 +151,6 @@ class MainViewModel @Inject constructor(
 
 	fun deleteTable() = viewModelScope.launch {
 		feedsUseCase.deleteTable()
-	}
-
-	fun deleteFeeds(sourceFeed: String) = viewModelScope.launch {
-		feedsUseCase.deleteFeeds(sourceFeed)
 	}
 
 	private fun hasInternetConnection(): Boolean {

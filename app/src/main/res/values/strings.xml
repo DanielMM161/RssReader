@@ -100,10 +100,11 @@
   <string name="email_password_not_emptu">Email &amp; Password cannot be empty</string>
   <string name="verificate_email">Is necessary to verificate the Email</string>
   <string name="error_has_ocurred">An error has occurred</string>
+  <string name="error_title_dialog">Error</string>
 
   <string name="error_signIn_email_password">There were a error SignIn</string>
   <string name="error_creating_user_email_password">Some errors occurred while creating the user</string>
-  <string name="error_get_user_document">Some errors have occurred</string>
+  <string name="error_get_user_document">Some errors has occurred</string>
 
   <!-- Dialog Alert -->
   <string name="accept">Accept</string>

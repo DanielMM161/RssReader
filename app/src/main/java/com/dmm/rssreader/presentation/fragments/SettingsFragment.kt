@@ -1,12 +1,11 @@
 package com.dmm.rssreader.presentation.fragments
 
 import android.content.Intent
-import androidx.appcompat.app.AlertDialog
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.SettingsFragmentBinding
 import com.dmm.rssreader.presentation.activities.AuthActivity
 import com.dmm.rssreader.presentation.activities.MainActivity
-import com.dmm.rssreader.utils.Utils
+import com.dmm.rssreader.utils.Utils.Companion.alertDialog
 
 class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
   SettingsFragmentBinding::inflate
@@ -41,9 +40,8 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>(
 
   private fun logout() {
     binding.logoutBtn.setOnClickListener {
-      var alert = AlertDialog.Builder(requireContext())
-      Utils.alertDialog(
-        alertDialog = alert,
+      alertDialog(
+        context = context,
         message = getString(R.string.message_logout),
         title = getString(R.string.title_logout),
         textPositiveButton = getString(R.string.accept),

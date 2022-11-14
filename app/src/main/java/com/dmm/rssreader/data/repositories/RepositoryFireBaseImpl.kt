@@ -13,19 +13,16 @@ class RepositoryFireBaseImpl @Inject constructor(
   private val db: FirebaseFirestore,
 ) : RepositoryFireBase {
 
-  override fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Boolean>> {
-    val result = MutableLiveData<Resource<Boolean>>(Resource.Loading())
+  override fun saveUser(userProfile: UserProfile): MutableLiveData<Resource<Nothing>> {
+    val result = MutableLiveData<Resource<Nothing>>(Resource.Loading())
     getDBCollection(userProfile.email)
       .set(userProfile)
       .addOnCompleteListener { task ->
         if (task.isSuccessful) {
-          result.value = Resource.Success(true)
+          result.value = Resource.Success()
         } else {
-          result.value = Resource.Success(false)
+          result.value = Resource.Error(task.exception?.message.toString())
         }
-      }
-      .addOnFailureListener {
-        result.value = Resource.Success(false)
       }
     return result
   }
@@ -33,6 +30,4 @@ class RepositoryFireBaseImpl @Inject constructor(
   override fun getDBCollection(documentPath: String?): DocumentReference {
     return db.collection(Constants.USERS_COLLECTION).document(documentPath!!)
   }
-
-
 }

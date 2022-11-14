@@ -52,7 +52,7 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+		viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 		bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
 		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 		setupUI()

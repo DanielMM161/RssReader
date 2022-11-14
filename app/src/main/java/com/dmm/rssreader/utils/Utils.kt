@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.dmm.rssreader.R
 
 class Utils {
 
@@ -31,37 +32,34 @@ class Utils {
 		}
 
 		fun alertDialog(
-			alertDialog: AlertDialog.Builder,
+			context: Context?,
 			message: String,
 			title: String = "",
 			textPositiveButton: String,
 			textNegativeButton: String = "",
 			callback: (DialogInterface) -> Unit
 		) {
-			if(!title.isEmpty()) {
-				alertDialog.setTitle(title)
-			}
-			alertDialog.setMessage(message)
+			context?.let {
+				val alertDialog = AlertDialog.Builder(it)
+				if(!title.isEmpty()) {
+					alertDialog.setTitle(title)
+				}
+				alertDialog.setMessage(message)
 
-			alertDialog.setPositiveButton(
-				textPositiveButton,
-				DialogInterface.OnClickListener { dialog, _ -> callback.invoke(dialog) }
-			)
-
-			if(textNegativeButton.isNotEmpty()) {
-				alertDialog.setNegativeButton(
-					textNegativeButton,
-					null
+				alertDialog.setPositiveButton(
+					textPositiveButton,
+					DialogInterface.OnClickListener { dialog, _ -> callback.invoke(dialog) }
 				)
+
+				if(textNegativeButton.isNotEmpty()) {
+					alertDialog.setNegativeButton(
+						textNegativeButton,
+						null
+					)
+				}
+
+				alertDialog.create().show()
 			}
-
-			alertDialog.create().show()
-		}
-
-
-
-		fun getSomeString(app: Application, id: Int): String {
-			return app.resources.getString(id)
 		}
 	}
 }
