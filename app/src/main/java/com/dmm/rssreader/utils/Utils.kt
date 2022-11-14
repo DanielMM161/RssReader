@@ -1,13 +1,11 @@
 package com.dmm.rssreader.utils
 
-import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.dmm.rssreader.R
 
 class Utils {
 
@@ -27,8 +25,10 @@ class Utils {
 			}
 		}
 
-		fun showToast(context: Context, message: String) {
-			Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+		fun showToast(context: Context?, message: String) {
+			context?.let {
+				Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+			}
 		}
 
 		fun alertDialog(

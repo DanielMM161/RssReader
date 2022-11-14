@@ -16,7 +16,9 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 			binding.feed = feedUI
 			setImageResourceImageButton(binding, feedUI.favourite)
 			binding.share.setOnClickListener {
-				shareClickListener?.let { it(feedUI.link) }
+				shareClickListener?.let {
+					it(listOf(feedUI.link ?: "", feedUI.feedSource, feedUI.title))
+				}
 			}
 			binding.save.setOnClickListener {
 				readLaterOnItemClickListener?.let { it(feedUI) }
@@ -54,7 +56,7 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 
 	private var onItemClickListener: ((FeedUI) -> Unit)? = null
 	private var readLaterOnItemClickListener: ((FeedUI) -> Unit)? = null
-	private var shareClickListener: ((String?) -> Unit)? = null
+	private var shareClickListener: ((List<String>) -> Unit)? = null
 
 	fun setOnItemClickListener(listener: (FeedUI) -> Unit) {
 		onItemClickListener = listener
@@ -64,7 +66,7 @@ class FeedAdapter() : RecyclerView.Adapter<FeedAdapter.FeedAdapterViewHolder>() 
 		readLaterOnItemClickListener = listener
 	}
 
-	fun setShareClickListener(listener: (String?) -> Unit) {
+	fun setShareClickListener(listener: (List<String>) -> Unit) {
 		shareClickListener = listener
 	}
 

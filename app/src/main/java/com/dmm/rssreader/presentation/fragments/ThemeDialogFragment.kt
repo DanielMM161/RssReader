@@ -50,7 +50,7 @@ class ThemeDialogFragment : BaseBottomSheetDialogFragment<ItemThemeOptionsBindin
 		viewModel.setTheme(theme).observe(this) {
 			when (it) {
 				is Resource.Success -> {
-					if (!it.data!!) {
+					if (it.data!!) {
 						// GIVE FEEDBACK TO USER
 					}
 				}

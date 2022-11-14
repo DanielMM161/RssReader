@@ -101,8 +101,8 @@ object NetworkModule {
 			.followRedirects(true)
 			.followSslRedirects(true)
 			.addInterceptor(hostSelectionInterceptor!!)
-			.connectTimeout(8, TimeUnit.SECONDS)
-			.readTimeout(8, TimeUnit.SECONDS)
+			.connectTimeout(10, TimeUnit.SECONDS)
+			.readTimeout(10, TimeUnit.SECONDS)
 			.build()
 	}
 

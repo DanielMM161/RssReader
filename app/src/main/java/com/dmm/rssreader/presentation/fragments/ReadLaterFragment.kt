@@ -94,8 +94,9 @@ class ReadLaterFragment : BaseFragment<ReadLaterFragmentBinding>(
 		snackBar(it)
 	}
 
-	private fun shareClickListener() = feedAdapter.setShareClickListener {
-		it?.let {
+	private fun shareClickListener() = feedAdapter.setShareClickListener { list ->
+		list[0]?.let {
+			viewModel.logShare(list[1], list[2])
 			val sendIntent: Intent = Intent().apply {
 				action = Intent.ACTION_SEND
 				putExtra(Intent.EXTRA_TEXT, it)

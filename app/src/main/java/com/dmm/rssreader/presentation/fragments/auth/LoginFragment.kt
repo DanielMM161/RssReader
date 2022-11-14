@@ -86,6 +86,7 @@ class LoginFragment : Fragment() {
 
   private fun loginEmailPassword() {
     binding.loginBtn.setOnClickListener {
+      authViewModel.logEvent("Email&Password")
       binding.progressBar.show()
       val email = binding.username.editText?.text.toString()
       val password = binding.password.editText?.text.toString()
@@ -224,6 +225,7 @@ class LoginFragment : Fragment() {
   private fun logginWithGoogle() {
     binding.googleIcon.setOnClickListener {
       binding.progressBar.show()
+      authViewModel.logEvent("Google")
       startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
     }
   }

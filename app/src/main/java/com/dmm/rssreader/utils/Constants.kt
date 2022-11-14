@@ -16,14 +16,6 @@ object Constants {
 	const val SOURCE_KOTLIN_WEEKLY = "Android Kotlin Weekly"
 	const val SOURCE_DANLEW_BLOG = "Dan Lew Codes"
 	const val SOURCE_DEVELOPER_CO = "AndroidDeveloper.co.in"
-	// Feeds Source Match
-	const val MATCH_SOURCE_BLOGS = "Developers Blog"
-	const val MATCH_SOURCE_MEDIUM = "Medium"
-	const val MATCH_SOURCE_APPLE = "Apple Developer"
-	// Feeds Source
-	const val SOURCE_BLOGS = "Android Devs Blog"
-	const val SOURCE_MEDIUM = "Android Devs Medium"
-	const val SOURCE_APPLE = "Apple Developer"
 	// Image format
 	const val FORMAT_JPEG = ".jpeg"
 	const val FORMAT_JPG = ".jpg"
@@ -39,8 +31,6 @@ object Constants {
 	const val DATE_PATTERN_OUTPUT = "dd-MM-yyyy"
 	// Firebase Collections
 	const val USERS_COLLECTION = "Users"
-	// Firebase User Collection Fields
-	const val USER_EMAIL = "email"
 	// Intent key
 	const val USER_KEY = "userProfile"
 }

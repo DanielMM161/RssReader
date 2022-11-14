@@ -13,15 +13,15 @@ data class FeedUI(
 	@ColumnInfo(name = "title")
 	val title: String = "",
 	@ColumnInfo(name = "feed_source")
-	val feedSource: String? = "",
+	val feedSource: String = "",
 	@ColumnInfo(name = "description")
-	val description: String? = "",
+	val description: String = "",
 	@ColumnInfo(name = "link")
 	val link: String? = null,
 	@ColumnInfo(name = "image")
-	val image: String? = "",
+	val image: String = "",
 	@ColumnInfo(name = "published")
-	val published: String? = "",
+	val published: String = "",
 	@ColumnInfo(name = "favourite")
 	var favourite: Boolean = false
 ): Parcelable

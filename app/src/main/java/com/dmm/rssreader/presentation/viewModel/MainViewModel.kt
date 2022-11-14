@@ -5,12 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dmm.rssreader.MainApplication
-import com.dmm.rssreader.R
 import com.dmm.rssreader.domain.model.FeedUI
 import com.dmm.rssreader.domain.model.UserProfile
 import com.dmm.rssreader.domain.usecase.*
@@ -18,6 +18,7 @@ import com.dmm.rssreader.utils.Constants
 import com.dmm.rssreader.utils.Constants.THEME_DAY
 import com.dmm.rssreader.utils.Constants.THEME_NIGHT
 import com.dmm.rssreader.utils.Resource
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class MainViewModel @Inject constructor(
 	private val feedsUseCase: FeedsUseCase,
 	private val fireBaseUseCase: FireBaseUseCase,
 	private val authUseCase: AuthUseCase,
+	private val firebaseAnalytics: FirebaseAnalytics
 ) : AndroidViewModel(app) {
 
 	lateinit var userProfile: UserProfile
@@ -146,11 +148,31 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun signOut() {
+		logSignUp()
 		authUseCase.signOut()
 	}
 
 	fun deleteTable() = viewModelScope.launch {
 		feedsUseCase.deleteTable()
+	}
+
+	fun logSelectItem(value: String) {
+		val params = Bundle()
+		params.putString(FirebaseAnalytics.Param.ITEM_LIST_NAME, value)
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM, params)
+	}
+
+	fun logShare(contentType: String, itemId: String) {
+		val params = Bundle()
+		params.putString(FirebaseAnalytics.Param.CONTENT_TYPE, contentType)
+		params.putString(FirebaseAnalytics.Param.ITEM_ID, itemId)
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, params)
+	}
+
+	private fun logSignUp() {
+		val params = Bundle()
+		params.putString(FirebaseAnalytics.Param.METHOD, "google")
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, params)
 	}
 
 	private fun hasInternetConnection(): Boolean {

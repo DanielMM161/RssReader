@@ -110,19 +110,19 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 				}
 				is Resource.Error -> {
 					binding.swipeRefresh.isRefreshing = false
-					showToast(requireContext(), it.message)
+					showToast(context, it.message)
 				}
 				is Resource.ErrorCaught -> {
 					binding.swipeRefresh.isRefreshing = false
 					val message = it.asString(context)
-					showToast(requireContext(), message)
+					showToast(context, message)
 				}
-				else -> {}
 			}
 		}
 	}
 
 	private fun itemClickListener() = feedAdapter.setOnItemClickListener {
+		viewModel.logSelectItem(it.feedSource)
 		val feedDescriptionDialog = FeedDescriptionDialog(it.copy())
 		feedDescriptionDialog.show(parentFragmentManager, feedDescriptionDialog.tag)
 	}
@@ -131,8 +131,9 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 		viewModel.saveFavouriteFeed(it)
 	}
 
-	private fun shareClickListener() = feedAdapter.setShareClickListener {
-		it?.let {
+	private fun shareClickListener() = feedAdapter.setShareClickListener { list ->
+		list[0]?.let {
+			viewModel.logShare(list[1], list[2])
 			val sendIntent: Intent = Intent().apply {
 				action = Intent.ACTION_SEND
 				putExtra(Intent.EXTRA_TEXT, it)

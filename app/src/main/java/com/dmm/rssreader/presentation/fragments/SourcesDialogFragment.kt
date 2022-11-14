@@ -4,6 +4,7 @@ import com.dmm.rssreader.data.local.ContentResources.contentResources
 import com.dmm.rssreader.databinding.SourcesDialogFragmentBinding
 import com.dmm.rssreader.presentation.adapters.SourcesAdapter
 import com.dmm.rssreader.utils.Resource
+import com.dmm.rssreader.utils.Utils.Companion.showToast
 
 class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmentBinding>(
 	SourcesDialogFragmentBinding::inflate
@@ -21,10 +22,10 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
   private fun setFeed(feed: String) {
     viewModel.setFeed(feed).observe(this) {
       when(it) {
-        is Resource.Success -> {
-
+        is Resource.Error -> {
+					showToast(context, it.message)
         }
-      }
+			}
     }
   }
 }
