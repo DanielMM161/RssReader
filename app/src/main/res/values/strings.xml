@@ -12,11 +12,10 @@
   <string name="checking_credentials">Checking Credentials...</string>
   <string name="going_home_screen">Going to the Home Screen</string>
   <string name="error_occurred">Error Occurred</string>
-  <string name="error_message">It\'s looks like there were a error with the app, try to restart the app and try again</string>
 
   <!-- Login Fragment -->
   <string name="welcome">Welcome Back</string>
-  <string name="sig_in">Sig In to continue</string>
+  <string name="sig_in">Sign In to continue</string>
   <string name="Email">Email</string>
   <string name="password">Password</string>
   <string name="repeat_password">Repeat Password</string>
@@ -24,28 +23,28 @@
   <string name="go">Go</string>
   <string name="dont_have_account">Don\'t have an Account?</string>
   <string name="sing_up">SIGN UP</string>
-  <string name="not_empty">The field cant be empty</string>
-  <string name="or_sigin">Or Signin With</string>
-  <string name="error_login">There were a Error with Google SignIn</string>
-  <string name="error_login_email_password">Incorrect Username or Password</string>
+  <string name="not_empty">The field can\'t be empty</string>
+  <string name="or_sigin">Or Sign in With</string>
+  <string name="error_login">There was an error with Google login</string>
+  <string name="error_login_email_password">Incorrect username or password</string>
 
   <!-- Register Fragment -->
   <string name="welcome_register">Create Your Account</string>
-  <string name="signup">SignUp to start your new Account</string>
+  <string name="signup">Sign up to start your new Account</string>
   <string name="fullname">Full Name</string>
   <string name="email">Email</string>
   <string name="phone">Phone No</string>
-  <string name="have_account">ALREADY HAVE A ACCOUNT? LOGIN</string>
-  <string name="title_error_creating_user">Error ocurred creating user</string>
+  <string name="have_account">ALREADY HAVE AN ACCOUNT? LOGIN</string>
+  <string name="title_error_creating_user">An error occurred while creating the user</string>
   <string name="title_email_verification">Email Verification</string>
-  <string name="message_email_verification">We\'ve sent you a email to verificate your account, please check your email</string>
+  <string name="message_email_verification">We\'ve sent you aN email to verify your account, please check your email</string>
 
   <!-- ForgetPassword Fragment -->
   <string name="forget_password">Forget Password</string>
-  <string name="text_forget_password">Enter here your Email to reset your password, Will send you a email.</string>
+  <string name="text_forget_password">Enter your email here to reset your password, we will send you an email</string>
   <string name="reset_password">Reset Password</string>
-  <string name="email_sent_succesfully">Email sent succesfully to reset your password</string>
-  <string name="error_sending_reset_password">Error sending email to reset password</string>
+  <string name="email_sent_succesfully">Email successfully sent to reset your password</string>
+  <string name="error_sending_reset_password">Failed to send password reset email</string>
   <string name="email_was_sent">The Email was sent</string>
 
   <!-- Home Fragment -->
@@ -58,7 +57,7 @@
 
   <!-- ReadLater Fragment -->
   <string name="title_readlater_fragment">Read Later</string>
-  <string name="delete_feed">%s Was delete</string>
+  <string name="delete_feed">%s Was removed</string>
   <string name="undo">Undo</string>
 
   <!-- Setting Fragment -->
@@ -69,13 +68,13 @@
   <string name="themes">Themes</string>
   <string name="logout">Log Out</string>
   <string name="title_logout">Are you sure?</string>
-  <string name="message_logout">The app Will close with your account</string>
+  <string name="message_logout">The app will close with your account</string>
 
   <!-- Item Icon Title -->
   <string name="title_saved">Saved</string>
   <string name="title_saved_fill">Saved Fill</string>
-  <string name="no_read_later">No Read Later stories yet</string>
-  <string name="article_will_be_here">The articles you want to read later will be\nhere</string>
+  <string name="no_read_later">There are no Read Later stories yet</string>
+  <string name="article_will_be_here">Articles you want to read later will be\nhere</string>
   <string name="offline">No internet connection</string>
 
   <!-- Item Theme Options -->
@@ -98,12 +97,9 @@
   <string name="password_digit">The password needs to contain at least one letter and digit</string>
   <string name="repeated_password">The passwords don\'t match</string>
   <string name="email_password_not_emptu">Email &amp; Password cannot be empty</string>
-  <string name="verificate_email">Is necessary to verificate the Email</string>
+  <string name="verificate_email">You need to verify the email</string>
   <string name="error_has_ocurred">An error has occurred</string>
   <string name="error_title_dialog">Error</string>
-
-  <string name="error_signIn_email_password">There were a error SignIn</string>
-  <string name="error_creating_user_email_password">Some errors occurred while creating the user</string>
   <string name="error_get_user_document">Some errors has occurred</string>
 
   <!-- Dialog Alert -->
