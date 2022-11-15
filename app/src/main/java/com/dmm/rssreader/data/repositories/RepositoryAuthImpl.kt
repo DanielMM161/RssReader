@@ -28,7 +28,7 @@ class RepositoryAuthImpl @Inject constructor(
 
 	override fun signInEmailPassword(email: String, password: String): MutableLiveData<Resource<Boolean>> {
 		val emailUser = MutableLiveData<Resource<Boolean>>(Resource.Loading())
-		if(!email.isEmpty() && !password.isEmpty()) {
+		if(email.isNotEmpty() && password.isNotEmpty()) {
 			firebaseAuth.signInWithEmailAndPassword(email, password)
 				.addOnCompleteListener { task ->
 					val currentUser = firebaseAuth.currentUser
@@ -92,7 +92,7 @@ class RepositoryAuthImpl @Inject constructor(
 	}
 
 	override fun createUserDocument(user: UserProfile): MutableLiveData<Resource<UserProfile>> {
-		var userCreated = MutableLiveData<Resource<UserProfile>>(Resource.Loading())
+		val userCreated = MutableLiveData<Resource<UserProfile>>(Resource.Loading())
 		val docRef = db.collection(USERS_COLLECTION).document(user.email)
 		docRef.set(user)
 			.addOnCompleteListener {
@@ -106,7 +106,7 @@ class RepositoryAuthImpl @Inject constructor(
 	}
 
 	override fun sendEmailVerification(): MutableLiveData<Resource<Nothing>> {
-		var result =  MutableLiveData<Resource<Nothing>>(Resource.Loading())
+		val result =  MutableLiveData<Resource<Nothing>>(Resource.Loading())
 		val firebaseUser = firebaseAuth.currentUser
 		firebaseUser?.sendEmailVerification()?.addOnCompleteListener {
 			if(it.isSuccessful) {
@@ -139,12 +139,12 @@ class RepositoryAuthImpl @Inject constructor(
 	}
 
 	override fun checkIfUserIsAuthenticatedInFireBase(): MutableLiveData<UserProfile> {
-		var user = MutableLiveData(UserProfile())
+		val user = MutableLiveData(UserProfile())
 		val fireAuth = firebaseAuth.currentUser
 		if(fireAuth != null) {
 			val userAuthenticated = UserProfile(
 				isAuthenticated = true,
-				uuid = fireAuth.uid,
+				userUid = fireAuth.uid,
 				email = fireAuth.email!!,
 				fullName = fireAuth.displayName!!
 			)
@@ -169,11 +169,11 @@ class RepositoryAuthImpl @Inject constructor(
 		return result
 	}
 
-	private fun newUser(fullName: String, email: String, uid: String, isNewUser: Boolean): UserProfile {
+	private fun newUser(fullName: String, email: String, userUid: String, isNewUser: Boolean): UserProfile {
 		return UserProfile(
 			fullName = fullName,
 			email = email,
-			uuid = uid,
+			userUid = userUid,
 			isNew = isNewUser,
 			theme = Constants.THEME_DAY,
 			feeds = mutableListOf(

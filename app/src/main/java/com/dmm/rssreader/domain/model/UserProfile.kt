@@ -15,6 +15,6 @@ data class UserProfile(
 	var feeds: MutableList<String> = mutableListOf(),
 	val isNew: Boolean = false,
 	val isAuthenticated: Boolean = false,
-	val uuid: String = "",
+	val userUid: String = "",
 	val favouritesFeeds: @RawValue MutableList<FeedUI> = mutableListOf()
 ): Parcelable

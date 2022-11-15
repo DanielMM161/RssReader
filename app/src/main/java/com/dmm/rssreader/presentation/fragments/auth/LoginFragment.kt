@@ -2,6 +2,7 @@ package com.dmm.rssreader.presentation.fragments.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -137,7 +138,7 @@ class LoginFragment : Fragment() {
         }
         is Resource.Error -> {
           handleAlterDialog(
-            message = it.asString(context),
+            message = it.message,
             title = getString(R.string.error_title_dialog)
           )
         }
@@ -156,13 +157,13 @@ class LoginFragment : Fragment() {
             goToMainActivity(it.data)
           }
         }
-        is Resource.ErrorCaught -> {
-          binding.progressBar.gone()
-        }
         is Resource.Error -> {
           binding.progressBar.gone()
+          handleAlterDialog(
+            message = it.message,
+            title = getString(R.string.error_title_dialog)
+          )
         }
-        else -> {}
       }
     }
   }
