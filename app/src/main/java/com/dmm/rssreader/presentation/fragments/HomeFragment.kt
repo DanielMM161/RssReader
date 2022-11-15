@@ -8,6 +8,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmm.rssreader.R
 import com.dmm.rssreader.databinding.HomeFragmentBinding
+import com.dmm.rssreader.domain.extension.gone
+import com.dmm.rssreader.domain.extension.show
 import com.dmm.rssreader.presentation.activities.MainActivity
 import com.dmm.rssreader.presentation.adapters.FeedAdapter
 import com.dmm.rssreader.utils.Resource
@@ -98,6 +100,12 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 				}
 				is Resource.Success -> {
 					it.data?.let { feeds ->
+						if(feeds.isEmpty()) {
+							showNoItemText()
+						} else {
+              binding.noItemText.gone()
+              binding.noItemBtn.gone()
+						}
 						binding.swipeRefresh.isRefreshing = false
 						binding.totalArticles = feeds.size
 						setMaterialToolbarFromActivity(feeds.size.toString())
@@ -132,7 +140,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 	}
 
 	private fun shareClickListener() = feedAdapter.setShareClickListener { list ->
-		list[0]?.let {
+		list[0].let {
 			viewModel.logShare(list[1], list[2])
 			val sendIntent: Intent = Intent().apply {
 				action = Intent.ACTION_SEND
@@ -161,6 +169,20 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 			val list = viewModel.developerFeeds.value.data
 			setMaterialToolbarFromActivity(list?.size.toString())
 			feedAdapter.differ.submitList(list)
+		}
+	}
+
+	private fun showNoItemText() {
+		binding.noItemText.show()
+		binding.noItemBtn.apply {
+			show()
+			setOnClickListener {
+				val sourcesDialogFragment = SourcesDialogFragment()
+				sourcesDialogFragment.setOnCancelClick {
+					viewModel.fetchFeedsDeveloper()
+				}
+				sourcesDialogFragment.show(parentFragmentManager, sourcesDialogFragment.tag)
+			}
 		}
 	}
 }

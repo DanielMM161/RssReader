@@ -1,5 +1,6 @@
 package com.dmm.rssreader.presentation.fragments
 
+import android.content.DialogInterface
 import com.dmm.rssreader.data.local.ContentResources.contentResources
 import com.dmm.rssreader.databinding.SourcesDialogFragmentBinding
 import com.dmm.rssreader.presentation.adapters.SourcesAdapter
@@ -9,6 +10,8 @@ import com.dmm.rssreader.utils.Utils.Companion.showToast
 class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmentBinding>(
 	SourcesDialogFragmentBinding::inflate
 ) {
+
+	private var onCancelClick: (() -> Unit)? = null
 
 	override fun setupUI() {
 		super.setupUI()
@@ -28,4 +31,13 @@ class SourcesDialogFragment : BaseBottomSheetDialogFragment<SourcesDialogFragmen
 			}
     }
   }
+
+	fun setOnCancelClick(listener: () -> Unit) {
+		onCancelClick = listener
+	}
+
+	override fun onCancel(dialog: DialogInterface) {
+		super.onCancel(dialog)
+		onCancelClick?.let { it() }
+	}
 }

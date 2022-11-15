@@ -14,7 +14,7 @@ interface FeedsDao {
 	@Query("DELETE FROM feeds")
 	suspend fun deleteTable()
 
-	@Query("DELETE FROM feeds WHERE feed_source = :feedSource ")
+	@Query("DELETE FROM feeds WHERE feed_source = :feedSource")
 	suspend fun deleteFeedsByFeedSource(feedSource: String)
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)

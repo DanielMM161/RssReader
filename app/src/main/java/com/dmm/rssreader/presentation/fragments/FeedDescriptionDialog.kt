@@ -124,6 +124,7 @@ class FeedDescriptionDialog(private val feedSelected: FeedUI) : BottomSheetDialo
 		binding.save.setOnClickListener {
 			viewModel.saveFavouriteFeed(feedSelected)
 			setImageResourceImageButton(feedSelected.favourite)
+			viewModel.fetchFeedsDeveloper()
 		}
 	}
 
