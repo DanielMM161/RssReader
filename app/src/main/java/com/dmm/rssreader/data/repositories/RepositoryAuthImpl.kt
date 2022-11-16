@@ -1,6 +1,5 @@
 package com.dmm.rssreader.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dmm.rssreader.R
 import com.dmm.rssreader.domain.model.UserProfile
@@ -18,7 +17,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import javax.inject.Inject
 
 class RepositoryAuthImpl @Inject constructor(
@@ -34,10 +32,10 @@ class RepositoryAuthImpl @Inject constructor(
 					val currentUser = firebaseAuth.currentUser
 					if(currentUser != null) {
 						currentUser.let {
-							val emailVerificated = it.isEmailVerified
-							if(emailVerificated) {
+							val emailVerified = it.isEmailVerified
+							if(emailVerified) {
 								emailUser.value = checkSignInEmailPassword(task)
-							} else if(!emailVerificated) {
+							} else if(!emailVerified) {
 								emailUser.value = Resource.ErrorCaught(resId = R.string.verificate_email)
 							} else {
 								emailUser.value = Resource.ErrorCaught(resId = R.string.error_has_ocurred)

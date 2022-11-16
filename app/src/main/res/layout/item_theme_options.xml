@@ -14,9 +14,9 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/choose_theme"
-      android:textStyle="bold"
-      android:textSize="16dp"
       android:textColor="@color/dialog_selector"
+      android:textSize="16dp"
+      android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />

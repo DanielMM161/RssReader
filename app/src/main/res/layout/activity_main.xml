@@ -12,11 +12,11 @@
       android:id="@+id/bar_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
       app:liftOnScroll="false">
-      
+
       <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -28,9 +28,9 @@
       android:id="@+id/barlayout_shadow"
       android:layout_width="match_parent"
       android:layout_height="4dp"
-      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/bar_layout"/>
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/bar_layout" />
 
     <androidx.fragment.app.FragmentContainerView
       android:id="@+id/fragment_container"
@@ -50,21 +50,21 @@
       android:id="@+id/bottom_shadow"
       android:layout_width="match_parent"
       android:layout_height="4dp"
-      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"/>
+      app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
       android:id="@+id/bottom_navigation"
       android:layout_width="match_parent"
       android:layout_height="65dp"
+      android:elevation="4dp"
       app:itemIconSize="30dp"
+      app:itemIconTint="@color/button_navigation_selector"
+      app:itemTextColor="@color/button_navigation_selector"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:itemIconTint="@color/button_navigation_selector"
-      app:itemTextColor="@color/button_navigation_selector"
-      android:elevation="4dp"
       app:menu="@menu/bottom_navigation_menu" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
