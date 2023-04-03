@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
+    id 'kotlin-parcelize'
 }
 
 apply from: "$rootDir/dependencies.gradle"
@@ -71,7 +72,7 @@ dependencies {
     // network
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-simplexml:$versions.converterXml"
+    implementation "com.squareup.retrofit2:converter-scalars:$versions.scalarsVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttpVersion"
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
     implementation('com.squareup.retrofit2:converter-simplexml:2.9.0') {
@@ -96,4 +97,9 @@ dependencies {
 
     //Firebase
     implementation "com.google.firebase:firebase-analytics:$versions.firebaseAnalytics"
+    implementation platform("com.google.firebase:firebase-bom:$versions.firebaseBom")
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-firestore-ktx"
+    implementation "com.google.android.gms:play-services-auth:$versions.playServices"
 }

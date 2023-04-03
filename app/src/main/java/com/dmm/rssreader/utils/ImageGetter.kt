@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable
 import android.text.Html
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -43,9 +42,9 @@ class ImageGetter(
 				val aspectRatio: Float =
 					(drawable.intrinsicWidth.toFloat()) / (drawable.intrinsicHeight.toFloat())
 				val height = width / aspectRatio
-				drawable.setBounds(10, 20, width, height.toInt())
+				drawable.setBounds(5, 10, width, height.toInt())
 				holder.setDrawable(drawable)
-				holder.setBounds(10, 20, width, height.toInt())
+				holder.setBounds(5, 10, width, height.toInt())
 				withContext(Dispatchers.Main) {
 					htmlTextView.text = htmlTextView.text
 				}

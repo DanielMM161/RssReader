@@ -3,8 +3,9 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.dmm.rssreader">
 
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
   <application
     android:allowBackup="true"
@@ -17,19 +18,26 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.RssReader"
     tools:targetApi="31">
+
     <activity
-      android:name=".ui.SplashScreenActivity"
+      android:name=".presentation.activities.SplashScreenActivity"
       android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
     <activity
-      android:name=".ui.MainActivity"
+      android:name=".presentation.activities.MainActivity"
       android:exported="true">
     </activity>
+
+    <activity
+      android:name=".presentation.activities.AuthActivity"
+      android:exported="true">
+    </activity>
+
     <meta-data
       android:name="preloaded_fonts"
       android:resource="@array/preloaded_fonts" />
