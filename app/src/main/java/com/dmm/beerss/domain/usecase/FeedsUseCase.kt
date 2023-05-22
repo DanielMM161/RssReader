@@ -1,6 +1,7 @@
 package com.dmm.beerss.domain.usecase
 
 import com.dmm.beerss.domain.model.FeedUI
+import com.dmm.beerss.domain.model.Source
 import com.dmm.beerss.domain.repositories.RepositoryFeeds
 import com.dmm.beerss.utils.Resource
 import kotlinx.coroutines.GlobalScope
@@ -12,8 +13,8 @@ class FeedsUseCase @Inject constructor(
 	private val repository: RepositoryFeeds
 ) {
 
-	suspend fun fetchFeeds(source: String): Resource<List<FeedUI>?> = GlobalScope.async {
-		return@async repository.fetchFeeds(source)
+	suspend fun fetchFeeds(baseUrl: String, route: String, sourceTitle: String): Resource<List<FeedUI>?> = GlobalScope.async {
+		return@async repository.fetchFeeds(baseUrl, route, sourceTitle)
 	}.await()
 
 	fun getFavouriteFeeds(): Flow<List<FeedUI>> {

@@ -2,11 +2,20 @@ package com.dmm.beerss.utils
 
 object Constants {
 	// Urls
-	const val DEVELOPER_ANDROID_BLOG = "https://feeds.feedburner.com/"
-	const val DEVELOPER_MEDIUM = "https://medium.com/"
-	const val ANDROID_DEVELOPERS = "https://www.androiddeveloper.co.in/"
-	const val KOTLIN_WEEKLY = "https://vtsen.hashnode.dev/"
-	const val DANLEW_BLOG = "https://blog.danlew.net/"
+//	const val DEVELOPER_ANDROID_BLOG = "https://feeds.feedburner.com/"
+//	const val DEVELOPER_MEDIUM = "https://medium.com/"
+//	const val ANDROID_DEVELOPERS = "https://www.androiddeveloper.co.in/"
+//	const val KOTLIN_WEEKLY = "https://vtsen.hashnode.dev/"
+//	const val DANLEW_BLOG = "https://blog.danlew.net/"
+
+
+
+	const val DEVELOPER_ANDROID_BLOG = "https://feeds.feedburner.com/blogspot/hsDu"
+	const val DEVELOPER_MEDIUM = "https://medium.com/feed/androiddevelopers/"
+	const val ANDROID_DEVELOPERS = "https://www.androiddeveloper.co.in/blog/feed/"
+	const val KOTLIN_WEEKLY = "https://vtsen.hashnode.dev/rss.xml/"
+	const val DANLEW_BLOG = "https://blog.danlew.net/rss/"
+
 	// Themes
 	const val THEME_DAY = "DAY"
 	const val THEME_NIGHT = "NIGHT"
@@ -31,6 +40,7 @@ object Constants {
 	const val DATE_PATTERN_OUTPUT = "dd-MM-yyyy"
 	// Firebase Collections
 	const val USERS_COLLECTION = "Users"
+	const val SOURCES_COLLECTION = "Sources"
 	// Intent key
 	const val USER_KEY = "userProfile"
 }

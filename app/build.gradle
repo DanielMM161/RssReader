@@ -13,7 +13,7 @@ android {
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "com.dmm.rssreader"
+        applicationId "com.dmm.beerss"
         minSdk versions.minSdk
         targetSdk versions.compileSdk
         versionCode versions.versionCode

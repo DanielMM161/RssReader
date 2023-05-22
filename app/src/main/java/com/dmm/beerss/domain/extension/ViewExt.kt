@@ -1,9 +1,7 @@
 package com.dmm.beerss.domain.extension
 
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
-import androidx.core.text.set
 
 fun View.show() {
 	this.visibility = View.VISIBLE

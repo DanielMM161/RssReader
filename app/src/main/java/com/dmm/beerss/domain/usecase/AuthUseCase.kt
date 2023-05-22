@@ -1,6 +1,5 @@
 package com.dmm.beerss.domain.usecase
 
-import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import com.dmm.beerss.domain.model.UserProfile
 import com.dmm.beerss.domain.repositories.RepositoryAuth

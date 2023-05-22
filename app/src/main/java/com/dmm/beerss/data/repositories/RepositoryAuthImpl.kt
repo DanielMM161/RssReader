@@ -1,6 +1,5 @@
 package com.dmm.beerss.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dmm.beerss.R
 import com.dmm.beerss.domain.model.UserProfile
@@ -18,7 +17,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import javax.inject.Inject
 
 class RepositoryAuthImpl @Inject constructor(
@@ -176,13 +174,7 @@ class RepositoryAuthImpl @Inject constructor(
 			userUid = userUid,
 			isNew = isNewUser,
 			theme = Constants.THEME_DAY,
-			feeds = mutableListOf(
-				SOURCE_ANDROID_MEDIUM,
-				SOURCE_ANDROID_BLOGS,
-				SOURCE_KOTLIN_WEEKLY,
-				SOURCE_DANLEW_BLOG,
-				SOURCE_DEVELOPER_CO
-			)
+			feeds = mutableListOf(1,2)
 		)
 	}
 }

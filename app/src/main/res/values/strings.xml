@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">RssReader</string>
+  <string name="app_name">BeeRss</string>
 
   <string name="home">Home</string>
   <string name="bookmarks">Read Later</string>

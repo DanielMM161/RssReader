@@ -1,43 +1,33 @@
 package com.dmm.beerss.data.repositories
 
-import android.util.Log
 import com.dmm.beerss.data.network.apis.*
 import com.dmm.beerss.data.persistence.FeedsDao
 import com.dmm.beerss.domain.model.FeedUI
 import com.dmm.beerss.domain.repositories.RepositoryFeeds
-import com.dmm.beerss.utils.Constants
-import com.dmm.beerss.utils.Constants.SOURCE_ANDROID_BLOGS
-import com.dmm.beerss.utils.Constants.SOURCE_ANDROID_MEDIUM
-import com.dmm.beerss.utils.Constants.SOURCE_DANLEW_BLOG
-import com.dmm.beerss.utils.Constants.SOURCE_DEVELOPER_CO
-import com.dmm.beerss.utils.Constants.SOURCE_KOTLIN_WEEKLY
+import com.dmm.beerss.utils.Constants.USERS_COLLECTION
 import com.dmm.beerss.utils.FeedParser
+import com.dmm.beerss.utils.HostSelectionInterceptor
 import com.dmm.beerss.utils.Resource
-import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
+import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class RepositoryFeedsImpl @Inject constructor(
 	private val feedsDao: FeedsDao,
-	private val docRef: CollectionReference,
-	private val serviceAndroidBlogs: ServiceAndroidBlogs,
-	private val serviceAndroidDevelopers: ServiceAndroidDevelopers,
-	private val serviceDanLew: ServiceDanLew,
-	private val serviceDevsMedium: ServiceDevsMedium,
-	private val serviceKotlinWeekly: ServiceKotlinWeekly,
+	private val fireStore: FirebaseFirestore,
+	private val apiService: ApiService,
+	private val urlInterceptor: HostSelectionInterceptor,
 ) : RepositoryFeeds {
 
-	override suspend fun fetchFeeds(source: String): Resource<List<FeedUI>?> {
-		var result = feedsDao.getFeedsList(source)
+	override suspend fun fetchFeeds(baseUrl: String, route: String, sourceTitle: String): Resource<List<FeedUI>?> {
+		var result = feedsDao.getFeedsList(sourceTitle)
+
 		if(result.isEmpty()) {
-			when(source) {
-				SOURCE_ANDROID_BLOGS -> result = handleResponse(serviceAndroidBlogs.fetchData(), source)
-				SOURCE_ANDROID_MEDIUM -> result = handleResponse(serviceDevsMedium.fetchData(), source)
-				SOURCE_DEVELOPER_CO -> result = handleResponse(serviceAndroidDevelopers.fetchData(), source)
-				SOURCE_DANLEW_BLOG -> result = handleResponse(serviceDanLew.fetchData(), source)
-				SOURCE_KOTLIN_WEEKLY -> result = handleResponse(serviceKotlinWeekly.fetchData(), source)
-			}
+			urlInterceptor.setDynamicUrl(baseUrl)
+			result = handleResponse(apiService.fetchData(route).awaitResponse(), sourceTitle)
+
 			setFavouritesFeeds(result)
 			saveDataLocal(result)
 		}
@@ -61,7 +51,7 @@ class RepositoryFeedsImpl @Inject constructor(
 	}
 
 	override fun updateFavouritesFeedsFireBase(favouriteFeeds: List<FeedUI>, documentPath: String) {
-		docRef.document(documentPath).update(mapOf(
+		fireStore.collection(USERS_COLLECTION).document(documentPath).update(mapOf(
 			"favouritesFeeds" to favouriteFeeds
 		))
 	}

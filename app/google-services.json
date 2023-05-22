@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:416849313618:android:94b663c2703b85021b048b",
+        "android_client_info": {
+          "package_name": "com.dmm.beerss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416849313618-bskdi72583aagqgelklgti5527jegalg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dmm.beerss",
+            "certificate_hash": "dbc0606313554de82a92ccc4cfab57f07461e3fc"
+          }
+        },
+        {
+          "client_id": "416849313618-5npeo3uuqqjv6tca38bjb2df6oksrqfm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCua0kNPbCekq9YEW50KL7iLkYr1Zmc5jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416849313618-5npeo3uuqqjv6tca38bjb2df6oksrqfm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:416849313618:android:e94dc5357678b2021b048b",
         "android_client_info": {
           "package_name": "com.dmm.rssreader"
