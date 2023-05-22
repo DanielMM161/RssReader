@@ -37,7 +37,7 @@
   <string name="have_account">ALREADY HAVE AN ACCOUNT? LOGIN</string>
   <string name="title_error_creating_user">An error occurred while creating the user</string>
   <string name="title_email_verification">Email Verification</string>
-  <string name="message_email_verification">We\'ve sent you aN email to verify your account, please check your email</string>
+  <string name="message_email_verification">We\'ve sent you an email to verify your account, please check your email</string>
 
   <!-- ForgetPassword Fragment -->
   <string name="forget_password">Forget Password</string>

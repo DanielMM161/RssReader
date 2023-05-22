@@ -32,10 +32,10 @@ class RepositoryAuthImpl @Inject constructor(
 					val currentUser = firebaseAuth.currentUser
 					if(currentUser != null) {
 						currentUser.let {
-							val emailVerificated = it.isEmailVerified
-							if(emailVerificated) {
+							val emailVerified = it.isEmailVerified
+							if(emailVerified) {
 								emailUser.value = checkSignInEmailPassword(task)
-							} else if(!emailVerificated) {
+							} else if(!emailVerified) {
 								emailUser.value = Resource.ErrorCaught(resId = R.string.verificate_email)
 							} else {
 								emailUser.value = Resource.ErrorCaught(resId = R.string.error_has_ocurred)
